@@ -102,7 +102,7 @@ export const intensityTiers: Record<string, { tier: string; color: string }> = {
   "Mildly": { tier: "Common", color: "#9ca3af" },
   "Severe": { tier: "Uncommon", color: "#22c55e" },
   "Critical": { tier: "Epic", color: "#a855f7" },
-  "Terminal": { tier: "Legendary", color: "#f59e0b" },
+  "Terminal": { tier: "Legendary", color: "#06b6d4" },
   "Beyond Repair": { tier: "Rare", color: "#3b82f6" },
   "Pokemon Evolution Stage": { tier: "Rare", color: "#3b82f6" },
   "Third Eye Bleeding": { tier: "Mythic", color: "#ef4444" },

@@ -16,26 +16,15 @@ export default function About() {
 
         <div className="grid md:grid-cols-2 gap-12 text-[#888] leading-relaxed">
           <div>
-            <p className="mb-6">
-              Comfers are not access passes. They are <span className="text-[#00ff88]">generators</span>.
-              69 AI-generated NFTs capturing the mental states of crypto traders
-              in various stages of psychosis.
-            </p>
             <p>
-              Each Comfer is a generator that continuously manifests items from
-              the Cosmos of Cream. Your mental disorder defines what you get.
-              Your intensity defines how good it gets.
+              Comfers are <span className="text-[#00ff88]">generators</span>.
+              69 NFTs. Each one continuously manifests items from the Cosmos of Cream.
             </p>
           </div>
           <div>
-            <p className="mb-6">
-              The <span className="text-[#8b5cf6]">Cosmos of Cream</span> is where desires become reality.
-              10,000+ hand-drawn items cataloging the complete spectrum of human desire &mdash;
-              from instant noodles to private islands.
-            </p>
             <p>
-              Every item is individually illustrated. No AI, no copy-paste, no templates.
-              Sketched with the left hand, raw and authentic.
+              <span className="text-[#8b5cf6]">Cosmos of Cream</span>: 10,000+ hand-drawn items.
+              Every object of human desire. No AI. No templates.
             </p>
           </div>
         </div>
@@ -47,15 +36,15 @@ export default function About() {
             <ul className="space-y-3 text-sm text-[#888]">
               <li className="flex items-start gap-3">
                 <span className="text-[#00ff88] mt-0.5">+</span>
-                Permanent generators of Cosmos Items
+                Permanent item generators
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-[#00ff88] mt-0.5">+</span>
-                69 unique psychotic characters
+                69 unique characters
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-[#00ff88] mt-0.5">+</span>
-                System-based NFT project with clear mechanics
+                System-driven mechanics
               </li>
             </ul>
           </div>
@@ -64,15 +53,15 @@ export default function About() {
             <ul className="space-y-3 text-sm text-[#888]">
               <li className="flex items-start gap-3">
                 <span className="text-[#ef4444] mt-0.5">&minus;</span>
-                A pure access pass
+                An access pass
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-[#ef4444] mt-0.5">&minus;</span>
-                A Pepe derivative without its own IP
+                A derivative without its own IP
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-[#ef4444] mt-0.5">&minus;</span>
-                One-time hype without substance
+                One-time hype
               </li>
             </ul>
           </div>

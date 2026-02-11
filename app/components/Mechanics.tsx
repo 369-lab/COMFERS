@@ -5,23 +5,22 @@ export default function Mechanics() {
         <div className="section-divider mb-20" />
 
         <p className="text-xs tracking-[0.3em] uppercase text-[#00ff88] mb-6 font-mono">
-          How It Works
+          System
         </p>
         <h2 className="text-3xl md:text-5xl font-bold mb-6 tracking-tight">
-          The Manifestation Engine
+          How It Works
         </h2>
         <p className="text-[#666] mb-20 max-w-2xl">
-          Every Comfer automatically generates items from the Cosmos of Cream.
-          The system is deterministic &mdash; your traits define your output.
+          Deterministic. Permanent.
         </p>
 
         {/* Drop Logic Flow */}
         <div className="grid md:grid-cols-4 gap-4 mb-20">
           {[
-            { step: "01", title: "Mental State", desc: "Selects item category", color: "#00ff88" },
-            { step: "02", title: "Intensity", desc: "Determines tier probability", color: "#8b5cf6" },
-            { step: "03", title: "Superpower", desc: "Activates special rules", color: "#f59e0b" },
-            { step: "04", title: "Manifestation", desc: "Item drops, holder claims", color: "#ec4899" },
+            { step: "01", title: "Mental State", desc: "Selects category", color: "#00ff88" },
+            { step: "02", title: "Intensity", desc: "Sets tier", color: "#8b5cf6" },
+            { step: "03", title: "Superpower", desc: "Special rules", color: "#06b6d4" },
+            { step: "04", title: "Manifestation", desc: "Item drops", color: "#ec4899" },
           ].map((s, i) => (
             <div key={s.step} className="relative">
               <div className="border border-[#1a1a1a] rounded-lg p-6 bg-[#0a0a0a] h-full">
@@ -60,11 +59,11 @@ export default function Mechanics() {
           <div className="border-t border-[#1a1a1a] pt-6">
             <div className="flex flex-wrap gap-3 text-sm">
               <span className="text-[#555]">&rarr;</span>
-              <span className="text-[#888]">God Tier &amp; Meta Assets category</span>
+              <span className="text-[#888]">God Tier category</span>
               <span className="text-[#555]">&rarr;</span>
-              <span className="text-[#888]">Mythic+ quality multiplier</span>
+              <span className="text-[#888]">Mythic+ multiplier</span>
               <span className="text-[#555]">&rarr;</span>
-              <span className="text-[#f59e0b] font-semibold">The rarest Comfer in existence</span>
+              <span className="text-[#06b6d4] font-semibold">Rarest Comfer in existence</span>
             </div>
           </div>
         </div>

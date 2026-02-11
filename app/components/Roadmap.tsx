@@ -3,31 +3,31 @@ export default function Roadmap() {
     {
       phase: "Phase 1",
       title: "Comfers Mint",
-      description: "69 unique psychotic generators enter the blockchain. The foundation.",
+      description: "69 generators hit the chain. Foundation set.",
       status: "upcoming",
     },
     {
       phase: "Phase 2",
       title: "Cosmos Genesis Drop",
-      description: "First items materialize for Comfer holders. The system awakens.",
+      description: "First items materialize for holders.",
       status: "upcoming",
     },
     {
       phase: "Phase 3",
       title: "Continuous Manifestation",
-      description: "Ongoing drops every ~3 months. Your Comfer never stops generating.",
+      description: "New drops every ~3 months. Nonstop.",
       status: "upcoming",
     },
     {
       phase: "Phase 4",
       title: "Secondary Market",
-      description: "Cosmos Items become tradeable. Your manifestations have market value.",
+      description: "Cosmos Items become tradeable. Real value.",
       status: "upcoming",
     },
     {
       phase: "Phase 5",
       title: "Combine & Upgrade",
-      description: "Community can combine and upgrade Cosmos Items. Evolution unlocked.",
+      description: "Combine and upgrade Cosmos Items. Evolve.",
       status: "upcoming",
     },
   ];
@@ -41,7 +41,7 @@ export default function Roadmap() {
           Vision
         </p>
         <h2 className="text-3xl md:text-5xl font-bold mb-20 tracking-tight">
-          The Path Forward
+          No Roadmap. A System.
         </h2>
 
         <div className="relative">

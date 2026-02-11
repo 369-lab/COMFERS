@@ -1,4 +1,5 @@
 import Navigation from "./components/Navigation";
+import CursorFlashlight from "./components/CursorFlashlight";
 import Hero from "./components/Hero";
 import About from "./components/About";
 import ComferCards from "./components/ComferCards";
@@ -12,6 +13,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-[#050505] text-[#e5e5e5]">
       <div className="noise-overlay" />
+      <CursorFlashlight />
       <Navigation />
       <Hero />
       <About />
