@@ -168,7 +168,7 @@ export const RARITY_THRESHOLDS: { min: number; tier: string; color: string }[] =
   { min: 9, tier: "Epic", color: "#a855f7" },
   { min: 7, tier: "Rare", color: "#3b82f6" },
   { min: 5, tier: "Uncommon", color: "#22c55e" },
-  { min: 0, tier: "Common", color: "#9ca3af" },
+  { min: 4, tier: "Common", color: "#9ca3af" },
 ];
 
 export function getComferRarity(c: Comfer): { tier: string; color: string; points: number } {

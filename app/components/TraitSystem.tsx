@@ -26,21 +26,20 @@ const RARITY_COLORS: Record<string, { border: string; label: string }> = {
   "God Tier": { border: "#FBBF24", label: "#FDE68A" },
 };
 
+const PANEL_BORDER = "#555";
+const PANEL_BG = "#0A0A0C";
+
 /* ─── Shared card panel wrapper ─── */
 function TraitPanel({
   num,
   title,
   subtitle,
-  borderColor,
-  bgTint,
   flavorNote,
   children,
 }: {
   num: string;
   title: string;
   subtitle: string;
-  borderColor: string;
-  bgTint: string;
   flavorNote?: string;
   children: React.ReactNode;
 }) {
@@ -48,9 +47,9 @@ function TraitPanel({
     <div className="mb-16">
       <div style={{
         borderRadius: "10px", padding: "1.5px",
-        background: `linear-gradient(135deg, ${borderColor}33 0%, ${borderColor}80 50%, ${borderColor}33 100%)`,
+        background: `linear-gradient(135deg, ${PANEL_BORDER}33 0%, ${PANEL_BORDER}80 50%, ${PANEL_BORDER}33 100%)`,
       }}>
-        <div style={{ borderRadius: "8.5px", background: bgTint, padding: "20px" }}>
+        <div style={{ borderRadius: "8.5px", background: PANEL_BG, padding: "20px" }}>
           {/* Card header */}
           <div style={{
             display: "flex", justifyContent: "space-between", alignItems: "center",
@@ -59,9 +58,9 @@ function TraitPanel({
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
               <span style={{
                 fontFamily: F.mono, fontSize: "9px", fontWeight: 600,
-                color: borderColor, letterSpacing: "1.5px",
+                color: "rgba(255,255,255,0.35)", letterSpacing: "1.5px",
                 padding: "2px 8px", borderRadius: "2px",
-                background: `${borderColor}0F`, border: `1px solid ${borderColor}25`,
+                background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)",
               }}>{num}</span>
               <span style={{
                 fontFamily: F.sans, fontSize: "16px", fontWeight: 700,
@@ -175,10 +174,7 @@ export default function TraitSystem() {
         </div>
 
         {/* ─── TRAIT 01: Mental State ─── */}
-        <TraitPanel
-          num="01" title="Mental State" subtitle="WHAT YOU MANIFEST"
-          borderColor="#00ff88" bgTint="#08090F"
-        >
+        <TraitPanel num="01" title="Mental State" subtitle="WHAT YOU MANIFEST">
           <StatsBox>
             {mentalStates.map(([name, pts], i) => (
               <StatsRow key={name} isLast={i === mentalStates.length - 1}>
@@ -196,10 +192,7 @@ export default function TraitSystem() {
         </TraitPanel>
 
         {/* ─── TRAIT 02: Intensity ─── */}
-        <TraitPanel
-          num="02" title="Intensity" subtitle="HOW HARD IT HITS"
-          borderColor="#8b5cf6" bgTint="#0C0810"
-        >
+        <TraitPanel num="02" title="Intensity" subtitle="HOW HARD IT HITS">
           <StatsBox>
             {intensities.map(([name, pts], i) => (
               <StatsRow key={name} isLast={i === intensities.length - 1}>
@@ -209,8 +202,8 @@ export default function TraitSystem() {
                     {Array.from({ length: maxIntensity }).map((_, j) => (
                       <div key={j} style={{
                         width: "14px", height: "4px", borderRadius: "1px",
-                        background: j < pts ? "#C084FC" : "rgba(255,255,255,0.04)",
-                        opacity: j < pts ? 0.8 : 0.4,
+                        background: j < pts ? "#9CA3AF" : "rgba(255,255,255,0.04)",
+                        opacity: j < pts ? 0.7 : 0.4,
                       }} />
                     ))}
                   </div>
@@ -221,7 +214,7 @@ export default function TraitSystem() {
                 </div>
                 <span style={{
                   fontFamily: F.mono, fontSize: "9px", fontWeight: 600,
-                  color: "#C084FC", letterSpacing: "1px", opacity: 0.6,
+                  color: "rgba(255,255,255,0.25)", letterSpacing: "1px",
                 }}>{pts}PT</span>
               </StatsRow>
             ))}
@@ -231,7 +224,6 @@ export default function TraitSystem() {
         {/* ─── TRAIT 03: Duration ─── */}
         <TraitPanel
           num="03" title="Duration" subtitle="HOW LONG IT LASTS"
-          borderColor="#f59e0b" bgTint="#100E08"
           flavorNote="Flavor trait — defines character personality, not mechanics."
         >
           <StatsBox>
@@ -253,7 +245,6 @@ export default function TraitSystem() {
         {/* ─── TRAIT 04: Trigger ─── */}
         <TraitPanel
           num="04" title="Trigger" subtitle="WHAT SETS IT OFF"
-          borderColor="#ef4444" bgTint="#140808"
           flavorNote="Flavor trait — defines character personality, not mechanics."
         >
           <StatsBox>
@@ -273,26 +264,23 @@ export default function TraitSystem() {
         </TraitPanel>
 
         {/* ─── TRAIT 05: Superpower ─── */}
-        <TraitPanel
-          num="05" title="Superpower" subtitle="RARE"
-          borderColor="#06b6d4" bgTint="#0A0E10"
-        >
+        <TraitPanel num="05" title="Superpower" subtitle="RARE">
           <StatsBox>
             <StatsRow isLast={false}>
               <span style={{
                 fontFamily: F.mono, fontSize: "9px", fontWeight: 600,
-                color: "#22D3EE", letterSpacing: "1px",
+                color: "rgba(255,255,255,0.35)", letterSpacing: "1px",
               }}>BONUS</span>
               <span style={{
                 fontFamily: F.mono, fontSize: "9px", fontWeight: 600,
-                color: "#22D3EE", letterSpacing: "1px",
+                color: "rgba(255,255,255,0.35)", letterSpacing: "1px",
               }}>+{SUPERPOWER_BONUS}PT</span>
             </StatsRow>
             {superpowers.map(([name, effect], i) => (
               <StatsRow key={name} isLast={i === superpowers.length - 1}>
                 <span style={{
                   fontFamily: F.sans, fontSize: "12px", fontWeight: 600,
-                  color: "#22D3EE", opacity: 0.8,
+                  color: "rgba(255,255,255,0.6)",
                 }}>{name}</span>
                 <span style={{
                   fontFamily: F.mono, fontSize: "9px",
@@ -306,10 +294,10 @@ export default function TraitSystem() {
         {/* ─── POINT SYSTEM SUMMARY ─── */}
         <div style={{
           borderRadius: "10px", padding: "1.5px",
-          background: "linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 100%)",
+          background: `linear-gradient(135deg, ${PANEL_BORDER}33 0%, ${PANEL_BORDER}80 50%, ${PANEL_BORDER}33 100%)`,
         }}>
           <div style={{
-            borderRadius: "8.5px", background: "#0A0A0B", padding: "20px",
+            borderRadius: "8.5px", background: PANEL_BG, padding: "20px",
           }}>
             <div style={{
               display: "flex", justifyContent: "space-between", alignItems: "center",
@@ -330,10 +318,10 @@ export default function TraitSystem() {
               marginBottom: "16px",
             }}>
               {[
-                { label: "Mental State", range: `${Math.min(...Object.values(mentalStatePoints))}–${Math.max(...Object.values(mentalStatePoints))}`, color: "#00ff88" },
-                { label: "Intensity", range: `${Math.min(...Object.values(intensityPoints))}–${Math.max(...Object.values(intensityPoints))}`, color: "#8b5cf6" },
-                { label: "Duration", range: `${Math.min(...Object.values(durationPoints))}–${Math.max(...Object.values(durationPoints))}`, color: "#f59e0b" },
-                { label: "Trigger", range: `${Math.min(...Object.values(triggerPoints))}–${Math.max(...Object.values(triggerPoints))}`, color: "#ef4444" },
+                { label: "Mental State", range: `${Math.min(...Object.values(mentalStatePoints))}–${Math.max(...Object.values(mentalStatePoints))}` },
+                { label: "Intensity", range: `${Math.min(...Object.values(intensityPoints))}–${Math.max(...Object.values(intensityPoints))}` },
+                { label: "Duration", range: `${Math.min(...Object.values(durationPoints))}–${Math.max(...Object.values(durationPoints))}` },
+                { label: "Trigger", range: `${Math.min(...Object.values(triggerPoints))}–${Math.max(...Object.values(triggerPoints))}` },
               ].map((item) => (
                 <div key={item.label} style={{
                   padding: "8px 10px", borderRadius: "4px",
@@ -342,7 +330,7 @@ export default function TraitSystem() {
                 }}>
                   <span style={{
                     fontFamily: F.sans, fontSize: "11px", fontWeight: 500,
-                    color: item.color, opacity: 0.7,
+                    color: "rgba(255,255,255,0.45)",
                   }}>{item.label}</span>
                   <span style={{
                     fontFamily: F.mono, fontSize: "9px", fontWeight: 600,
@@ -354,17 +342,17 @@ export default function TraitSystem() {
 
             <div style={{
               padding: "8px 10px", borderRadius: "4px",
-              background: "rgba(6,182,212,0.03)", border: "1px solid rgba(6,182,212,0.08)",
+              background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.03)",
               display: "flex", justifyContent: "space-between", alignItems: "center",
               marginBottom: "16px",
             }}>
               <span style={{
                 fontFamily: F.sans, fontSize: "11px", fontWeight: 500,
-                color: "#22D3EE", opacity: 0.7,
+                color: "rgba(255,255,255,0.45)",
               }}>Superpower Bonus</span>
               <span style={{
                 fontFamily: F.mono, fontSize: "9px", fontWeight: 600,
-                color: "#22D3EE", opacity: 0.5, letterSpacing: "0.5px",
+                color: "rgba(255,255,255,0.25)", letterSpacing: "0.5px",
               }}>+{SUPERPOWER_BONUS} PT</span>
             </div>
 
