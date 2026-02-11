@@ -413,66 +413,106 @@ export default function ComferCards() {
           </p>
         )}
 
-        {/* Thumbnail Grid */}
+        {/* Card Grid */}
         <div style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(120px, 1fr))",
-          gap: "8px",
+          gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
+          gap: "12px",
         }}>
           {filteredComfers.map((comfer) => {
             const tier = intensityTiers[comfer.intensity]?.tier || "Common";
             const r = RARITY_COLORS[tier] || RARITY_COLORS.Common;
+            const bgKey = MENTAL_STATE_BG[comfer.mentalState] || "Original";
+            const bg = BG_COLORS[bgKey];
             return (
               <button
                 key={comfer.id}
                 onClick={() => setSelected(comfer.id)}
                 className="group"
                 style={{
-                  aspectRatio: "1", borderRadius: "6px", overflow: "hidden",
-                  border: `1px solid rgba(255,255,255,0.06)`,
-                  cursor: "pointer", position: "relative",
-                  transition: "all 0.2s",
-                  background: "#0a0a0a",
-                  padding: 0,
+                  borderRadius: "8px", overflow: "hidden",
+                  padding: "1.5px",
+                  background: `linear-gradient(135deg, ${r.border}50 0%, ${r.border}90 50%, ${r.border}50 100%)`,
+                  cursor: "pointer",
+                  transition: "all 0.25s cubic-bezier(0.2,0.8,0.2,1)",
+                  textAlign: "left",
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = `${r.border}60`;
-                  e.currentTarget.style.transform = "scale(1.03)";
+                  e.currentTarget.style.transform = "scale(1.03) translateY(-2px)";
+                  e.currentTarget.style.boxShadow = `0 8px 24px rgba(0,0,0,0.4), 0 0 12px ${r.glow}`;
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
-                  e.currentTarget.style.transform = "scale(1)";
+                  e.currentTarget.style.transform = "scale(1) translateY(0)";
+                  e.currentTarget.style.boxShadow = "none";
                 }}
                 title={`#${comfer.id} ${comfer.name}`}
               >
-                <img
-                  src={comfer.image}
-                  alt={comfer.name}
-                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-                  loading="lazy"
-                />
                 <div style={{
-                  position: "absolute", bottom: 0, left: 0, right: 0,
-                  background: "linear-gradient(transparent, rgba(0,0,0,0.7))",
-                  padding: "16px 6px 4px",
-                  opacity: 0, transition: "opacity 0.2s",
-                }}
-                  className="group-hover:!opacity-100"
-                >
-                  <span style={{
-                    fontFamily: F.mono, fontSize: "8px", fontWeight: 600,
-                    color: r.label, letterSpacing: "0.5px",
-                  }}>
-                    #{String(comfer.id).padStart(3, "0")}
-                  </span>
-                </div>
-                {comfer.superpower && (
+                  borderRadius: "6.5px", background: bg.bg,
+                  overflow: "hidden", display: "flex", flexDirection: "column",
+                }}>
+                  {/* Mini header */}
                   <div style={{
-                    position: "absolute", top: "4px", right: "4px",
-                    width: "6px", height: "6px", borderRadius: "50%",
-                    background: "#22D3EE", opacity: 0.7,
-                  }} />
-                )}
+                    display: "flex", justifyContent: "space-between", alignItems: "center",
+                    padding: "6px 8px 4px",
+                  }}>
+                    <span style={{
+                      fontFamily: F.mono, fontSize: "7px", fontWeight: 500,
+                      color: "rgba(255,255,255,0.2)", letterSpacing: "1px",
+                    }}>
+                      #{String(comfer.id).padStart(3, "0")}
+                    </span>
+                    <span style={{
+                      fontFamily: F.mono, fontSize: "6px", fontWeight: 600, letterSpacing: "1.5px",
+                      color: r.label, padding: "1px 5px", borderRadius: "2px",
+                      background: `${r.border}10`, border: `1px solid ${r.border}20`,
+                    }}>
+                      {tier.toUpperCase()}
+                    </span>
+                  </div>
+
+                  {/* Square art */}
+                  <div style={{
+                    margin: "0 6px", aspectRatio: "1", borderRadius: "3px",
+                    overflow: "hidden", border: "1px solid rgba(255,255,255,0.03)",
+                  }}>
+                    <img
+                      src={comfer.image} alt={comfer.name}
+                      style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                      loading="lazy"
+                    />
+                  </div>
+
+                  {/* Name + footer */}
+                  <div style={{ padding: "5px 8px 6px" }}>
+                    <p style={{
+                      fontFamily: F.sans, fontSize: "10px", fontWeight: 600,
+                      color: "rgba(255,255,255,0.75)", margin: 0,
+                      lineHeight: 1.2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+                    }}>
+                      {comfer.name}
+                    </p>
+                    <div style={{
+                      display: "flex", justifyContent: "space-between", alignItems: "center",
+                      marginTop: "3px",
+                    }}>
+                      <span style={{
+                        fontFamily: F.mono, fontSize: "7px",
+                        color: "rgba(255,255,255,0.15)", letterSpacing: "0.5px",
+                      }}>
+                        {comfer.mentalState.length > 18
+                          ? comfer.mentalState.substring(0, 18) + "..."
+                          : comfer.mentalState}
+                      </span>
+                      {comfer.superpower && (
+                        <div style={{
+                          width: "5px", height: "5px", borderRadius: "50%",
+                          background: "#22D3EE", opacity: 0.7,
+                        }} />
+                      )}
+                    </div>
+                  </div>
+                </div>
               </button>
             );
           })}
