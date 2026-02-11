@@ -1,7 +1,7 @@
 import Navigation from "./components/Navigation";
 import Hero from "./components/Hero";
 import About from "./components/About";
-import ComfersGallery from "./components/ComfersGallery";
+import ComferCards from "./components/ComferCards";
 import TraitSystem from "./components/TraitSystem";
 import CosmosTiers from "./components/CosmosTiers";
 import Mechanics from "./components/Mechanics";
@@ -15,7 +15,7 @@ export default function Home() {
       <Navigation />
       <Hero />
       <About />
-      <ComfersGallery />
+      <ComferCards />
       <TraitSystem />
       <CosmosTiers />
       <Mechanics />
