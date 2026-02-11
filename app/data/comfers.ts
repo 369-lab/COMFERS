@@ -81,22 +81,6 @@ export const comfers: Comfer[] = [
   { id: 69, name: "Lost More Than Possible", image: "/artworks/69-lost-more-than-possible.jpg", mentalState: "Enhanced HODL Psychosis", intensity: "Pokemon Evolution Stage", duration: "Until Student Loans Disappear", trigger: "Cat Walking On Keyboard Buy" },
 ];
 
-export const mentalStateCategories: Record<string, string> = {
-  "Basic Trading FOMO": "Tech & Gadgets",
-  "Standard Portfolio Depression": "Food & Beverage",
-  "Normal Degen Brain": "Essentials",
-  "Advanced Hopium Addiction": "Digital Assets & Crypto",
-  "Enhanced HODL Psychosis": "Vehicles & Real Estate",
-  "Chronic Refresh Syndrome": "Watches & Jewelry",
-  "Multi-Personality Order Book": "Fashion & Accessories",
-  "Leverage Madness": "Experiences & High-Risk",
-  "Chronic Green Candle Fever": "Rare Collectibles",
-  "Intense Fibonacci Obsession": "Mathematical Treasures",
-  "Ultimate Trading God Complex": "God Tier & Meta Assets",
-  "Enlightened Trading Monk": "Transcendent Items",
-  "Transcendent Chart Being": "Cosmic Artifacts",
-};
-
 // ─── POINT SYSTEM ────────────────────────────────────────────
 // 13 mental states × 1pt each = 13 total points.
 // Rarity comes from distribution: more states in lower tiers (common),

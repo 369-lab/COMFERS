@@ -94,26 +94,6 @@ body {
   background-size: 50px 50px;
 }
 
-/* Tier badge colors */
-.tier-common { color: #9ca3af; border-color: #9ca3af; }
-.tier-uncommon { color: #22c55e; border-color: #22c55e; }
-.tier-rare { color: #3b82f6; border-color: #3b82f6; }
-.tier-epic { color: #a855f7; border-color: #a855f7; }
-.tier-legendary { color: #06b6d4; border-color: #06b6d4; }
-.tier-mythic { color: #ef4444; border-color: #ef4444; }
-.tier-god { color: #fbbf24; border-color: #fbbf24; }
-
-/* Card hover effect */
-.card-hover {
-  transition: all 0.3s ease;
-}
-
-.card-hover:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 30px rgba(0, 255, 136, 0.1);
-  border-color: rgba(0, 255, 136, 0.3);
-}
-
 /* Section divider */
 .section-divider {
   height: 1px;
