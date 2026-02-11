@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { comfers, intensityTiers, superpowerEffects, type Comfer } from "@/app/data/comfers";
+import { comfers, intensityLevels, superpowerEffects, getComferRarity, type Comfer } from "@/app/data/comfers";
 
 const RARITY_COLORS: Record<string, { border: string; glow: string; label: string }> = {
   Common:     { border: "#6B7280", glow: "rgba(107,114,128,0.15)", label: "#9CA3AF" },
@@ -44,34 +44,26 @@ const MENTAL_STATE_BG: Record<string, string> = {
   "Transcendent Chart Being": "Inferno",
 };
 
-const INTENSITY_LEVELS: Record<string, { level: number; max: number }> = {
-  "Mildly":                      { level: 1, max: 7 },
-  "Severe":                      { level: 2, max: 7 },
-  "Beyond Repair":               { level: 3, max: 7 },
-  "Pokemon Evolution Stage":     { level: 3, max: 7 },
-  "Critical":                    { level: 4, max: 7 },
-  "Terminal":                    { level: 5, max: 7 },
-  "Third Eye Bleeding":          { level: 5, max: 7 },
-  "Beyond Cosmic Comprehension": { level: 6, max: 7 },
-  "Reality Collapse":            { level: 7, max: 7 },
-};
+const INTENSITY_MAX = 8;
+
+function getIntensityLevel(intensity: string): number {
+  return intensityLevels[intensity] || 1;
+}
 
 const F = {
   mono: "'IBM Plex Mono', monospace",
   sans: "'DM Sans', sans-serif",
 };
 
-function IntensityBar({ intensity }: { intensity: string }) {
-  const lvl = INTENSITY_LEVELS[intensity] || { level: 1, max: 7 };
-  const tier = intensityTiers[intensity]?.tier || "Common";
-  const color = RARITY_COLORS[tier]?.label || "#666";
+function IntensityBar({ intensity, color }: { intensity: string; color: string }) {
+  const lvl = getIntensityLevel(intensity);
   return (
     <div style={{ display: "flex", gap: "2px", alignItems: "center" }}>
-      {Array.from({ length: lvl.max }).map((_, i) => (
+      {Array.from({ length: INTENSITY_MAX }).map((_, i) => (
         <div key={i} style={{
           width: "18px", height: "5px", borderRadius: "1px",
-          background: i < lvl.level ? color : "rgba(255,255,255,0.05)",
-          opacity: i < lvl.level ? 1 : 0.4,
+          background: i < lvl ? color : "rgba(255,255,255,0.05)",
+          opacity: i < lvl ? 1 : 0.4,
         }} />
       ))}
     </div>
@@ -82,7 +74,8 @@ function CardPopup({ comfer, onClose }: { comfer: Comfer; onClose: () => void })
   const [mouse, setMouse] = useState({ x: 0.5, y: 0.5 });
   const [hovered, setHovered] = useState(false);
 
-  const tier = intensityTiers[comfer.intensity]?.tier || "Common";
+  const rarity = getComferRarity(comfer);
+  const tier = rarity.tier;
   const r = RARITY_COLORS[tier] || RARITY_COLORS.Common;
   const bgKey = MENTAL_STATE_BG[comfer.mentalState] || "Original";
   const bg = BG_COLORS[bgKey];
@@ -135,13 +128,21 @@ function CardPopup({ comfer, onClose }: { comfer: Comfer; onClose: () => void })
             <span style={{ fontFamily: F.mono, fontSize: "9px", fontWeight: 500, color: "rgba(255,255,255,0.25)", letterSpacing: "1.5px" }}>
               #{String(comfer.id).padStart(3, "0")} / 069
             </span>
-            <span style={{
-              fontFamily: F.mono, fontSize: "8px", fontWeight: 600, letterSpacing: "2px",
-              color: r.label, padding: "2px 8px", borderRadius: "2px",
-              background: `${r.border}10`, border: `1px solid ${r.border}25`,
-            }}>
-              {tier.toUpperCase()}
-            </span>
+            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+              <span style={{
+                fontFamily: F.mono, fontSize: "8px", fontWeight: 600, letterSpacing: "1px",
+                color: "rgba(255,255,255,0.25)",
+              }}>
+                {rarity.points}PT
+              </span>
+              <span style={{
+                fontFamily: F.mono, fontSize: "8px", fontWeight: 600, letterSpacing: "2px",
+                color: r.label, padding: "2px 8px", borderRadius: "2px",
+                background: `${r.border}10`, border: `1px solid ${r.border}25`,
+              }}>
+                {tier.toUpperCase()}
+              </span>
+            </div>
           </div>
 
           {/* Square Art */}
@@ -194,7 +195,7 @@ function CardPopup({ comfer, onClose }: { comfer: Comfer; onClose: () => void })
                 }}>{stat.label}</div>
                 {stat.label === "INTENSITY" ? (
                   <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                    <IntensityBar intensity={comfer.intensity} />
+                    <IntensityBar intensity={comfer.intensity} color={r.label} />
                     <span style={{
                       fontFamily: F.mono, fontSize: "8px", fontWeight: 600,
                       color: r.label, letterSpacing: "0.3px",
@@ -260,7 +261,7 @@ export default function ComferCards() {
     if (filter === "all") return comfers;
     if (filter === "superpower") return comfers.filter((c) => c.superpower);
     const { trait, value } = filter;
-    if (trait === "rarity") return comfers.filter((c) => intensityTiers[c.intensity]?.tier === value);
+    if (trait === "rarity") return comfers.filter((c) => getComferRarity(c).tier === value);
     if (trait === "mentalState") return comfers.filter((c) => c.mentalState === value);
     if (trait === "intensity") return comfers.filter((c) => c.intensity === value);
     if (trait === "duration") return comfers.filter((c) => c.duration === value);
@@ -275,7 +276,7 @@ export default function ComferCards() {
     {
       label: "RARITY", id: "rarity",
       options: tierOrder
-        .filter((t) => comfers.some((c) => intensityTiers[c.intensity]?.tier === t))
+        .filter((t) => comfers.some((c) => getComferRarity(c).tier === t))
         .map((t) => ({ label: t, value: t, color: RARITY_COLORS[t]?.label })),
     },
     {
@@ -284,7 +285,7 @@ export default function ComferCards() {
     },
     {
       label: "INTENSITY", id: "intensity",
-      options: uniqueValues("intensity").map((v) => ({ label: v, value: v, color: RARITY_COLORS[intensityTiers[v]?.tier]?.label })),
+      options: uniqueValues("intensity").map((v) => ({ label: v, value: v })),
     },
     {
       label: "DURATION", id: "duration",
@@ -394,7 +395,7 @@ export default function ComferCards() {
                       {opt.label}
                       <span style={{ float: "right", color: "rgba(255,255,255,0.15)" }}>
                         {comfers.filter((c) => {
-                          if (group.id === "rarity") return intensityTiers[c.intensity]?.tier === opt.value;
+                          if (group.id === "rarity") return getComferRarity(c).tier === opt.value;
                           return c[group.id as keyof Comfer] === opt.value;
                         }).length}
                       </span>
@@ -420,7 +421,8 @@ export default function ComferCards() {
           gap: "12px",
         }}>
           {filteredComfers.map((comfer) => {
-            const tier = intensityTiers[comfer.intensity]?.tier || "Common";
+            const rarity = getComferRarity(comfer);
+            const tier = rarity.tier;
             const r = RARITY_COLORS[tier] || RARITY_COLORS.Common;
             const bgKey = MENTAL_STATE_BG[comfer.mentalState] || "Original";
             const bg = BG_COLORS[bgKey];

@@ -1,5 +1,15 @@
 "use client";
 
+import {
+  mentalStatePoints,
+  intensityPoints,
+  durationPoints,
+  triggerPoints,
+  SUPERPOWER_BONUS,
+  RARITY_THRESHOLDS,
+  superpowerEffects,
+} from "@/app/data/comfers";
+
 const F = {
   mono: "'IBM Plex Mono', monospace",
   sans: "'DM Sans', sans-serif",
@@ -16,34 +26,113 @@ const RARITY_COLORS: Record<string, { border: string; label: string }> = {
   "God Tier": { border: "#FBBF24", label: "#FDE68A" },
 };
 
+/* ─── Shared card panel wrapper ─── */
+function TraitPanel({
+  num,
+  title,
+  subtitle,
+  borderColor,
+  bgTint,
+  flavorNote,
+  children,
+}: {
+  num: string;
+  title: string;
+  subtitle: string;
+  borderColor: string;
+  bgTint: string;
+  flavorNote?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="mb-16">
+      <div style={{
+        borderRadius: "10px", padding: "1.5px",
+        background: `linear-gradient(135deg, ${borderColor}33 0%, ${borderColor}80 50%, ${borderColor}33 100%)`,
+      }}>
+        <div style={{ borderRadius: "8.5px", background: bgTint, padding: "20px" }}>
+          {/* Card header */}
+          <div style={{
+            display: "flex", justifyContent: "space-between", alignItems: "center",
+            marginBottom: "16px",
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <span style={{
+                fontFamily: F.mono, fontSize: "9px", fontWeight: 600,
+                color: borderColor, letterSpacing: "1.5px",
+                padding: "2px 8px", borderRadius: "2px",
+                background: `${borderColor}0F`, border: `1px solid ${borderColor}25`,
+              }}>{num}</span>
+              <span style={{
+                fontFamily: F.sans, fontSize: "16px", fontWeight: 700,
+                color: "rgba(255,255,255,0.88)",
+              }}>{title}</span>
+            </div>
+            <span style={{
+              fontFamily: F.mono, fontSize: "8px", fontWeight: 500,
+              color: "rgba(255,255,255,0.2)", letterSpacing: "2px",
+            }}>{subtitle}</span>
+          </div>
+
+          {/* Content */}
+          {children}
+
+          {/* Flavor note */}
+          {flavorNote && (
+            <div style={{
+              marginTop: "12px", padding: "8px 10px", borderRadius: "4px",
+              background: "rgba(255,255,255,0.015)", border: "1px solid rgba(255,255,255,0.03)",
+            }}>
+              <p style={{
+                fontFamily: F.mono, fontSize: "8px", color: "rgba(255,255,255,0.18)",
+                letterSpacing: "0.5px", lineHeight: 1.6, margin: 0,
+              }}>{flavorNote}</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Stats row container ─── */
+function StatsBox({ children }: { children: React.ReactNode }) {
+  return (
+    <div style={{
+      background: "rgba(255,255,255,0.02)", borderRadius: "4px",
+      border: "1px solid rgba(255,255,255,0.02)", padding: "2px 0",
+    }}>
+      {children}
+    </div>
+  );
+}
+
+function StatsRow({
+  children,
+  isLast = false,
+}: {
+  children: React.ReactNode;
+  isLast?: boolean;
+}) {
+  return (
+    <div style={{
+      padding: "8px 12px",
+      borderBottom: isLast ? "none" : "1px solid rgba(255,255,255,0.02)",
+      display: "flex", alignItems: "center", justifyContent: "space-between",
+    }}>
+      {children}
+    </div>
+  );
+}
+
 export default function TraitSystem() {
-  const mentalStates = [
-    "Basic Trading FOMO",
-    "Standard Portfolio Depression",
-    "Advanced Hopium Addiction",
-    "Enhanced HODL Psychosis",
-    "Chronic Refresh Syndrome",
-    "Multi-Personality Order Book",
-    "Leverage Madness",
-    "Ultimate Trading God Complex",
-  ];
+  const mentalStates = Object.entries(mentalStatePoints).sort((a, b) => a[1] - b[1]);
+  const intensities = Object.entries(intensityPoints).sort((a, b) => a[1] - b[1]);
+  const durations = Object.entries(durationPoints).sort((a, b) => a[1] - b[1]);
+  const triggers = Object.entries(triggerPoints).sort((a, b) => a[1] - b[1]);
+  const superpowers = Object.entries(superpowerEffects);
 
-  const intensities = [
-    { level: "Mildly", tier: "Common", bars: 1 },
-    { level: "Severe", tier: "Uncommon", bars: 2 },
-    { level: "Critical", tier: "Epic", bars: 3 },
-    { level: "Terminal", tier: "Legendary", bars: 4 },
-    { level: "Third Eye Bleeding", tier: "Mythic", bars: 5 },
-    { level: "Beyond Cosmic Comprehension", tier: "Mythic+", bars: 6 },
-    { level: "Reality Collapse", tier: "God Tier", bars: 7 },
-  ];
-
-  const superpowers = [
-    { name: "Bought BTC 2008", effect: "1x Guaranteed Legendary" },
-    { name: "Credit Card", effect: "1x Double Drop Event" },
-    { name: "Bank Transfer", effect: "Guaranteed Rare Floor" },
-    { name: "PayPal", effect: "+25% Faster Drops" },
-  ];
+  const maxIntensity = Math.max(...Object.values(intensityPoints));
 
   return (
     <section id="traits" className="py-32 px-6">
@@ -54,264 +143,237 @@ export default function TraitSystem() {
           System
         </p>
         <h2 className="text-3xl md:text-5xl font-bold mb-4 tracking-tight">
-          Traits
+          Traits & Rarity
         </h2>
-        <p className="text-[#555] mb-20 text-sm">
-          Three traits define manifestation. Two add personality.
+        <p className="text-[#555] mb-6 text-sm max-w-xl">
+          Every Comfer has 5 traits. Each trait earns points based on scarcity. Total points determine rarity.
         </p>
 
-        {/* TRAIT 1: Mental State — card-style panel */}
-        <div className="mb-24">
-          <div style={{
-            borderRadius: "10px", padding: "1.5px",
-            background: "linear-gradient(135deg, rgba(0,255,136,0.2) 0%, rgba(0,255,136,0.5) 50%, rgba(0,255,136,0.2) 100%)",
-          }}>
-            <div style={{
-              borderRadius: "8.5px", background: "#08090F", padding: "20px",
-            }}>
-              {/* Card header */}
-              <div style={{
-                display: "flex", justifyContent: "space-between", alignItems: "center",
-                marginBottom: "16px",
+        {/* ─── RARITY SCALE ─── */}
+        <div style={{
+          display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: "40px",
+        }}>
+          {RARITY_THRESHOLDS.slice().reverse().map((t) => {
+            const r = RARITY_COLORS[t.tier];
+            return (
+              <div key={t.tier} style={{
+                display: "flex", alignItems: "center", gap: "6px",
+                padding: "4px 10px", borderRadius: "4px",
+                background: `${r.border}08`, border: `1px solid ${r.border}18`,
               }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                  <span style={{
-                    fontFamily: F.mono, fontSize: "9px", fontWeight: 600,
-                    color: "#00ff88", letterSpacing: "1.5px",
-                    padding: "2px 8px", borderRadius: "2px",
-                    background: "rgba(0,255,136,0.06)", border: "1px solid rgba(0,255,136,0.15)",
-                  }}>01</span>
-                  <span style={{
-                    fontFamily: F.sans, fontSize: "16px", fontWeight: 700,
-                    color: "rgba(255,255,255,0.88)",
-                  }}>Mental State</span>
-                </div>
                 <span style={{
-                  fontFamily: F.mono, fontSize: "8px", fontWeight: 500,
-                  color: "rgba(255,255,255,0.2)", letterSpacing: "2px",
-                }}>WHAT YOU MANIFEST</span>
+                  fontFamily: F.mono, fontSize: "8px", fontWeight: 600,
+                  color: r.label, letterSpacing: "1.5px",
+                }}>{t.tier.toUpperCase()}</span>
+                <span style={{
+                  fontFamily: F.mono, fontSize: "7px",
+                  color: "rgba(255,255,255,0.15)",
+                }}>{t.min}+</span>
               </div>
+            );
+          })}
+        </div>
 
-              {/* Stats-style rows */}
-              <div style={{
-                background: "rgba(255,255,255,0.02)", borderRadius: "4px",
-                border: "1px solid rgba(255,255,255,0.02)", padding: "2px 0",
-              }}>
-                {mentalStates.map((ms, i) => (
-                  <div key={ms} style={{
-                    padding: "8px 12px",
-                    borderBottom: i < mentalStates.length - 1 ? "1px solid rgba(255,255,255,0.02)" : "none",
-                    display: "flex", alignItems: "center", justifyContent: "space-between",
-                  }}>
-                    <span style={{
-                      fontFamily: F.sans, fontSize: "12px", fontWeight: 500,
-                      color: "rgba(255,255,255,0.6)",
-                    }}>{ms}</span>
-                    <span style={{
-                      fontFamily: F.mono, fontSize: "7px",
-                      color: "rgba(255,255,255,0.12)", letterSpacing: "1px",
-                    }}>{String(i + 1).padStart(2, "0")}</span>
+        {/* ─── TRAIT 01: Mental State ─── */}
+        <TraitPanel
+          num="01" title="Mental State" subtitle="WHAT YOU MANIFEST"
+          borderColor="#00ff88" bgTint="#08090F"
+        >
+          <StatsBox>
+            {mentalStates.map(([name, pts], i) => (
+              <StatsRow key={name} isLast={i === mentalStates.length - 1}>
+                <span style={{
+                  fontFamily: F.sans, fontSize: "12px", fontWeight: 500,
+                  color: "rgba(255,255,255,0.6)",
+                }}>{name}</span>
+                <span style={{
+                  fontFamily: F.mono, fontSize: "9px", fontWeight: 600,
+                  color: "rgba(255,255,255,0.25)", letterSpacing: "1px",
+                }}>{pts}PT</span>
+              </StatsRow>
+            ))}
+          </StatsBox>
+        </TraitPanel>
+
+        {/* ─── TRAIT 02: Intensity ─── */}
+        <TraitPanel
+          num="02" title="Intensity" subtitle="HOW HARD IT HITS"
+          borderColor="#8b5cf6" bgTint="#0C0810"
+        >
+          <StatsBox>
+            {intensities.map(([name, pts], i) => (
+              <StatsRow key={name} isLast={i === intensities.length - 1}>
+                {/* Intensity bar */}
+                <div style={{ display: "flex", alignItems: "center", gap: "12px", flex: 1 }}>
+                  <div style={{ display: "flex", gap: "2px", alignItems: "center", flexShrink: 0 }}>
+                    {Array.from({ length: maxIntensity }).map((_, j) => (
+                      <div key={j} style={{
+                        width: "14px", height: "4px", borderRadius: "1px",
+                        background: j < pts ? "#C084FC" : "rgba(255,255,255,0.04)",
+                        opacity: j < pts ? 0.8 : 0.4,
+                      }} />
+                    ))}
                   </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* TRAIT 2: Intensity — card-style panel */}
-        <div className="mb-24">
-          <div style={{
-            borderRadius: "10px", padding: "1.5px",
-            background: "linear-gradient(135deg, rgba(139,92,246,0.2) 0%, rgba(139,92,246,0.5) 50%, rgba(139,92,246,0.2) 100%)",
-          }}>
-            <div style={{
-              borderRadius: "8.5px", background: "#0C0810", padding: "20px",
-            }}>
-              {/* Card header */}
-              <div style={{
-                display: "flex", justifyContent: "space-between", alignItems: "center",
-                marginBottom: "16px",
-              }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                   <span style={{
-                    fontFamily: F.mono, fontSize: "9px", fontWeight: 600,
-                    color: "#8b5cf6", letterSpacing: "1.5px",
-                    padding: "2px 8px", borderRadius: "2px",
-                    background: "rgba(139,92,246,0.06)", border: "1px solid rgba(139,92,246,0.15)",
-                  }}>02</span>
-                  <span style={{
-                    fontFamily: F.sans, fontSize: "16px", fontWeight: 700,
-                    color: "rgba(255,255,255,0.88)",
-                  }}>Intensity</span>
+                    fontFamily: F.sans, fontSize: "12px", fontWeight: 500,
+                    color: "rgba(255,255,255,0.5)", flex: 1,
+                  }}>{name}</span>
                 </div>
                 <span style={{
-                  fontFamily: F.mono, fontSize: "8px", fontWeight: 500,
-                  color: "rgba(255,255,255,0.2)", letterSpacing: "2px",
-                }}>HOW HARD IT HITS</span>
-              </div>
+                  fontFamily: F.mono, fontSize: "9px", fontWeight: 600,
+                  color: "#C084FC", letterSpacing: "1px", opacity: 0.6,
+                }}>{pts}PT</span>
+              </StatsRow>
+            ))}
+          </StatsBox>
+        </TraitPanel>
 
-              {/* Intensity rows with bars */}
-              <div style={{
-                background: "rgba(255,255,255,0.02)", borderRadius: "4px",
-                border: "1px solid rgba(255,255,255,0.02)", padding: "2px 0",
-              }}>
-                {intensities.map((int, i) => {
-                  const r = RARITY_COLORS[int.tier] || RARITY_COLORS.Common;
-                  return (
-                    <div key={int.level} style={{
-                      padding: "8px 12px",
-                      borderBottom: i < intensities.length - 1 ? "1px solid rgba(255,255,255,0.02)" : "none",
-                      display: "flex", alignItems: "center", gap: "12px",
-                    }}>
-                      {/* Intensity bar */}
-                      <div style={{ display: "flex", gap: "2px", alignItems: "center", flexShrink: 0 }}>
-                        {Array.from({ length: 7 }).map((_, j) => (
-                          <div key={j} style={{
-                            width: "14px", height: "4px", borderRadius: "1px",
-                            background: j < int.bars ? r.label : "rgba(255,255,255,0.04)",
-                            opacity: j < int.bars ? 1 : 0.4,
-                          }} />
-                        ))}
-                      </div>
-                      {/* Level name */}
-                      <span style={{
-                        fontFamily: F.sans, fontSize: "12px", fontWeight: 500,
-                        color: r.label, flex: 1, opacity: 0.8,
-                      }}>{int.level}</span>
-                      {/* Tier badge */}
-                      <span style={{
-                        fontFamily: F.mono, fontSize: "7px", fontWeight: 600, letterSpacing: "1.5px",
-                        color: r.label, padding: "2px 6px", borderRadius: "2px",
-                        background: `${r.border}10`, border: `1px solid ${r.border}20`,
-                      }}>{int.tier.toUpperCase()}</span>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* TRAIT 3: Superpower — card-style panel */}
-        <div className="mb-24">
-          <div style={{
-            borderRadius: "10px", padding: "1.5px",
-            background: "linear-gradient(135deg, rgba(6,182,212,0.2) 0%, rgba(6,182,212,0.5) 50%, rgba(6,182,212,0.2) 100%)",
-          }}>
-            <div style={{
-              borderRadius: "8.5px", background: "#0A0E10", padding: "20px",
-            }}>
-              {/* Card header */}
-              <div style={{
-                display: "flex", justifyContent: "space-between", alignItems: "center",
-                marginBottom: "16px",
-              }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                  <span style={{
-                    fontFamily: F.mono, fontSize: "9px", fontWeight: 600,
-                    color: "#22D3EE", letterSpacing: "1.5px",
-                    padding: "2px 8px", borderRadius: "2px",
-                    background: "rgba(6,182,212,0.06)", border: "1px solid rgba(6,182,212,0.15)",
-                  }}>03</span>
-                  <span style={{
-                    fontFamily: F.sans, fontSize: "16px", fontWeight: 700,
-                    color: "rgba(255,255,255,0.88)",
-                  }}>Superpower</span>
-                </div>
+        {/* ─── TRAIT 03: Duration ─── */}
+        <TraitPanel
+          num="03" title="Duration" subtitle="HOW LONG IT LASTS"
+          borderColor="#f59e0b" bgTint="#100E08"
+          flavorNote="Flavor trait — defines character personality, not mechanics."
+        >
+          <StatsBox>
+            {durations.map(([name, pts], i) => (
+              <StatsRow key={name} isLast={i === durations.length - 1}>
                 <span style={{
-                  fontFamily: F.mono, fontSize: "8px", fontWeight: 500,
-                  color: "rgba(255,255,255,0.2)", letterSpacing: "2px",
-                }}>RARE</span>
-              </div>
+                  fontFamily: F.sans, fontSize: "12px", fontWeight: 500,
+                  color: "rgba(255,255,255,0.5)",
+                }}>{name}</span>
+                <span style={{
+                  fontFamily: F.mono, fontSize: "9px", fontWeight: 600,
+                  color: "rgba(255,255,255,0.25)", letterSpacing: "1px",
+                }}>{pts}PT</span>
+              </StatsRow>
+            ))}
+          </StatsBox>
+        </TraitPanel>
 
-              {/* Superpower rows */}
-              <div style={{
-                background: "rgba(255,255,255,0.02)", borderRadius: "4px",
-                border: "1px solid rgba(255,255,255,0.02)", padding: "2px 0",
-              }}>
-                {superpowers.map((sp, i) => (
-                  <div key={sp.name} style={{
-                    padding: "10px 12px",
-                    borderBottom: i < superpowers.length - 1 ? "1px solid rgba(255,255,255,0.02)" : "none",
-                    display: "flex", alignItems: "center", justifyContent: "space-between",
-                  }}>
-                    <span style={{
-                      fontFamily: F.sans, fontSize: "12px", fontWeight: 600,
-                      color: "#22D3EE",
-                    }}>{sp.name}</span>
-                    <span style={{
-                      fontFamily: F.mono, fontSize: "9px",
-                      color: "rgba(255,255,255,0.3)",
-                    }}>{sp.effect}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* ─── TRAIT 04: Trigger ─── */}
+        <TraitPanel
+          num="04" title="Trigger" subtitle="WHAT SETS IT OFF"
+          borderColor="#ef4444" bgTint="#140808"
+          flavorNote="Flavor trait — defines character personality, not mechanics."
+        >
+          <StatsBox>
+            {triggers.map(([name, pts], i) => (
+              <StatsRow key={name} isLast={i === triggers.length - 1}>
+                <span style={{
+                  fontFamily: F.sans, fontSize: "12px", fontWeight: 500,
+                  color: "rgba(255,255,255,0.5)",
+                }}>{name}</span>
+                <span style={{
+                  fontFamily: F.mono, fontSize: "9px", fontWeight: 600,
+                  color: "rgba(255,255,255,0.25)", letterSpacing: "1px",
+                }}>{pts}PT</span>
+              </StatsRow>
+            ))}
+          </StatsBox>
+        </TraitPanel>
 
-        {/* Flavor Traits — subtle, minimal */}
+        {/* ─── TRAIT 05: Superpower ─── */}
+        <TraitPanel
+          num="05" title="Superpower" subtitle="RARE"
+          borderColor="#06b6d4" bgTint="#0A0E10"
+        >
+          <StatsBox>
+            <StatsRow isLast={false}>
+              <span style={{
+                fontFamily: F.mono, fontSize: "9px", fontWeight: 600,
+                color: "#22D3EE", letterSpacing: "1px",
+              }}>BONUS</span>
+              <span style={{
+                fontFamily: F.mono, fontSize: "9px", fontWeight: 600,
+                color: "#22D3EE", letterSpacing: "1px",
+              }}>+{SUPERPOWER_BONUS}PT</span>
+            </StatsRow>
+            {superpowers.map(([name, effect], i) => (
+              <StatsRow key={name} isLast={i === superpowers.length - 1}>
+                <span style={{
+                  fontFamily: F.sans, fontSize: "12px", fontWeight: 600,
+                  color: "#22D3EE", opacity: 0.8,
+                }}>{name}</span>
+                <span style={{
+                  fontFamily: F.mono, fontSize: "9px",
+                  color: "rgba(255,255,255,0.3)",
+                }}>{effect}</span>
+              </StatsRow>
+            ))}
+          </StatsBox>
+        </TraitPanel>
+
+        {/* ─── POINT SYSTEM SUMMARY ─── */}
         <div style={{
           borderRadius: "10px", padding: "1.5px",
-          background: "linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0.03) 100%)",
+          background: "linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 100%)",
         }}>
           <div style={{
-            borderRadius: "8.5px", background: "#0A0A0A", padding: "20px",
+            borderRadius: "8.5px", background: "#0A0A0B", padding: "20px",
           }}>
             <div style={{
               display: "flex", justifyContent: "space-between", alignItems: "center",
               marginBottom: "16px",
             }}>
               <span style={{
-                fontFamily: F.sans, fontSize: "14px", fontWeight: 600,
-                color: "rgba(255,255,255,0.35)",
-              }}>Flavor Traits</span>
+                fontFamily: F.sans, fontSize: "14px", fontWeight: 700,
+                color: "rgba(255,255,255,0.6)",
+              }}>How Rarity Works</span>
               <span style={{
-                fontFamily: F.mono, fontSize: "8px", fontWeight: 500,
-                color: "rgba(255,255,255,0.12)", letterSpacing: "2px",
-              }}>LORE ONLY</span>
+                fontFamily: F.mono, fontSize: "8px",
+                color: "rgba(255,255,255,0.15)", letterSpacing: "2px",
+              }}>POINT SYSTEM</span>
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
-              <div>
-                <div style={{
-                  fontFamily: F.mono, fontSize: "7px", fontWeight: 600,
-                  letterSpacing: "2px", color: "rgba(255,255,255,0.15)", marginBottom: "8px",
-                }}>DURATION</div>
-                {[
-                  "Until Pizza Arrives",
-                  "Until Girlfriend Becomes Real",
-                  "Until Mom Stops Being Disappointed",
-                  "Until Student Loans Disappear",
-                  "Until Heat Death of Universe",
-                ].map((d) => (
-                  <div key={d} style={{
-                    fontFamily: F.sans, fontSize: "10px",
-                    color: "rgba(255,255,255,0.25)", padding: "3px 0",
-                  }}>{d}</div>
-                ))}
-              </div>
-              <div>
-                <div style={{
-                  fontFamily: F.mono, fontSize: "7px", fontWeight: 600,
-                  letterSpacing: "2px", color: "rgba(255,255,255,0.15)", marginBottom: "8px",
-                }}>TRIGGER</div>
-                {[
-                  "Beer Foam Chart Patterns",
-                  "Rain Makes Wife Leave Again",
-                  "Reddit FUD",
-                  "Microwave Beep",
-                  "Cat Walking On Keyboard Buy",
-                  "Porn",
-                  "Boss Eye Contact",
-                ].map((t) => (
-                  <div key={t} style={{
-                    fontFamily: F.sans, fontSize: "10px",
-                    color: "rgba(255,255,255,0.25)", padding: "3px 0",
-                  }}>{t}</div>
-                ))}
-              </div>
+            <div style={{
+              display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px",
+              marginBottom: "16px",
+            }}>
+              {[
+                { label: "Mental State", range: `${Math.min(...Object.values(mentalStatePoints))}–${Math.max(...Object.values(mentalStatePoints))}`, color: "#00ff88" },
+                { label: "Intensity", range: `${Math.min(...Object.values(intensityPoints))}–${Math.max(...Object.values(intensityPoints))}`, color: "#8b5cf6" },
+                { label: "Duration", range: `${Math.min(...Object.values(durationPoints))}–${Math.max(...Object.values(durationPoints))}`, color: "#f59e0b" },
+                { label: "Trigger", range: `${Math.min(...Object.values(triggerPoints))}–${Math.max(...Object.values(triggerPoints))}`, color: "#ef4444" },
+              ].map((item) => (
+                <div key={item.label} style={{
+                  padding: "8px 10px", borderRadius: "4px",
+                  background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.02)",
+                  display: "flex", justifyContent: "space-between", alignItems: "center",
+                }}>
+                  <span style={{
+                    fontFamily: F.sans, fontSize: "11px", fontWeight: 500,
+                    color: item.color, opacity: 0.7,
+                  }}>{item.label}</span>
+                  <span style={{
+                    fontFamily: F.mono, fontSize: "9px", fontWeight: 600,
+                    color: "rgba(255,255,255,0.25)", letterSpacing: "0.5px",
+                  }}>{item.range} PT</span>
+                </div>
+              ))}
             </div>
+
+            <div style={{
+              padding: "8px 10px", borderRadius: "4px",
+              background: "rgba(6,182,212,0.03)", border: "1px solid rgba(6,182,212,0.08)",
+              display: "flex", justifyContent: "space-between", alignItems: "center",
+              marginBottom: "16px",
+            }}>
+              <span style={{
+                fontFamily: F.sans, fontSize: "11px", fontWeight: 500,
+                color: "#22D3EE", opacity: 0.7,
+              }}>Superpower Bonus</span>
+              <span style={{
+                fontFamily: F.mono, fontSize: "9px", fontWeight: 600,
+                color: "#22D3EE", opacity: 0.5, letterSpacing: "0.5px",
+              }}>+{SUPERPOWER_BONUS} PT</span>
+            </div>
+
+            <p style={{
+              fontFamily: F.mono, fontSize: "8px", color: "rgba(255,255,255,0.15)",
+              letterSpacing: "0.5px", lineHeight: 1.6, margin: 0,
+            }}>
+              Total points = sum of all trait points. Flavor traits (Duration, Trigger) contribute to rarity score but have no effect on mechanics. Only the Comfer knows why it matters.
+            </p>
           </div>
         </div>
       </div>

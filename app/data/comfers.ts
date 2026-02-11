@@ -98,16 +98,96 @@ export const mentalStateCategories: Record<string, string> = {
   "Transcendent Chart Being": "Cosmic Artifacts",
 };
 
-export const intensityTiers: Record<string, { tier: string; color: string }> = {
-  "Mildly": { tier: "Common", color: "#9ca3af" },
-  "Severe": { tier: "Uncommon", color: "#22c55e" },
-  "Critical": { tier: "Epic", color: "#a855f7" },
-  "Terminal": { tier: "Legendary", color: "#06b6d4" },
-  "Beyond Repair": { tier: "Rare", color: "#3b82f6" },
-  "Pokemon Evolution Stage": { tier: "Rare", color: "#3b82f6" },
-  "Third Eye Bleeding": { tier: "Mythic", color: "#ef4444" },
-  "Beyond Cosmic Comprehension": { tier: "Mythic+", color: "#ec4899" },
-  "Reality Collapse": { tier: "God Tier", color: "#fbbf24" },
+// ─── POINT SYSTEM ────────────────────────────────────────────
+// Rarity is computed from ALL traits. Rarer traits = more points.
+
+export const mentalStatePoints: Record<string, number> = {
+  "Basic Trading FOMO": 1,
+  "Standard Portfolio Depression": 1,
+  "Normal Degen Brain": 1,
+  "Advanced Hopium Addiction": 2,
+  "Enhanced HODL Psychosis": 2,
+  "Chronic Refresh Syndrome": 2,
+  "Elevated Buy High Disorder": 2,
+  "Multi-Personality Order Book": 3,
+  "Leverage Madness": 3,
+  "Chronic Green Candle Fever": 3,
+  "Intense Fibonacci Obsession": 4,
+  "Ultimate Trading God Complex": 5,
+  "Enlightened Trading Monk": 5,
+  "Transcendent Chart Being": 5,
+};
+
+export const intensityPoints: Record<string, number> = {
+  "Mildly": 1,
+  "Severe": 2,
+  "Beyond Repair": 3,
+  "Pokemon Evolution Stage": 3,
+  "Critical": 4,
+  "Terminal": 5,
+  "Third Eye Bleeding": 6,
+  "Beyond Cosmic Comprehension": 7,
+  "Reality Collapse": 8,
+};
+
+export const durationPoints: Record<string, number> = {
+  "Until Pizza Arrives": 1,
+  "Until Girlfriend Becomes Real": 2,
+  "Until Mom Stops Being Disappointed": 3,
+  "Until Student Loans Disappear": 4,
+  "Until Heat Death of Universe": 5,
+};
+
+export const triggerPoints: Record<string, number> = {
+  "Beer Foam Chart Patterns": 1,
+  "Rain Makes Wife Leave Again": 1,
+  "Reddit FUD": 2,
+  "Porn": 2,
+  "Microwave Beep": 3,
+  "Cat Walking On Keyboard Buy": 3,
+  "Boss Eye Contact": 4,
+};
+
+export const SUPERPOWER_BONUS = 5;
+
+export function getComferPoints(c: Comfer): number {
+  let pts = 0;
+  pts += mentalStatePoints[c.mentalState] || 0;
+  pts += intensityPoints[c.intensity] || 0;
+  pts += durationPoints[c.duration] || 0;
+  pts += triggerPoints[c.trigger] || 0;
+  if (c.superpower) pts += SUPERPOWER_BONUS;
+  return pts;
+}
+
+export const RARITY_THRESHOLDS: { min: number; tier: string; color: string }[] = [
+  { min: 18, tier: "God Tier", color: "#fbbf24" },
+  { min: 16, tier: "Mythic+", color: "#ec4899" },
+  { min: 13, tier: "Mythic", color: "#ef4444" },
+  { min: 11, tier: "Legendary", color: "#06b6d4" },
+  { min: 9, tier: "Epic", color: "#a855f7" },
+  { min: 7, tier: "Rare", color: "#3b82f6" },
+  { min: 5, tier: "Uncommon", color: "#22c55e" },
+  { min: 0, tier: "Common", color: "#9ca3af" },
+];
+
+export function getComferRarity(c: Comfer): { tier: string; color: string; points: number } {
+  const pts = getComferPoints(c);
+  const entry = RARITY_THRESHOLDS.find((t) => pts >= t.min) || RARITY_THRESHOLDS[RARITY_THRESHOLDS.length - 1];
+  return { tier: entry.tier, color: entry.color, points: pts };
+}
+
+// Legacy: intensity display levels (for intensity bar visualization only, NOT rarity)
+export const intensityLevels: Record<string, number> = {
+  "Mildly": 1,
+  "Severe": 2,
+  "Beyond Repair": 3,
+  "Pokemon Evolution Stage": 3,
+  "Critical": 4,
+  "Terminal": 5,
+  "Third Eye Bleeding": 6,
+  "Beyond Cosmic Comprehension": 7,
+  "Reality Collapse": 8,
 };
 
 export const superpowerEffects: Record<string, string> = {
