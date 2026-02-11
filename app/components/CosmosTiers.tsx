@@ -23,7 +23,7 @@ const tiers = [
     color: "#22c55e",
     tagline: "First upgrades. Life gets easier.",
     items: ["Coffee Cup", "Proper Meal", "Pizza", "Phone", "Headphones", "Cab Ride", "Decent Apartment", "TV", "Comfortable Bed", "Air Conditioning"],
-    mentalStates: ["Advanced Hopium Addiction", "Enhanced HODL Psychosis", "Chronic Refresh Syndrome", "Elevated Buy High Disorder"],
+    mentalStates: ["Advanced Hopium Addiction", "Enhanced HODL Psychosis", "Chronic Refresh Syndrome"],
     footer: "You've made it past survival. You can breathe now.",
   },
   {
@@ -41,7 +41,7 @@ const tiers = [
     color: "#a855f7",
     tagline: "Fantasy objects. What you check your portfolio for.",
     items: ["Sports Car", "Penthouse", "Beach House", "Diamond Ring", "Diamonds", "Diamond Chain", "Gaming Room", "Home Theater", "Rooftop Pool", "Private Chef", "Emerging Art"],
-    mentalStates: ["Intense Fibonacci Obsession"],
+    mentalStates: ["Intense Fibonacci Obsession", "Enlightened Trading Monk"],
     footer: "This is the goal. The vision. The 3 AM portfolio check motivation.",
   },
   {
@@ -59,7 +59,7 @@ const tiers = [
     color: "#ef4444",
     tagline: "Abstract concepts. Status transcended.",
     items: ["Bitcoin (Full Coin)", "Ethereum Stack", "Blue Checkmark", "Verified Status", "Freedom", "Time", "Influence", "Reputation", "Network", "Legacy"],
-    mentalStates: ["Enlightened Trading Monk", "Transcendent Chart Being"],
+    mentalStates: ["Transcendent Chart Being"],
     footer: "The things that money can't directly buy. But somehow, you have them.",
   },
 ];
@@ -79,7 +79,7 @@ export default function CosmosTiers() {
           Cosmos of Cream
         </h2>
         <p className="text-[#555] mb-10 text-sm max-w-xl">
-          10,000+ hand-drawn items across 6 tiers. Your mental state determines what you manifest.
+          10,000+ hand-drawn items across 6 tiers. 13 mental states, 13 points — your mind determines what you manifest.
         </p>
 
         <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>

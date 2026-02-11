@@ -37,7 +37,6 @@ const MENTAL_STATE_BG: Record<string, string> = {
   "Multi-Personality Order Book": "Vintage",
   "Leverage Madness": "Inferno",
   "Ultimate Trading God Complex": "Gold",
-  "Elevated Buy High Disorder": "Original",
   "Chronic Green Candle Fever": "Neon",
   "Enlightened Trading Monk": "Gold",
   "Intense Fibonacci Obsession": "Cosmic",

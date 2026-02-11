@@ -30,8 +30,8 @@ export const comfers: Comfer[] = [
   { id: 18, name: "No Shower During Bullrun", image: "/artworks/18-no-shower-during-bullrun.jpg", mentalState: "Enhanced HODL Psychosis", intensity: "Third Eye Bleeding", duration: "Until Student Loans Disappear", trigger: "Beer Foam Chart Patterns" },
   { id: 19, name: "Few More Candles", image: "/artworks/19-few-more-candles.jpg", mentalState: "Normal Degen Brain", intensity: "Mildly", duration: "Until Pizza Arrives", trigger: "Reddit FUD", superpower: "Bought BTC 2008" },
   { id: 20, name: "One Trade Fix All", image: "/artworks/20-one-trade-fix-all.jpg", mentalState: "Basic Trading FOMO", intensity: "Terminal", duration: "Until Pizza Arrives", trigger: "Beer Foam Chart Patterns" },
-  { id: 21, name: "Fudding The Hype", image: "/artworks/21-fudding-the-hype.jpg", mentalState: "Elevated Buy High Disorder", intensity: "Third Eye Bleeding", duration: "Until Pizza Arrives", trigger: "Rain Makes Wife Leave Again" },
-  { id: 22, name: "Copium Overdose", image: "/artworks/22-copium-overdose.jpg", mentalState: "Elevated Buy High Disorder", intensity: "Terminal", duration: "Until Girlfriend Becomes Real", trigger: "Porn" },
+  { id: 21, name: "Fudding The Hype", image: "/artworks/21-fudding-the-hype.jpg", mentalState: "Basic Trading FOMO", intensity: "Third Eye Bleeding", duration: "Until Pizza Arrives", trigger: "Rain Makes Wife Leave Again" },
+  { id: 22, name: "Copium Overdose", image: "/artworks/22-copium-overdose.jpg", mentalState: "Basic Trading FOMO", intensity: "Terminal", duration: "Until Girlfriend Becomes Real", trigger: "Porn" },
   { id: 23, name: "Drained", image: "/artworks/23-drained.jpg", mentalState: "Enhanced HODL Psychosis", intensity: "Beyond Repair", duration: "Until Heat Death of Universe", trigger: "Rain Makes Wife Leave Again" },
   { id: 24, name: "Transaction Sent", image: "/artworks/24-transaction-sent.jpg", mentalState: "Basic Trading FOMO", intensity: "Pokemon Evolution Stage", duration: "Until Pizza Arrives", trigger: "Reddit FUD" },
   { id: 25, name: "Bought High Sold Low", image: "/artworks/25-bought-high-sold-low.jpg", mentalState: "Standard Portfolio Depression", intensity: "Critical", duration: "Until Mom Stops Being Disappointed", trigger: "Beer Foam Chart Patterns" },
@@ -43,7 +43,7 @@ export const comfers: Comfer[] = [
   { id: 31, name: "Compulsive Limit Orders", image: "/artworks/31-compulsive-limit-orders.jpg", mentalState: "Normal Degen Brain", intensity: "Terminal", duration: "Until Student Loans Disappear", trigger: "Rain Makes Wife Leave Again" },
   { id: 32, name: "Mirror Says Buy More", image: "/artworks/32-mirror-says-buy-more.jpg", mentalState: "Advanced Hopium Addiction", intensity: "Beyond Repair", duration: "Until Girlfriend Becomes Real", trigger: "Reddit FUD" },
   { id: 33, name: "Wallet Connect Error", image: "/artworks/33-wallet-connect-error.jpg", mentalState: "Chronic Refresh Syndrome", intensity: "Pokemon Evolution Stage", duration: "Until Heat Death of Universe", trigger: "Beer Foam Chart Patterns" },
-  { id: 34, name: "Right Click Saved Seedphrase", image: "/artworks/34-right-click-saved-seedphrase.jpg", mentalState: "Elevated Buy High Disorder", intensity: "Third Eye Bleeding", duration: "Until Pizza Arrives", trigger: "Rain Makes Wife Leave Again" },
+  { id: 34, name: "Right Click Saved Seedphrase", image: "/artworks/34-right-click-saved-seedphrase.jpg", mentalState: "Basic Trading FOMO", intensity: "Third Eye Bleeding", duration: "Until Pizza Arrives", trigger: "Rain Makes Wife Leave Again" },
   { id: 35, name: "Withdrawal Button Disappeared", image: "/artworks/35-withdrawal-button-disappeared.jpg", mentalState: "Enhanced HODL Psychosis", intensity: "Severe", duration: "Until Mom Stops Being Disappointed", trigger: "Porn" },
   { id: 36, name: "Reality Is FUD", image: "/artworks/36-reality-is-fud.jpg", mentalState: "Basic Trading FOMO", intensity: "Mildly", duration: "Until Student Loans Disappear", trigger: "Cat Walking On Keyboard Buy", superpower: "Bank Transfer" },
   { id: 37, name: "Liquidated", image: "/artworks/37-liquidated.jpg", mentalState: "Standard Portfolio Depression", intensity: "Mildly", duration: "Until Girlfriend Becomes Real", trigger: "Beer Foam Chart Patterns" },
@@ -56,7 +56,7 @@ export const comfers: Comfer[] = [
   { id: 44, name: "Dead Inside", image: "/artworks/44-dead-inside.jpg", mentalState: "Normal Degen Brain", intensity: "Terminal", duration: "Until Pizza Arrives", trigger: "Reddit FUD" },
   { id: 45, name: "Came For The Tech", image: "/artworks/45-came-for-the-tech.jpg", mentalState: "Advanced Hopium Addiction", intensity: "Third Eye Bleeding", duration: "Until Mom Stops Being Disappointed", trigger: "Beer Foam Chart Patterns" },
   { id: 46, name: "Life Savings Gambler", image: "/artworks/46-life-savings-gambler.jpg", mentalState: "Chronic Refresh Syndrome", intensity: "Severe", duration: "Until Student Loans Disappear", trigger: "Rain Makes Wife Leave Again" },
-  { id: 47, name: "Sleeps When Market Sleeps", image: "/artworks/47-sleeps-when-market-sleeps.jpg", mentalState: "Elevated Buy High Disorder", intensity: "Beyond Cosmic Comprehension", duration: "Until Heat Death of Universe", trigger: "Porn" },
+  { id: 47, name: "Sleeps When Market Sleeps", image: "/artworks/47-sleeps-when-market-sleeps.jpg", mentalState: "Basic Trading FOMO", intensity: "Beyond Cosmic Comprehension", duration: "Until Heat Death of Universe", trigger: "Porn" },
   { id: 48, name: "Deer Food Or Top Gainer", image: "/artworks/48-deer-food-or-top-gainer.jpg", mentalState: "Intense Fibonacci Obsession", intensity: "Critical", duration: "Until Heat Death of Universe", trigger: "Porn" },
   { id: 49, name: "Friends Remember Me", image: "/artworks/49-friends-remember-me.jpg", mentalState: "Basic Trading FOMO", intensity: "Terminal", duration: "Until Pizza Arrives", trigger: "Beer Foam Chart Patterns" },
   { id: 50, name: "Phone Hacked By Illuminati", image: "/artworks/50-phone-hacked-by-illuminati-dump-theorists.jpg", mentalState: "Standard Portfolio Depression", intensity: "Mildly", duration: "Until Mom Stops Being Disappointed", trigger: "Microwave Beep" },
@@ -69,7 +69,7 @@ export const comfers: Comfer[] = [
   { id: 57, name: "Only One More", image: "/artworks/57-only-one-more.jpg", mentalState: "Normal Degen Brain", intensity: "Critical", duration: "Until Girlfriend Becomes Real", trigger: "Beer Foam Chart Patterns" },
   { id: 58, name: "Moving Candle Anxiety", image: "/artworks/58-moving-candle-anxiety.jpg", mentalState: "Advanced Hopium Addiction", intensity: "Terminal", duration: "Until Heat Death of Universe", trigger: "Reddit FUD" },
   { id: 59, name: "Hopium Support Group Founder", image: "/artworks/59-hopium-support-group-founder.jpg", mentalState: "Chronic Green Candle Fever", intensity: "Beyond Repair", duration: "Until Pizza Arrives", trigger: "Rain Makes Wife Leave Again" },
-  { id: 60, name: "Delete App Install Again", image: "/artworks/60-delete-app-install-again.jpg", mentalState: "Elevated Buy High Disorder", intensity: "Pokemon Evolution Stage", duration: "Until Mom Stops Being Disappointed", trigger: "Microwave Beep" },
+  { id: 60, name: "Delete App Install Again", image: "/artworks/60-delete-app-install-again.jpg", mentalState: "Basic Trading FOMO", intensity: "Pokemon Evolution Stage", duration: "Until Mom Stops Being Disappointed", trigger: "Microwave Beep" },
   { id: 61, name: "Restaurant Bill Anxiety", image: "/artworks/61-restaurant-bill-anxiety.jpg", mentalState: "Enhanced HODL Psychosis", intensity: "Third Eye Bleeding", duration: "Until Student Loans Disappear", trigger: "Beer Foam Chart Patterns" },
   { id: 62, name: "DCA Bro", image: "/artworks/62-dca-bro.jpg", mentalState: "Multi-Personality Order Book", intensity: "Reality Collapse", duration: "Until Girlfriend Becomes Real", trigger: "Boss Eye Contact" },
   { id: 63, name: "No News From Devs", image: "/artworks/63-no-news-from-devs.jpg", mentalState: "Intense Fibonacci Obsession", intensity: "Mildly", duration: "Until Heat Death of Universe", trigger: "Cat Walking On Keyboard Buy" },
@@ -90,32 +90,38 @@ export const mentalStateCategories: Record<string, string> = {
   "Chronic Refresh Syndrome": "Watches & Jewelry",
   "Multi-Personality Order Book": "Fashion & Accessories",
   "Leverage Madness": "Experiences & High-Risk",
-  "Ultimate Trading God Complex": "God Tier & Meta Assets",
-  "Elevated Buy High Disorder": "Luxury & Status",
   "Chronic Green Candle Fever": "Rare Collectibles",
-  "Enlightened Trading Monk": "Transcendent Items",
   "Intense Fibonacci Obsession": "Mathematical Treasures",
+  "Ultimate Trading God Complex": "God Tier & Meta Assets",
+  "Enlightened Trading Monk": "Transcendent Items",
   "Transcendent Chart Being": "Cosmic Artifacts",
 };
 
 // ─── POINT SYSTEM ────────────────────────────────────────────
-// Rarity is computed from ALL traits. Rarer traits = more points.
+// 13 mental states × 1pt each = 13 total points.
+// Rarity comes from distribution: more states in lower tiers (common),
+// fewer in upper tiers (rare). Mental state → Cosmos tier mapping:
+//   Survival (Common):    Basic Trading FOMO, Normal Degen Brain, Standard Portfolio Depression
+//   Comfort (Uncommon):   Advanced Hopium Addiction, Enhanced HODL Psychosis, Chronic Refresh Syndrome
+//   Flex (Rare):          Multi-Personality Order Book, Leverage Madness, Chronic Green Candle Fever
+//   Dream (Epic):         Intense Fibonacci Obsession, Enlightened Trading Monk
+//   God (Legendary):      Ultimate Trading God Complex
+//   Meta (Mythic):        Transcendent Chart Being
 
 export const mentalStatePoints: Record<string, number> = {
   "Basic Trading FOMO": 1,
   "Standard Portfolio Depression": 1,
   "Normal Degen Brain": 1,
-  "Advanced Hopium Addiction": 2,
-  "Enhanced HODL Psychosis": 2,
-  "Chronic Refresh Syndrome": 2,
-  "Elevated Buy High Disorder": 2,
-  "Multi-Personality Order Book": 3,
-  "Leverage Madness": 3,
-  "Chronic Green Candle Fever": 3,
-  "Intense Fibonacci Obsession": 4,
-  "Ultimate Trading God Complex": 5,
-  "Enlightened Trading Monk": 5,
-  "Transcendent Chart Being": 5,
+  "Advanced Hopium Addiction": 1,
+  "Enhanced HODL Psychosis": 1,
+  "Chronic Refresh Syndrome": 1,
+  "Multi-Personality Order Book": 1,
+  "Leverage Madness": 1,
+  "Chronic Green Candle Fever": 1,
+  "Intense Fibonacci Obsession": 1,
+  "Enlightened Trading Monk": 1,
+  "Ultimate Trading God Complex": 1,
+  "Transcendent Chart Being": 1,
 };
 
 export const intensityPoints: Record<string, number> = {
