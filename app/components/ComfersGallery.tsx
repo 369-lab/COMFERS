@@ -71,8 +71,8 @@ export default function ComfersGallery() {
           ))}
         </div>
 
-        {/* Gallery Grid */}
-        <div className="grid grid-cols-6 sm:grid-cols-9 md:grid-cols-12 lg:grid-cols-16 gap-1.5 mb-8">
+        {/* Gallery Grid - Artwork Images */}
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-9 gap-3 mb-8">
           {filteredComfers.map((comfer) => {
             const intensity = intensityTiers[comfer.intensity];
             const isSelected = selectedComfer === comfer.id;
@@ -80,19 +80,32 @@ export default function ComfersGallery() {
               <button
                 key={comfer.id}
                 onClick={() => setSelectedComfer(isSelected ? null : comfer.id)}
-                className={`aspect-square rounded-md border text-xs font-mono font-bold transition-all duration-200 relative ${
+                className={`group relative aspect-square rounded-lg border overflow-hidden transition-all duration-200 ${
                   isSelected
-                    ? "border-[#00ff88] bg-[#00ff88]/10 scale-110 z-10"
-                    : "border-[#1a1a1a] bg-[#0a0a0a] hover:border-[#333] hover:bg-[#111]"
+                    ? "border-[#00ff88] ring-2 ring-[#00ff88]/50 scale-105 z-10"
+                    : "border-[#1a1a1a] hover:border-[#333] hover:scale-[1.02]"
                 }`}
-                style={{
-                  color: intensity?.color || "#666",
-                }}
-                title={`#${comfer.id} - ${comfer.mentalState}`}
+                title={`#${comfer.id} - ${comfer.name}`}
               >
-                {comfer.id}
+                <img
+                  src={comfer.image}
+                  alt={comfer.name}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+                {/* Overlay with ID */}
+                <div className={`absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent transition-opacity ${
+                  isSelected ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+                }`}>
+                  <div className="absolute bottom-0 left-0 right-0 p-2">
+                    <p className="text-[10px] font-mono font-bold" style={{ color: intensity?.color || "#666" }}>
+                      #{comfer.id}
+                    </p>
+                    <p className="text-[9px] text-white/80 truncate">{comfer.name}</p>
+                  </div>
+                </div>
                 {comfer.superpower && (
-                  <div className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-[#f59e0b]" />
+                  <div className="absolute top-1 right-1 w-2.5 h-2.5 rounded-full bg-[#f59e0b] ring-1 ring-black/50" />
                 )}
               </button>
             );
@@ -102,53 +115,70 @@ export default function ComfersGallery() {
         {/* Selected Comfer Detail */}
         {selected && (
           <div className="border border-[#00ff88]/30 rounded-lg p-6 md:p-8 bg-[#0a0f0a]/50 glow-box-green">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold">
-                <span className="text-[#00ff88]">COMFER #{selected.id}</span>
-              </h3>
-              {selectedIntensity && (
-                <span
-                  className="text-xs font-mono px-3 py-1 rounded-full border"
-                  style={{ color: selectedIntensity.color, borderColor: `${selectedIntensity.color}50` }}
-                >
-                  {selectedIntensity.tier}
-                </span>
-              )}
-            </div>
+            <div className="flex flex-col md:flex-row gap-8">
+              {/* Artwork */}
+              <div className="shrink-0">
+                <div className="w-full md:w-64 aspect-square rounded-lg overflow-hidden border border-[#00ff88]/20">
+                  <img
+                    src={selected.image}
+                    alt={selected.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
 
-            <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
-              <div>
-                <p className="text-[10px] font-mono text-[#444] tracking-wider mb-1">MENTAL STATE</p>
-                <p className="text-sm font-semibold text-[#e5e5e5]">{selected.mentalState}</p>
-                {selectedCategory && (
-                  <p className="text-xs text-[#00ff88] mt-1 font-mono">{selectedCategory}</p>
+              {/* Details */}
+              <div className="flex-1">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-xl font-bold">
+                    <span className="text-[#00ff88]">COMFER #{selected.id}</span>
+                  </h3>
+                  {selectedIntensity && (
+                    <span
+                      className="text-xs font-mono px-3 py-1 rounded-full border"
+                      style={{ color: selectedIntensity.color, borderColor: `${selectedIntensity.color}50` }}
+                    >
+                      {selectedIntensity.tier}
+                    </span>
+                  )}
+                </div>
+                <p className="text-lg font-semibold text-[#e5e5e5] mb-6">{selected.name}</p>
+
+                <div className="grid sm:grid-cols-2 gap-6">
+                  <div>
+                    <p className="text-[10px] font-mono text-[#444] tracking-wider mb-1">MENTAL STATE</p>
+                    <p className="text-sm font-semibold text-[#e5e5e5]">{selected.mentalState}</p>
+                    {selectedCategory && (
+                      <p className="text-xs text-[#00ff88] mt-1 font-mono">{selectedCategory}</p>
+                    )}
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-mono text-[#444] tracking-wider mb-1">INTENSITY</p>
+                    <p className="text-sm font-semibold" style={{ color: selectedIntensity?.color }}>
+                      {selected.intensity}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-mono text-[#444] tracking-wider mb-1">DURATION</p>
+                    <p className="text-sm text-[#888]">{selected.duration}</p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-mono text-[#444] tracking-wider mb-1">TRIGGER</p>
+                    <p className="text-sm text-[#888]">{selected.trigger}</p>
+                  </div>
+                </div>
+
+                {selected.superpower && (
+                  <div className="mt-6 pt-6 border-t border-[#1a1a1a]">
+                    <p className="text-[10px] font-mono text-[#f59e0b] tracking-wider mb-1">SUPERPOWER</p>
+                    <p className="text-sm font-bold superpower-badge">{selected.superpower}</p>
+                    <p className="text-xs text-[#888] mt-1">
+                      {superpowerEffects[selected.superpower]}
+                    </p>
+                  </div>
                 )}
               </div>
-              <div>
-                <p className="text-[10px] font-mono text-[#444] tracking-wider mb-1">INTENSITY</p>
-                <p className="text-sm font-semibold" style={{ color: selectedIntensity?.color }}>
-                  {selected.intensity}
-                </p>
-              </div>
-              <div>
-                <p className="text-[10px] font-mono text-[#444] tracking-wider mb-1">DURATION</p>
-                <p className="text-sm text-[#888]">{selected.duration}</p>
-              </div>
-              <div>
-                <p className="text-[10px] font-mono text-[#444] tracking-wider mb-1">TRIGGER</p>
-                <p className="text-sm text-[#888]">{selected.trigger}</p>
-              </div>
             </div>
-
-            {selected.superpower && (
-              <div className="mt-6 pt-6 border-t border-[#1a1a1a]">
-                <p className="text-[10px] font-mono text-[#f59e0b] tracking-wider mb-1">SUPERPOWER</p>
-                <p className="text-sm font-bold superpower-badge">{selected.superpower}</p>
-                <p className="text-xs text-[#888] mt-1">
-                  {superpowerEffects[selected.superpower]}
-                </p>
-              </div>
-            )}
           </div>
         )}
       </div>

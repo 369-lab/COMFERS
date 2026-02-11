@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "COMFERS — Test",
+  title: "COMFERS x Cosmos of Cream",
+  description: "69 AI-generated NFTs capturing the mental states of crypto traders. Your psychosis determines your prosperity.",
 };
 
 export default function RootLayout({
@@ -11,7 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body style={{ margin: 0, padding: 0 }}>
+      <body>
         {children}
       </body>
     </html>

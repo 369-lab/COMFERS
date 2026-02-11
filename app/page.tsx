@@ -1,18 +1,26 @@
+import Navigation from "./components/Navigation";
+import Hero from "./components/Hero";
+import About from "./components/About";
+import ComfersGallery from "./components/ComfersGallery";
+import TraitSystem from "./components/TraitSystem";
+import CosmosTiers from "./components/CosmosTiers";
+import Mechanics from "./components/Mechanics";
+import Roadmap from "./components/Roadmap";
+import Footer from "./components/Footer";
+
 export default function Home() {
   return (
-    <div
-      style={{
-        backgroundColor: "#000",
-        color: "#fff",
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        fontFamily: "monospace",
-        fontSize: "24px",
-      }}
-    >
-      COMFERS — deployment test
-    </div>
+    <main className="min-h-screen bg-[#050505] text-[#e5e5e5]">
+      <div className="noise-overlay" />
+      <Navigation />
+      <Hero />
+      <About />
+      <ComfersGallery />
+      <TraitSystem />
+      <CosmosTiers />
+      <Mechanics />
+      <Roadmap />
+      <Footer />
+    </main>
   );
 }
