@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 
@@ -166,10 +166,29 @@ const tiers = [
 
 export default function CosmosTiers() {
   const [openTier, setOpenTier] = useState<string | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const [mouse, setMouse] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const onMove = (e: MouseEvent) => {
+      const rect = el.getBoundingClientRect();
+      setMouse({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+    };
+    el.addEventListener("mousemove", onMove);
+    return () => el.removeEventListener("mousemove", onMove);
+  }, []);
 
   return (
-    <section id="cosmos" className="py-32 px-6">
-      <div className="max-w-6xl mx-auto">
+    <section ref={sectionRef} id="cosmos" className="py-32 px-6" style={{ position: "relative", overflow: "hidden" }}>
+      {/* Section flashlight */}
+      <div style={{
+        position: "absolute", inset: 0, pointerEvents: "none", zIndex: 1,
+        background: `radial-gradient(600px circle at ${mouse.x}px ${mouse.y}px, rgba(255,255,255,0.03) 0%, transparent 100%)`,
+      }} />
+
+      <div className="max-w-6xl mx-auto" style={{ position: "relative", zIndex: 2 }}>
         <div className="section-divider mb-20" />
 
         <p style={{ fontFamily: F.mono }} className="text-xs tracking-[0.3em] uppercase text-[#00ff88] mb-4">
@@ -186,7 +205,7 @@ export default function CosmosTiers() {
         <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
           {tiers.map((tier) => {
             const isOpen = openTier === tier.name;
-            const motifCategories = Object.entries(tier.motifs) as [string, string[]][];
+            const allMotifs = Object.values(tier.motifs).flat();
 
             return (
               <div key={tier.name} style={{
@@ -246,24 +265,16 @@ export default function CosmosTiers() {
                         transition={{ duration: 0.4, ease: [0.04, 0.62, 0.23, 0.98] }}
                       >
                         <div style={{ padding: "0 20px 20px" }}>
-                          {/* Motifs by category */}
-                          {motifCategories.map(([category, items]) => (
-                            <div key={category} style={{ marginBottom: "14px" }}>
-                              <div style={{
-                                fontFamily: F.mono, fontSize: "7px", fontWeight: 600,
-                                letterSpacing: "2px", color: "rgba(255,255,255,0.15)", marginBottom: "8px",
-                              }}>{category.toUpperCase()}</div>
-                              <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-                                {items.map((item) => (
-                                  <span key={item} className={tier.colorClass} style={{
-                                    fontFamily: F.sans, fontSize: "11px",
-                                    padding: "4px 10px", borderRadius: "20px",
-                                    borderWidth: "1px", borderStyle: "solid",
-                                  }}>{item}</span>
-                                ))}
-                              </div>
-                            </div>
-                          ))}
+                          {/* All motifs flat */}
+                          <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: "14px" }}>
+                            {allMotifs.map((item) => (
+                              <span key={item} className={tier.colorClass} style={{
+                                fontFamily: F.sans, fontSize: "11px",
+                                padding: "4px 10px", borderRadius: "20px",
+                                borderWidth: "1px", borderStyle: "solid",
+                              }}>{item}</span>
+                            ))}
+                          </div>
 
                           {/* Stats row */}
                           <div style={{
