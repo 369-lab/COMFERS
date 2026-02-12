@@ -4,12 +4,11 @@ import { useState, useEffect } from "react";
 
 const navLinks = [
   { href: "#about", label: "About" },
-  { href: "#comfers", label: "Comfers" },
+  { href: "#comfers", label: "Cards" },
   { href: "#traits", label: "Traits" },
   { href: "#cosmos", label: "Cosmos" },
   { href: "#mechanics", label: "Mechanics" },
   { href: "#roadmap", label: "Roadmap" },
-  { href: "#gallery", label: "Gallery" },
 ];
 
 export default function Navigation() {
@@ -30,9 +29,9 @@ export default function Navigation() {
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <a href="#" className="text-lg font-bold tracking-wider">
-          <span className="text-[#00ff88] glow-green">COMFERS</span>
+          <span className="text-[#00ff88] glow-green">FROG69</span>
           <span className="text-[#333] mx-2">&times;</span>
-          <span className="text-[#8b5cf6] glow-purple">COSMOS</span>
+          <span className="text-[#00FFFF] glow-cyan">CARDS</span>
         </a>
 
         {/* Desktop nav */}

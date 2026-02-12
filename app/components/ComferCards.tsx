@@ -1,17 +1,17 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { comfers, intensityLevels, superpowerEffects, getComferRarity, type Comfer } from "@/app/data/comfers";
+import { comfers, intensityPoints, superpowerEffects, getComferRarity, TIERS, type Comfer } from "@/app/data/comfers";
 
 const RARITY_COLORS: Record<string, { border: string; glow: string; label: string }> = {
-  Common:     { border: "#6B7280", glow: "rgba(107,114,128,0.15)", label: "#9CA3AF" },
-  Uncommon:   { border: "#22C55E", glow: "rgba(34,197,94,0.15)",  label: "#4ADE80" },
-  Rare:       { border: "#3B82F6", glow: "rgba(59,130,246,0.2)",  label: "#60A5FA" },
-  Epic:       { border: "#A855F7", glow: "rgba(168,85,247,0.2)",  label: "#C084FC" },
-  Legendary:  { border: "#06B6D4", glow: "rgba(6,182,212,0.25)",  label: "#22D3EE" },
-  Mythic:     { border: "#EF4444", glow: "rgba(239,68,68,0.25)",  label: "#F87171" },
-  "Mythic+":  { border: "#EC4899", glow: "rgba(236,72,153,0.25)", label: "#F472B6" },
-  "God Tier": { border: "#FBBF24", glow: "rgba(251,191,36,0.3)",  label: "#FDE68A" },
+  COMMON:      { border: "#808080", glow: "rgba(128,128,128,0.15)", label: "#9CA3AF" },
+  UNCOMMON:    { border: "#2E7D32", glow: "rgba(46,125,50,0.15)",  label: "#4CAF50" },
+  RARE:        { border: "#1565C0", glow: "rgba(21,101,192,0.2)",  label: "#42A5F5" },
+  EPIC:        { border: "#7B1FA2", glow: "rgba(123,31,162,0.2)",  label: "#AB47BC" },
+  LEGENDARY:   { border: "#FF6F00", glow: "rgba(255,111,0,0.25)",  label: "#FFA726" },
+  MYTHIC:      { border: "#C62828", glow: "rgba(198,40,40,0.25)",  label: "#EF5350" },
+  GOD_COMPLEX: { border: "#FFD700", glow: "rgba(255,215,0,0.3)",   label: "#FFE082" },
+  AGI:         { border: "#00FFFF", glow: "rgba(0,255,255,0.35)",   label: "#00FFFF" },
 };
 
 const BG_COLORS: Record<string, { bg: string; accent: string }> = {
@@ -22,31 +22,24 @@ const BG_COLORS: Record<string, { bg: string; accent: string }> = {
   Inferno:    { bg: "#140808", accent: "#1E0E0E" },
   Gold:       { bg: "#100E08", accent: "#1A1610" },
   Cosmic:     { bg: "#0C0810", accent: "#14101E" },
-  Pastel:     { bg: "#10101A", accent: "#181828" },
-  Monochrome: { bg: "#0A0A0A", accent: "#141414" },
   Original:   { bg: "#0C0C14", accent: "#1A1A28" },
 };
 
 const MENTAL_STATE_BG: Record<string, string> = {
-  "Basic Trading FOMO": "Midnight",
-  "Standard Portfolio Depression": "Frost",
-  "Normal Degen Brain": "Monochrome",
-  "Advanced Hopium Addiction": "Neon",
-  "Enhanced HODL Psychosis": "Cosmic",
-  "Chronic Refresh Syndrome": "Pastel",
-  "Multi-Personality Order Book": "Vintage",
+  "Trading FOMO": "Midnight",
+  "Degen Brain": "Frost",
+  "Hopium Addiction": "Neon",
+  "HODL Psychosis": "Cosmic",
   "Leverage Madness": "Inferno",
-  "Ultimate Trading God Complex": "Gold",
-  "Chronic Green Candle Fever": "Neon",
-  "Enlightened Trading Monk": "Gold",
-  "Intense Fibonacci Obsession": "Cosmic",
+  "Fibonacci Obsession": "Vintage",
+  "Trading God Complex": "Gold",
   "Transcendent Chart Being": "Inferno",
 };
 
 const INTENSITY_MAX = 8;
 
 function getIntensityLevel(intensity: string): number {
-  return intensityLevels[intensity] || 1;
+  return intensityPoints[intensity] || 1;
 }
 
 const F = {
@@ -69,13 +62,18 @@ function IntensityBar({ intensity, color }: { intensity: string; color: string }
   );
 }
 
+function tierDisplayName(tier: string): string {
+  if (tier === "GOD_COMPLEX") return "GOD COMPLEX";
+  return tier;
+}
+
 function CardPopup({ comfer, onClose }: { comfer: Comfer; onClose: () => void }) {
   const [mouse, setMouse] = useState({ x: 0.5, y: 0.5 });
   const [hovered, setHovered] = useState(false);
 
   const rarity = getComferRarity(comfer);
   const tier = rarity.tier;
-  const r = RARITY_COLORS[tier] || RARITY_COLORS.Common;
+  const r = RARITY_COLORS[tier] || RARITY_COLORS.COMMON;
   const bgKey = MENTAL_STATE_BG[comfer.mentalState] || "Original";
   const bg = BG_COLORS[bgKey];
 
@@ -92,6 +90,11 @@ function CardPopup({ comfer, onClose }: { comfer: Comfer; onClose: () => void })
   const tiltX = (mouse.y - 0.5) * (hovered ? 6 : 0);
   const tiltY = (mouse.x - 0.5) * (hovered ? -6 : 0);
 
+  const isAGI = tier === "AGI";
+  const borderBg = isAGI
+    ? `linear-gradient(135deg, #00FFFF 0%, #FF00FF 25%, #FFD700 50%, #00FF88 75%, #00FFFF 100%)`
+    : `linear-gradient(135deg, ${r.border}66 0%, ${r.border} 50%, ${r.border}66 100%)`;
+
   return (
     <div className="modal-backdrop" onClick={onClose}>
       <div
@@ -102,7 +105,7 @@ function CardPopup({ comfer, onClose }: { comfer: Comfer; onClose: () => void })
         style={{
           width: "min(340px, 90vw)", borderRadius: "12px",
           padding: "2px", cursor: "default",
-          background: `linear-gradient(135deg, ${r.border}66 0%, ${r.border} 50%, ${r.border}66 100%)`,
+          background: borderBg,
           transform: `perspective(800px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(${hovered ? 1.02 : 1})`,
           transition: hovered ? "transform 0.05s ease" : "transform 0.4s cubic-bezier(0.2,0.8,0.2,1)",
           boxShadow: `0 24px 64px rgba(0,0,0,0.6), 0 0 32px ${r.glow}`,
@@ -139,7 +142,7 @@ function CardPopup({ comfer, onClose }: { comfer: Comfer; onClose: () => void })
                 color: r.label, padding: "2px 8px", borderRadius: "2px",
                 background: `${r.border}10`, border: `1px solid ${r.border}25`,
               }}>
-                {tier.toUpperCase()}
+                {tierDisplayName(tier)}
               </span>
             </div>
           </div>
@@ -161,12 +164,12 @@ function CardPopup({ comfer, onClose }: { comfer: Comfer; onClose: () => void })
             }}>
               {comfer.name}
             </h3>
-            {comfer.superpower && (
+            {comfer.superpower && comfer.superpower !== "None" && (
               <span style={{
                 display: "inline-block", marginTop: "5px",
                 fontFamily: F.mono, fontSize: "7px", fontWeight: 600, letterSpacing: "1.5px",
                 padding: "2px 6px", borderRadius: "2px",
-                background: "rgba(6,182,212,0.06)", border: "1px solid rgba(6,182,212,0.15)", color: "#22D3EE",
+                background: "rgba(0,255,255,0.06)", border: "1px solid rgba(0,255,255,0.15)", color: "#00FFFF",
               }}>
                 {comfer.superpower.toUpperCase()}
               </span>
@@ -179,19 +182,28 @@ function CardPopup({ comfer, onClose }: { comfer: Comfer; onClose: () => void })
             background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.02)",
           }}>
             {[
-              { label: "MENTAL STATE", value: comfer.mentalState },
-              { label: "INTENSITY", value: null },
-              { label: "DURATION", value: comfer.duration },
-              { label: "TRIGGER", value: comfer.trigger },
+              { label: "MENTAL STATE", value: comfer.mentalState, sub: `${comfer.msPoints}PT` },
+              { label: "INTENSITY", value: null, sub: `${comfer.intPoints}PT` },
+              { label: "RANK", value: `#${comfer.rarityRank} / 69`, sub: null },
             ].map((stat, i) => (
               <div key={i} style={{
-                marginBottom: i < 3 ? "6px" : 0, paddingBottom: i < 3 ? "6px" : 0,
-                borderBottom: i < 3 ? "1px solid rgba(255,255,255,0.02)" : "none",
+                marginBottom: i < 2 ? "6px" : 0, paddingBottom: i < 2 ? "6px" : 0,
+                borderBottom: i < 2 ? "1px solid rgba(255,255,255,0.02)" : "none",
               }}>
                 <div style={{
-                  fontFamily: F.mono, fontSize: "7px", fontWeight: 600,
-                  letterSpacing: "2px", color: "rgba(255,255,255,0.2)", marginBottom: "2px",
-                }}>{stat.label}</div>
+                  display: "flex", justifyContent: "space-between", alignItems: "center",
+                }}>
+                  <div style={{
+                    fontFamily: F.mono, fontSize: "7px", fontWeight: 600,
+                    letterSpacing: "2px", color: "rgba(255,255,255,0.2)", marginBottom: "2px",
+                  }}>{stat.label}</div>
+                  {stat.sub && (
+                    <span style={{
+                      fontFamily: F.mono, fontSize: "7px", fontWeight: 600,
+                      color: "rgba(255,255,255,0.15)", letterSpacing: "1px",
+                    }}>{stat.sub}</span>
+                  )}
+                </div>
                 {stat.label === "INTENSITY" ? (
                   <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
                     <IntensityBar intensity={comfer.intensity} color={r.label} />
@@ -212,7 +224,7 @@ function CardPopup({ comfer, onClose }: { comfer: Comfer; onClose: () => void })
           </div>
 
           {/* Superpower effect */}
-          {comfer.superpower && (
+          {comfer.superpower && comfer.superpower !== "None" && (
             <div style={{ padding: "0 14px 6px" }}>
               <p style={{
                 fontFamily: F.sans, fontSize: "8px", lineHeight: 1.5,
@@ -229,14 +241,14 @@ function CardPopup({ comfer, onClose }: { comfer: Comfer; onClose: () => void })
             padding: "8px 14px 12px",
           }}>
             <span style={{ fontFamily: F.mono, fontSize: "6px", color: "rgba(255,255,255,0.08)", letterSpacing: "2px" }}>
-              COMFERS
+              FROG69
             </span>
             <div style={{
               width: "6px", height: "6px", borderRadius: "50%",
               background: r.border, opacity: 0.3,
             }} />
             <span style={{ fontFamily: F.mono, fontSize: "6px", color: "rgba(255,255,255,0.08)", letterSpacing: "2px" }}>
-              COSMOS OF CREAM
+              TRADING CARDS
             </span>
           </div>
         </div>
@@ -258,25 +270,23 @@ export default function ComferCards() {
 
   const filteredComfers = (() => {
     if (filter === "all") return comfers;
-    if (filter === "superpower") return comfers.filter((c) => c.superpower);
+    if (filter === "superpower") return comfers.filter((c) => c.superpower !== "None");
     const { trait, value } = filter;
-    if (trait === "rarity") return comfers.filter((c) => getComferRarity(c).tier === value);
+    if (trait === "rarity") return comfers.filter((c) => c.tier === value);
     if (trait === "mentalState") return comfers.filter((c) => c.mentalState === value);
     if (trait === "intensity") return comfers.filter((c) => c.intensity === value);
-    if (trait === "duration") return comfers.filter((c) => c.duration === value);
-    if (trait === "trigger") return comfers.filter((c) => c.trigger === value);
     return comfers;
   })();
 
-  const tierOrder = ["Common", "Uncommon", "Rare", "Epic", "Legendary", "Mythic", "Mythic+", "God Tier"];
+  const tierOrder = TIERS.map((t) => t.name);
   const uniqueValues = (key: keyof Comfer) => [...new Set(comfers.map((c) => c[key] as string))];
 
   const filterGroups: { label: string; id: string; options: { label: string; value: string; color?: string }[] }[] = [
     {
       label: "RARITY", id: "rarity",
       options: tierOrder
-        .filter((t) => comfers.some((c) => getComferRarity(c).tier === t))
-        .map((t) => ({ label: t, value: t, color: RARITY_COLORS[t]?.label })),
+        .filter((t) => comfers.some((c) => c.tier === t))
+        .map((t) => ({ label: tierDisplayName(t), value: t, color: RARITY_COLORS[t]?.label })),
     },
     {
       label: "MENTAL STATE", id: "mentalState",
@@ -285,14 +295,6 @@ export default function ComferCards() {
     {
       label: "INTENSITY", id: "intensity",
       options: uniqueValues("intensity").map((v) => ({ label: v, value: v })),
-    },
-    {
-      label: "DURATION", id: "duration",
-      options: uniqueValues("duration").map((v) => ({ label: v, value: v })),
-    },
-    {
-      label: "TRIGGER", id: "trigger",
-      options: uniqueValues("trigger").map((v) => ({ label: v, value: v })),
     },
   ];
 
@@ -308,7 +310,7 @@ export default function ComferCards() {
           Collection
         </p>
         <h2 className="text-3xl md:text-5xl font-bold mb-4 tracking-tight">
-          The 69 Comfers
+          The 69 FROG69 Cards
         </h2>
         <p className="text-[#555] mb-10 text-sm">
           Click to inspect.
@@ -334,13 +336,13 @@ export default function ComferCards() {
             style={{
               fontFamily: F.mono, fontSize: "9px", fontWeight: filter === "superpower" ? 600 : 400,
               letterSpacing: "1px", padding: "4px 10px", borderRadius: "3px",
-              border: `1px solid ${filter === "superpower" ? "#22D3EE" : "rgba(255,255,255,0.06)"}`,
-              background: filter === "superpower" ? "rgba(6,182,212,0.08)" : "transparent",
-              color: filter === "superpower" ? "#22D3EE" : "rgba(255,255,255,0.2)",
+              border: `1px solid ${filter === "superpower" ? "#00FFFF" : "rgba(255,255,255,0.06)"}`,
+              background: filter === "superpower" ? "rgba(0,255,255,0.08)" : "transparent",
+              color: filter === "superpower" ? "#00FFFF" : "rgba(255,255,255,0.2)",
               cursor: "pointer", transition: "all 0.15s",
             }}
           >
-            SUPERPOWER ({comfers.filter((c) => c.superpower).length})
+            SUPERPOWER ({comfers.filter((c) => c.superpower !== "None").length})
           </button>
 
           {/* Trait filter dropdowns */}
@@ -394,7 +396,7 @@ export default function ComferCards() {
                       {opt.label}
                       <span style={{ float: "right", color: "rgba(255,255,255,0.15)" }}>
                         {comfers.filter((c) => {
-                          if (group.id === "rarity") return getComferRarity(c).tier === opt.value;
+                          if (group.id === "rarity") return c.tier === opt.value;
                           return c[group.id as keyof Comfer] === opt.value;
                         }).length}
                       </span>
@@ -422,9 +424,13 @@ export default function ComferCards() {
           {filteredComfers.map((comfer) => {
             const rarity = getComferRarity(comfer);
             const tier = rarity.tier;
-            const r = RARITY_COLORS[tier] || RARITY_COLORS.Common;
+            const r = RARITY_COLORS[tier] || RARITY_COLORS.COMMON;
             const bgKey = MENTAL_STATE_BG[comfer.mentalState] || "Original";
             const bg = BG_COLORS[bgKey];
+            const isAGI = tier === "AGI";
+            const gridBorderBg = isAGI
+              ? `linear-gradient(135deg, #00FFFF50 0%, #FF00FF90 25%, #FFD70090 50%, #00FF8890 75%, #00FFFF50 100%)`
+              : `linear-gradient(135deg, ${r.border}50 0%, ${r.border}90 50%, ${r.border}50 100%)`;
             return (
               <button
                 key={comfer.id}
@@ -433,7 +439,7 @@ export default function ComferCards() {
                 style={{
                   borderRadius: "8px", overflow: "hidden",
                   padding: "1.5px",
-                  background: `linear-gradient(135deg, ${r.border}50 0%, ${r.border}90 50%, ${r.border}50 100%)`,
+                  background: gridBorderBg,
                   cursor: "pointer",
                   transition: "all 0.25s cubic-bezier(0.2,0.8,0.2,1)",
                   textAlign: "left",
@@ -468,7 +474,7 @@ export default function ComferCards() {
                       color: r.label, padding: "1px 5px", borderRadius: "2px",
                       background: `${r.border}10`, border: `1px solid ${r.border}20`,
                     }}>
-                      {tier.toUpperCase()}
+                      {tierDisplayName(tier)}
                     </span>
                   </div>
 
@@ -505,10 +511,10 @@ export default function ComferCards() {
                           ? comfer.mentalState.substring(0, 18) + "..."
                           : comfer.mentalState}
                       </span>
-                      {comfer.superpower && (
+                      {comfer.superpower !== "None" && (
                         <div style={{
                           width: "5px", height: "5px", borderRadius: "50%",
-                          background: "#22D3EE", opacity: 0.7,
+                          background: "#00FFFF", opacity: 0.7,
                         }} />
                       )}
                     </div>

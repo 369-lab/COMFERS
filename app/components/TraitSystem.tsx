@@ -4,11 +4,8 @@ import { useState } from "react";
 import {
   mentalStatePoints,
   intensityPoints,
-  durationPoints,
-  triggerPoints,
-  SUPERPOWER_BONUS,
-  RARITY_THRESHOLDS,
   superpowerEffects,
+  TIERS,
 } from "@/app/data/comfers";
 
 const F = {
@@ -17,32 +14,35 @@ const F = {
 };
 
 const RARITY_COLORS: Record<string, { border: string; label: string }> = {
-  Common:     { border: "#6B7280", label: "#9CA3AF" },
-  Uncommon:   { border: "#22C55E", label: "#4ADE80" },
-  Rare:       { border: "#3B82F6", label: "#60A5FA" },
-  Epic:       { border: "#A855F7", label: "#C084FC" },
-  Legendary:  { border: "#06B6D4", label: "#22D3EE" },
-  Mythic:     { border: "#EF4444", label: "#F87171" },
-  "Mythic+":  { border: "#EC4899", label: "#F472B6" },
-  "God Tier": { border: "#FBBF24", label: "#FDE68A" },
+  COMMON:      { border: "#808080", label: "#9CA3AF" },
+  UNCOMMON:    { border: "#2E7D32", label: "#4CAF50" },
+  RARE:        { border: "#1565C0", label: "#42A5F5" },
+  EPIC:        { border: "#7B1FA2", label: "#AB47BC" },
+  LEGENDARY:   { border: "#FF6F00", label: "#FFA726" },
+  MYTHIC:      { border: "#C62828", label: "#EF5350" },
+  GOD_COMPLEX: { border: "#FFD700", label: "#FFE082" },
+  AGI:         { border: "#00FFFF", label: "#00FFFF" },
 };
 
 const PANEL_BORDER = "#555";
 const PANEL_BG = "#0A0A0C";
 
-/* ─── Collapsible card panel ─── */
+function tierDisplayName(tier: string): string {
+  if (tier === "GOD_COMPLEX") return "GOD COMPLEX";
+  return tier;
+}
+
+/* --- Collapsible card panel --- */
 function TraitPanel({
   num,
   title,
   subtitle,
-  flavorNote,
   defaultOpen = false,
   children,
 }: {
   num: string;
   title: string;
   subtitle: string;
-  flavorNote?: string;
   defaultOpen?: boolean;
   children: React.ReactNode;
 }) {
@@ -76,12 +76,6 @@ function TraitPanel({
                 fontFamily: F.sans, fontSize: "16px", fontWeight: 700,
                 color: "rgba(255,255,255,0.88)",
               }}>{title}</span>
-              {flavorNote && (
-                <span style={{
-                  fontFamily: F.mono, fontSize: "7px",
-                  color: "rgba(255,255,255,0.15)", letterSpacing: "1px",
-                }}>FLAVOR</span>
-              )}
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
               <span style={{
@@ -106,18 +100,6 @@ function TraitPanel({
           }}>
             <div style={{ padding: "0 20px 20px" }}>
               {children}
-
-              {flavorNote && (
-                <div style={{
-                  marginTop: "12px", padding: "8px 10px", borderRadius: "4px",
-                  background: "rgba(255,255,255,0.015)", border: "1px solid rgba(255,255,255,0.03)",
-                }}>
-                  <p style={{
-                    fontFamily: F.mono, fontSize: "8px", color: "rgba(255,255,255,0.18)",
-                    letterSpacing: "0.5px", lineHeight: 1.6, margin: 0,
-                  }}>{flavorNote}</p>
-                </div>
-              )}
             </div>
           </div>
         </div>
@@ -126,7 +108,7 @@ function TraitPanel({
   );
 }
 
-/* ─── Stats row container ─── */
+/* --- Stats row container --- */
 function StatsBox({ children }: { children: React.ReactNode }) {
   return (
     <div style={{
@@ -157,11 +139,9 @@ function StatsRow({
 }
 
 export default function TraitSystem() {
-  const mentalStates = Object.entries(mentalStatePoints).sort((a, b) => a[1] - b[1]);
-  const intensities = Object.entries(intensityPoints).sort((a, b) => a[1] - b[1]);
-  const durations = Object.entries(durationPoints).sort((a, b) => a[1] - b[1]);
-  const triggers = Object.entries(triggerPoints).sort((a, b) => a[1] - b[1]);
-  const superpowers = Object.entries(superpowerEffects);
+  const mentalStatesArr = Object.entries(mentalStatePoints).sort((a, b) => a[1] - b[1]);
+  const intensitiesArr = Object.entries(intensityPoints).sort((a, b) => a[1] - b[1]);
+  const superpowersArr = Object.entries(superpowerEffects);
 
   const maxIntensity = Math.max(...Object.values(intensityPoints));
 
@@ -177,17 +157,17 @@ export default function TraitSystem() {
           Traits & Rarity
         </h2>
         <p className="text-[#555] mb-6 text-sm max-w-xl">
-          Every Comfer has 5 traits. Each trait earns points based on scarcity. Total points determine rarity.
+          Every FROG69 card has a mental state, intensity, and optional superpower. Base score = mental state points + intensity points. Superpowers boost your tier.
         </p>
 
-        {/* ─── RARITY SCALE ─── */}
+        {/* --- RARITY TIERS --- */}
         <div style={{
           display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: "32px",
         }}>
-          {RARITY_THRESHOLDS.slice().reverse().map((t) => {
-            const r = RARITY_COLORS[t.tier];
+          {TIERS.slice().reverse().map((t) => {
+            const r = RARITY_COLORS[t.name];
             return (
-              <div key={t.tier} style={{
+              <div key={t.name} style={{
                 display: "flex", alignItems: "center", gap: "6px",
                 padding: "4px 10px", borderRadius: "4px",
                 background: `${r.border}08`, border: `1px solid ${r.border}18`,
@@ -195,21 +175,21 @@ export default function TraitSystem() {
                 <span style={{
                   fontFamily: F.mono, fontSize: "8px", fontWeight: 600,
                   color: r.label, letterSpacing: "1.5px",
-                }}>{t.tier.toUpperCase()}</span>
+                }}>{tierDisplayName(t.name)}</span>
                 <span style={{
                   fontFamily: F.mono, fontSize: "7px",
                   color: "rgba(255,255,255,0.15)",
-                }}>{t.min}+</span>
+                }}>{t.count}x</span>
               </div>
             );
           })}
         </div>
 
-        {/* ─── TRAIT 01: Mental State ─── */}
-        <TraitPanel num="01" title="Mental State" subtitle="WHAT YOU MANIFEST">
+        {/* --- TRAIT 01: Mental State --- */}
+        <TraitPanel num="01" title="Mental State" subtitle="1-8 POINTS">
           <StatsBox>
-            {mentalStates.map(([name, pts], i) => (
-              <StatsRow key={name} isLast={i === mentalStates.length - 1}>
+            {mentalStatesArr.map(([name, pts], i) => (
+              <StatsRow key={name} isLast={i === mentalStatesArr.length - 1}>
                 <span style={{
                   fontFamily: F.sans, fontSize: "12px", fontWeight: 500,
                   color: "rgba(255,255,255,0.6)",
@@ -223,11 +203,11 @@ export default function TraitSystem() {
           </StatsBox>
         </TraitPanel>
 
-        {/* ─── TRAIT 02: Intensity ─── */}
-        <TraitPanel num="02" title="Intensity" subtitle="HOW HARD IT HITS">
+        {/* --- TRAIT 02: Intensity --- */}
+        <TraitPanel num="02" title="Intensity" subtitle="1-8 POINTS">
           <StatsBox>
-            {intensities.map(([name, pts], i) => (
-              <StatsRow key={name} isLast={i === intensities.length - 1}>
+            {intensitiesArr.map(([name, pts], i) => (
+              <StatsRow key={name} isLast={i === intensitiesArr.length - 1}>
                 <div style={{ display: "flex", alignItems: "center", gap: "12px", flex: 1 }}>
                   <div style={{ display: "flex", gap: "2px", alignItems: "center", flexShrink: 0 }}>
                     {Array.from({ length: maxIntensity }).map((_, j) => (
@@ -252,63 +232,11 @@ export default function TraitSystem() {
           </StatsBox>
         </TraitPanel>
 
-        {/* ─── TRAIT 03: Duration ─── */}
-        <TraitPanel
-          num="03" title="Duration" subtitle="HOW LONG IT LASTS"
-          flavorNote="Flavor trait — defines character personality, not mechanics."
-        >
+        {/* --- TRAIT 03: Superpower --- */}
+        <TraitPanel num="03" title="Superpower" subtitle="TIER BOOST">
           <StatsBox>
-            {durations.map(([name, pts], i) => (
-              <StatsRow key={name} isLast={i === durations.length - 1}>
-                <span style={{
-                  fontFamily: F.sans, fontSize: "12px", fontWeight: 500,
-                  color: "rgba(255,255,255,0.5)",
-                }}>{name}</span>
-                <span style={{
-                  fontFamily: F.mono, fontSize: "9px", fontWeight: 600,
-                  color: "rgba(255,255,255,0.25)", letterSpacing: "1px",
-                }}>{pts}PT</span>
-              </StatsRow>
-            ))}
-          </StatsBox>
-        </TraitPanel>
-
-        {/* ─── TRAIT 04: Trigger ─── */}
-        <TraitPanel
-          num="04" title="Trigger" subtitle="WHAT SETS IT OFF"
-          flavorNote="Flavor trait — defines character personality, not mechanics."
-        >
-          <StatsBox>
-            {triggers.map(([name, pts], i) => (
-              <StatsRow key={name} isLast={i === triggers.length - 1}>
-                <span style={{
-                  fontFamily: F.sans, fontSize: "12px", fontWeight: 500,
-                  color: "rgba(255,255,255,0.5)",
-                }}>{name}</span>
-                <span style={{
-                  fontFamily: F.mono, fontSize: "9px", fontWeight: 600,
-                  color: "rgba(255,255,255,0.25)", letterSpacing: "1px",
-                }}>{pts}PT</span>
-              </StatsRow>
-            ))}
-          </StatsBox>
-        </TraitPanel>
-
-        {/* ─── TRAIT 05: Superpower ─── */}
-        <TraitPanel num="05" title="Superpower" subtitle="RARE">
-          <StatsBox>
-            <StatsRow isLast={false}>
-              <span style={{
-                fontFamily: F.mono, fontSize: "9px", fontWeight: 600,
-                color: "rgba(255,255,255,0.35)", letterSpacing: "1px",
-              }}>BONUS</span>
-              <span style={{
-                fontFamily: F.mono, fontSize: "9px", fontWeight: 600,
-                color: "rgba(255,255,255,0.35)", letterSpacing: "1px",
-              }}>+{SUPERPOWER_BONUS}PT</span>
-            </StatsRow>
-            {superpowers.map(([name, effect], i) => (
-              <StatsRow key={name} isLast={i === superpowers.length - 1}>
+            {superpowersArr.map(([name, effect], i) => (
+              <StatsRow key={name} isLast={i === superpowersArr.length - 1}>
                 <span style={{
                   fontFamily: F.sans, fontSize: "12px", fontWeight: 600,
                   color: "rgba(255,255,255,0.6)",

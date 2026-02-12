@@ -9,22 +9,23 @@ export default function About() {
         </p>
 
         <h2 className="text-3xl md:text-5xl font-bold mb-12 tracking-tight">
-          We don&apos;t manifest abundance.
+          69 unique trading cards.
           <br />
-          <span className="text-[#8b5cf6]">We manifest psychosis.</span>
+          <span className="text-[#00FFFF]">Crypto-degenerate frogs.</span>
         </h2>
 
         <div className="grid md:grid-cols-2 gap-12 text-[#888] leading-relaxed">
           <div>
             <p>
-              Comfers are <span className="text-[#00ff88]">generators</span>.
-              69 NFTs. Each one continuously manifests items from the Cosmos of Cream.
+              FROG69 cards are <span className="text-[#00ff88]">trading cards</span> featuring
+              crypto-degenerate frogs with varying mental states and intensities.
+              Each card is unique. Total supply: 69.
             </p>
           </div>
           <div>
             <p>
-              <span className="text-[#8b5cf6]">Cosmos of Cream</span>: 10,000+ hand-drawn items.
-              Every object of human desire. No AI. No templates.
+              <span className="text-[#00FFFF]">8 rarity tiers</span> from Common to AGI.
+              Mental state + intensity = base score. Superpowers boost your tier even higher.
             </p>
           </div>
         </div>
@@ -32,32 +33,32 @@ export default function About() {
         {/* What they are / aren't */}
         <div className="grid md:grid-cols-2 gap-8 mt-20">
           <div className="border border-[#1a2a1a] rounded-lg p-8 bg-[#0a0f0a]/50">
-            <h3 className="text-[#00ff88] font-mono text-sm tracking-wider mb-6">WHAT COMFERS ARE</h3>
+            <h3 className="text-[#00ff88] font-mono text-sm tracking-wider mb-6">WHAT FROG69 IS</h3>
             <ul className="space-y-3 text-sm text-[#888]">
               <li className="flex items-start gap-3">
                 <span className="text-[#00ff88] mt-0.5">+</span>
-                Permanent item generators
+                69 unique crypto-frog trading cards
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-[#00ff88] mt-0.5">+</span>
-                69 unique characters
+                8 rarity tiers with deterministic scoring
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-[#00ff88] mt-0.5">+</span>
-                System-driven mechanics
+                Superpowers that boost tier placement
               </li>
             </ul>
           </div>
           <div className="border border-[#2a1a1a] rounded-lg p-8 bg-[#0f0a0a]/50">
-            <h3 className="text-[#ef4444] font-mono text-sm tracking-wider mb-6">WHAT COMFERS ARE NOT</h3>
+            <h3 className="text-[#ef4444] font-mono text-sm tracking-wider mb-6">WHAT FROG69 IS NOT</h3>
             <ul className="space-y-3 text-sm text-[#888]">
               <li className="flex items-start gap-3">
                 <span className="text-[#ef4444] mt-0.5">&minus;</span>
-                An access pass
+                Random or luck-based
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-[#ef4444] mt-0.5">&minus;</span>
-                A derivative without its own IP
+                A derivative without its own identity
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-[#ef4444] mt-0.5">&minus;</span>

@@ -11,52 +11,52 @@ const tiers = [
   {
     name: "SURVIVAL",
     tier: "Common",
-    color: "#9ca3af",
+    color: "#808080",
     tagline: "What keeps you alive.",
     items: ["Ramen Bowl", "Instant Coffee", "Water Bottle", "Basic Phone", "Cheap Laptop", "Bus Ticket", "Subway Card", "Bread Loaf", "Tap Water", "Flip Phone"],
-    mentalStates: ["Basic Trading FOMO", "Standard Portfolio Depression", "Normal Degen Brain"],
+    mentalStates: ["Trading FOMO", "Degen Brain"],
     footer: "This is the foundation. The baseline. The reminder that we all start here.",
   },
   {
     name: "COMFORT",
     tier: "Uncommon",
-    color: "#22c55e",
+    color: "#2E7D32",
     tagline: "First upgrades. Life gets easier.",
     items: ["Coffee Cup", "Proper Meal", "Pizza", "Phone", "Headphones", "Cab Ride", "Decent Apartment", "TV", "Comfortable Bed", "Air Conditioning"],
-    mentalStates: ["Advanced Hopium Addiction", "Enhanced HODL Psychosis", "Chronic Refresh Syndrome"],
+    mentalStates: ["Hopium Addiction", "HODL Psychosis"],
     footer: "You've made it past survival. You can breathe now.",
   },
   {
     name: "FLEX",
     tier: "Rare",
-    color: "#3b82f6",
+    color: "#1565C0",
     tagline: "Status signals. People notice.",
     items: ["Sneaker", "Hoodie", "Designer Bag", "Server Rack", "High-End Monitor", "Family Van", "Watch", "HiFi Equipment", "Standing Desk", "Gym Membership"],
-    mentalStates: ["Multi-Personality Order Book", "Leverage Madness", "Chronic Green Candle Fever"],
+    mentalStates: ["Leverage Madness"],
     footer: "This is where you start signaling. This is where you start flexing.",
   },
   {
     name: "DREAM",
     tier: "Epic",
-    color: "#a855f7",
+    color: "#7B1FA2",
     tagline: "Fantasy objects. What you check your portfolio for.",
     items: ["Sports Car", "Penthouse", "Beach House", "Diamond Ring", "Diamonds", "Diamond Chain", "Gaming Room", "Home Theater", "Rooftop Pool", "Private Chef", "Emerging Art"],
-    mentalStates: ["Intense Fibonacci Obsession", "Enlightened Trading Monk"],
+    mentalStates: ["Fibonacci Obsession"],
     footer: "This is the goal. The vision. The 3 AM portfolio check motivation.",
   },
   {
     name: "GOD",
     tier: "Legendary",
-    color: "#06b6d4",
+    color: "#FF6F00",
     tagline: "Beyond money. Pure excess.",
     items: ["Private Jet", "100ft Yacht", "Private Island", "Mountain Ownership", "Spaceship", "Satellite", "Mega Mansion", "Art Collection", "River", "Wine Cellar"],
-    mentalStates: ["Ultimate Trading God Complex"],
+    mentalStates: ["Trading God Complex"],
     footer: "Money becomes irrelevant. Power becomes default.",
   },
   {
     name: "META",
-    tier: "Mythic",
-    color: "#ef4444",
+    tier: "Mythic+",
+    color: "#C62828",
     tagline: "Abstract concepts. Status transcended.",
     items: ["Bitcoin (Full Coin)", "Ethereum Stack", "Blue Checkmark", "Verified Status", "Freedom", "Time", "Influence", "Reputation", "Network", "Legacy"],
     mentalStates: ["Transcendent Chart Being"],
@@ -79,7 +79,7 @@ export default function CosmosTiers() {
           Cosmos of Cream
         </h2>
         <p className="text-[#555] mb-10 text-sm max-w-xl">
-          10,000+ hand-drawn items across 6 tiers. 13 mental states, 13 points — your mind determines what you manifest.
+          10,000+ hand-drawn items across 6 tiers. 8 mental states determine what you manifest.
         </p>
 
         <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
