@@ -157,7 +157,7 @@ export default function TraitSystem() {
           Traits & Rarity
         </h2>
         <p className="text-[#555] mb-6 text-sm max-w-xl">
-          Every FROG69 card has a mental state, intensity, and optional superpower. Base score = mental state points + intensity points. Superpowers boost your tier.
+          Every Comfer has a mental state, intensity, and optional superpower. Base score = mental state points + intensity points. Superpowers boost your tier.
         </p>
 
         {/* --- RARITY TIERS --- */}

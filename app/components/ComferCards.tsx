@@ -241,14 +241,14 @@ function CardPopup({ comfer, onClose }: { comfer: Comfer; onClose: () => void })
             padding: "8px 14px 12px",
           }}>
             <span style={{ fontFamily: F.mono, fontSize: "6px", color: "rgba(255,255,255,0.08)", letterSpacing: "2px" }}>
-              FROG69
+              COMFERS
             </span>
             <div style={{
               width: "6px", height: "6px", borderRadius: "50%",
               background: r.border, opacity: 0.3,
             }} />
             <span style={{ fontFamily: F.mono, fontSize: "6px", color: "rgba(255,255,255,0.08)", letterSpacing: "2px" }}>
-              TRADING CARDS
+              COSMOS OF CREAM
             </span>
           </div>
         </div>
@@ -310,7 +310,7 @@ export default function ComferCards() {
           Collection
         </p>
         <h2 className="text-3xl md:text-5xl font-bold mb-4 tracking-tight">
-          The 69 FROG69 Cards
+          The 69 Comfers
         </h2>
         <p className="text-[#555] mb-10 text-sm">
           Click to inspect.

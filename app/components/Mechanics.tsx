@@ -19,7 +19,7 @@ export default function Mechanics() {
           {[
             { step: "01", title: "Mental State", desc: "1-8 points, selects category", color: "#00ff88" },
             { step: "02", title: "Intensity", desc: "1-8 points, sets power", color: "#8b5cf6" },
-            { step: "03", title: "Superpower", desc: "Boosts tier level", color: "#00FFFF" },
+            { step: "03", title: "Superpower", desc: "Boosts tier level", color: "#8b5cf6" },
             { step: "04", title: "Manifestation", desc: "Item drops", color: "#ec4899" },
           ].map((s, i) => (
             <div key={s.step} className="relative">
@@ -41,7 +41,7 @@ export default function Mechanics() {
 
         {/* Example */}
         <div className="border border-[#00ff88]/20 rounded-lg p-8 bg-[#0a0f0a]/50 mb-20">
-          <h3 className="text-sm font-mono text-[#00ff88] tracking-wider mb-6">EXAMPLE: FROG69 #1</h3>
+          <h3 className="text-sm font-mono text-[#00ff88] tracking-wider mb-6">EXAMPLE: COMFER #1</h3>
           <div className="grid sm:grid-cols-3 gap-6 mb-6">
             <div>
               <p className="text-xs text-[#555] mb-1">Mental State</p>
@@ -53,7 +53,7 @@ export default function Mechanics() {
             </div>
             <div>
               <p className="text-xs text-[#555] mb-1">Superpower</p>
-              <p className="font-semibold text-[#00FFFF]">Bought BTC 2008</p>
+              <p className="font-semibold text-[#8b5cf6]">Bought BTC 2008</p>
             </div>
           </div>
           <div className="border-t border-[#1a1a1a] pt-6">
@@ -63,7 +63,7 @@ export default function Mechanics() {
               <span className="text-[#555]">&rarr;</span>
               <span className="text-[#888]">Superpower: Instant AGI Tier</span>
               <span className="text-[#555]">&rarr;</span>
-              <span className="text-[#00FFFF] font-semibold">The only AGI card in existence</span>
+              <span className="text-[#8b5cf6] font-semibold">The only AGI card in existence</span>
             </div>
           </div>
         </div>

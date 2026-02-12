@@ -11,20 +11,20 @@ export default function About() {
         <h2 className="text-3xl md:text-5xl font-bold mb-12 tracking-tight">
           69 unique trading cards.
           <br />
-          <span className="text-[#00FFFF]">Crypto-degenerate frogs.</span>
+          <span className="text-[#8b5cf6]">Crypto-degenerate frogs.</span>
         </h2>
 
         <div className="grid md:grid-cols-2 gap-12 text-[#888] leading-relaxed">
           <div>
             <p>
-              FROG69 cards are <span className="text-[#00ff88]">trading cards</span> featuring
+              Comfers are <span className="text-[#00ff88]">trading cards</span> featuring
               crypto-degenerate frogs with varying mental states and intensities.
               Each card is unique. Total supply: 69.
             </p>
           </div>
           <div>
             <p>
-              <span className="text-[#00FFFF]">8 rarity tiers</span> from Common to AGI.
+              <span className="text-[#8b5cf6]">8 rarity tiers</span> from Common to AGI.
               Mental state + intensity = base score. Superpowers boost your tier even higher.
             </p>
           </div>
@@ -33,7 +33,7 @@ export default function About() {
         {/* What they are / aren't */}
         <div className="grid md:grid-cols-2 gap-8 mt-20">
           <div className="border border-[#1a2a1a] rounded-lg p-8 bg-[#0a0f0a]/50">
-            <h3 className="text-[#00ff88] font-mono text-sm tracking-wider mb-6">WHAT FROG69 IS</h3>
+            <h3 className="text-[#00ff88] font-mono text-sm tracking-wider mb-6">WHAT COMFERS IS</h3>
             <ul className="space-y-3 text-sm text-[#888]">
               <li className="flex items-start gap-3">
                 <span className="text-[#00ff88] mt-0.5">+</span>
@@ -50,7 +50,7 @@ export default function About() {
             </ul>
           </div>
           <div className="border border-[#2a1a1a] rounded-lg p-8 bg-[#0f0a0a]/50">
-            <h3 className="text-[#ef4444] font-mono text-sm tracking-wider mb-6">WHAT FROG69 IS NOT</h3>
+            <h3 className="text-[#ef4444] font-mono text-sm tracking-wider mb-6">WHAT COMFERS IS NOT</h3>
             <ul className="space-y-3 text-sm text-[#888]">
               <li className="flex items-start gap-3">
                 <span className="text-[#ef4444] mt-0.5">&minus;</span>

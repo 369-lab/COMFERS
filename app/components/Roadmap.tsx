@@ -2,7 +2,7 @@ export default function Roadmap() {
   const phases = [
     {
       phase: "Phase 1",
-      title: "FROG69 Mint",
+      title: "Comfers Mint",
       description: "69 trading cards hit the chain. Foundation set.",
       status: "upcoming",
     },
@@ -37,7 +37,7 @@ export default function Roadmap() {
       <div className="max-w-4xl mx-auto">
         <div className="section-divider mb-20" />
 
-        <p className="text-xs tracking-[0.3em] uppercase text-[#00FFFF] mb-6 font-mono">
+        <p className="text-xs tracking-[0.3em] uppercase text-[#8b5cf6] mb-6 font-mono">
           Vision
         </p>
         <h2 className="text-3xl md:text-5xl font-bold mb-20 tracking-tight">
@@ -46,7 +46,7 @@ export default function Roadmap() {
 
         <div className="relative">
           {/* Vertical line */}
-          <div className="absolute left-[15px] top-0 bottom-0 w-[1px] bg-gradient-to-b from-[#00ff88]/30 via-[#00FFFF]/30 to-transparent" />
+          <div className="absolute left-[15px] top-0 bottom-0 w-[1px] bg-gradient-to-b from-[#00ff88]/30 via-[#8b5cf6]/30 to-transparent" />
 
           <div className="space-y-12">
             {phases.map((phase, index) => (
@@ -55,7 +55,7 @@ export default function Roadmap() {
                 <div
                   className="absolute left-[10px] top-1.5 w-[11px] h-[11px] rounded-full border-2"
                   style={{
-                    borderColor: index < 2 ? "#00ff88" : "#00FFFF",
+                    borderColor: index < 2 ? "#00ff88" : "#8b5cf6",
                     backgroundColor: index === 0 ? "#00ff88" : "transparent",
                   }}
                 />
