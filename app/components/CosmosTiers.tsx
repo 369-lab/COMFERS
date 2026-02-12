@@ -175,38 +175,6 @@ export default function CosmosTiers() {
           17,536 hand-drawn items across 8 tiers. From survival basics to singular transcendence.
         </p>
 
-        {/* Distribution Table */}
-        <div style={{
-          marginBottom: "32px", borderRadius: "8px", overflow: "hidden",
-          border: "1px solid rgba(255,255,255,0.06)",
-        }}>
-          <div style={{
-            display: "grid", gridTemplateColumns: "60px 1fr 80px 80px 80px",
-            padding: "8px 16px", background: "rgba(255,255,255,0.02)",
-            borderBottom: "1px solid rgba(255,255,255,0.04)",
-          }}>
-            {["TIER", "NAME", "MOTIFS", "TOTAL", "RARITY"].map((h) => (
-              <span key={h} style={{
-                fontFamily: F.mono, fontSize: "7px", fontWeight: 600,
-                letterSpacing: "2px", color: "rgba(255,255,255,0.2)",
-              }}>{h}</span>
-            ))}
-          </div>
-          {tiers.map((t, i) => (
-            <div key={t.name} style={{
-              display: "grid", gridTemplateColumns: "60px 1fr 80px 80px 80px",
-              padding: "6px 16px", alignItems: "center",
-              borderBottom: i < tiers.length - 1 ? "1px solid rgba(255,255,255,0.02)" : "none",
-            }}>
-              <span style={{ fontFamily: F.mono, fontSize: "10px", color: t.color, fontWeight: 600 }}>{t.tier}</span>
-              <span style={{ fontFamily: F.sans, fontSize: "11px", color: "rgba(255,255,255,0.5)", fontWeight: 500 }}>{t.name}</span>
-              <span style={{ fontFamily: F.mono, fontSize: "10px", color: "rgba(255,255,255,0.25)" }}>{t.uniqueMotifs}</span>
-              <span style={{ fontFamily: F.mono, fontSize: "10px", color: "rgba(255,255,255,0.25)" }}>{t.totalCards.toLocaleString()}</span>
-              <span style={{ fontFamily: F.mono, fontSize: "10px", color: t.color, fontWeight: 500 }}>{t.rarityPct}</span>
-            </div>
-          ))}
-        </div>
-
         {/* Tier Accordions */}
         <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
           {tiers.map((tier) => {
@@ -229,6 +197,11 @@ export default function CosmosTiers() {
                     }}
                   >
                     <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
+                      <span style={{
+                        fontFamily: F.mono, fontSize: "10px", fontWeight: 600,
+                        color: tier.color, letterSpacing: "0.5px",
+                        minWidth: "48px",
+                      }}>{tier.rarityPct}</span>
                       <span style={{
                         fontFamily: F.mono, fontSize: "8px", fontWeight: 600,
                         color: tier.color, letterSpacing: "2px",
