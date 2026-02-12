@@ -105,14 +105,14 @@ body {
 }
 
 /* Tier badge colors */
-.tier-common { color: #808080; border-color: #808080; }
-.tier-uncommon { color: #2E7D32; border-color: #2E7D32; }
-.tier-rare { color: #1565C0; border-color: #1565C0; }
-.tier-epic { color: #7B1FA2; border-color: #7B1FA2; }
-.tier-legendary { color: #FF6F00; border-color: #FF6F00; }
-.tier-mythic { color: #C62828; border-color: #C62828; }
-.tier-god-complex { color: #FFD700; border-color: #FFD700; }
-.tier-agi { color: #00FFFF; border-color: #00FFFF; }
+.tier-survival { color: #808080; border-color: #808080; }
+.tier-comfort { color: #2E7D32; border-color: #2E7D32; }
+.tier-flex { color: #1565C0; border-color: #1565C0; }
+.tier-dream { color: #7B1FA2; border-color: #7B1FA2; }
+.tier-god { color: #FF6F00; border-color: #FF6F00; }
+.tier-meta { color: #C62828; border-color: #C62828; }
+.tier-ego { color: #FFD700; border-color: #FFD700; }
+.tier-singularity { color: #00FFFF; border-color: #00FFFF; }
 
 /* Card hover effect */
 .card-hover {
@@ -159,7 +159,7 @@ body {
   background-clip: text;
 }
 
-/* AGI rainbow glow */
+/* SINGULARITY rainbow glow */
 @keyframes rainbow-glow {
   0% { box-shadow: 0 0 20px rgba(0, 255, 255, 0.4), 0 0 60px rgba(0, 255, 255, 0.1); }
   25% { box-shadow: 0 0 20px rgba(255, 0, 255, 0.4), 0 0 60px rgba(255, 0, 255, 0.1); }
@@ -168,7 +168,7 @@ body {
   100% { box-shadow: 0 0 20px rgba(0, 255, 255, 0.4), 0 0 60px rgba(0, 255, 255, 0.1); }
 }
 
-/* GOD_COMPLEX pulsing glow */
+/* EGO pulsing glow */
 @keyframes gold-pulse {
   0%, 100% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.3), 0 0 45px rgba(255, 215, 0, 0.1); }
   50% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.5), 0 0 75px rgba(255, 215, 0, 0.15); }

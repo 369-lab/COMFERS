@@ -16,18 +16,17 @@ const F = {
 };
 
 const RARITY_COLORS: Record<string, { border: string; label: string }> = {
-  COMMON:      { border: "#808080", label: "#9CA3AF" },
-  UNCOMMON:    { border: "#2E7D32", label: "#4CAF50" },
-  RARE:        { border: "#1565C0", label: "#42A5F5" },
-  EPIC:        { border: "#7B1FA2", label: "#AB47BC" },
-  LEGENDARY:   { border: "#FF6F00", label: "#FFA726" },
-  MYTHIC:      { border: "#C62828", label: "#EF5350" },
-  GOD_COMPLEX: { border: "#FFD700", label: "#FFE082" },
-  AGI:         { border: "#00FFFF", label: "#00FFFF" },
+  SURVIVAL:    { border: "#808080", label: "#9CA3AF" },
+  COMFORT:     { border: "#2E7D32", label: "#4CAF50" },
+  FLEX:        { border: "#1565C0", label: "#42A5F5" },
+  DREAM:       { border: "#7B1FA2", label: "#AB47BC" },
+  GOD:         { border: "#FF6F00", label: "#FFA726" },
+  META:        { border: "#C62828", label: "#EF5350" },
+  EGO:         { border: "#FFD700", label: "#FFE082" },
+  SINGULARITY: { border: "#00FFFF", label: "#00FFFF" },
 };
 
 function tierDisplayName(tier: string): string {
-  if (tier === "GOD_COMPLEX") return "GOD COMPLEX";
   return tier;
 }
 
@@ -148,10 +147,6 @@ export default function TraitSystem() {
         <h2 className="text-3xl md:text-5xl font-bold mb-4 tracking-tight">
           Traits & Rarity
         </h2>
-        <p className="text-[#555] mb-6 text-sm max-w-xl">
-          Every Comfer has a mental state, intensity, and optional superpower. Base score = mental state points + intensity points. Superpowers boost your tier.
-        </p>
-
         {/* Rarity Tiers */}
         <div style={{
           display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: "32px",

@@ -61,9 +61,9 @@ export default function Mechanics() {
               <span className="text-[#555]">&rarr;</span>
               <span className="text-[#888]">Base Score: 16</span>
               <span className="text-[#555]">&rarr;</span>
-              <span className="text-[#888]">Superpower: Instant AGI Tier</span>
+              <span className="text-[#888]">Superpower: Instant Singularity Tier</span>
               <span className="text-[#555]">&rarr;</span>
-              <span className="text-[#8b5cf6] font-semibold">The only AGI card in existence</span>
+              <span className="text-[#8b5cf6] font-semibold">The only Singularity card in existence</span>
             </div>
           </div>
         </div>
@@ -72,7 +72,7 @@ export default function Mechanics() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
             { label: "Total Supply", value: "69", sub: "fixed" },
-            { label: "Rarity Tiers", value: "8", sub: "from Common to AGI" },
+            { label: "Rarity Tiers", value: "8", sub: "from Survival to Singularity" },
             { label: "Mental States", value: "8", sub: "1-8 points" },
             { label: "Superpowers", value: "4", sub: "tier boosters" },
           ].map((fact) => (

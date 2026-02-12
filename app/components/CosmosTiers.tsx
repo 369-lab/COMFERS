@@ -13,7 +13,7 @@ const tiers = [
   {
     name: "SURVIVAL",
     tier: "I",
-    rarity: "Common",
+    rarity: "Survival",
     color: "#9CA3AF",
     colorClass: "text-gray-400 border-gray-400/20 bg-gray-400/5",
     uniqueMotifs: 64,
@@ -32,7 +32,7 @@ const tiers = [
   {
     name: "COMFORT",
     tier: "II",
-    rarity: "Uncommon",
+    rarity: "Comfort",
     color: "#4CAF50",
     colorClass: "text-green-400 border-green-400/20 bg-green-400/5",
     uniqueMotifs: 64,
@@ -51,7 +51,7 @@ const tiers = [
   {
     name: "FLEX",
     tier: "III",
-    rarity: "Rare",
+    rarity: "Flex",
     color: "#42A5F5",
     colorClass: "text-blue-400 border-blue-400/20 bg-blue-400/5",
     uniqueMotifs: 64,
@@ -70,7 +70,7 @@ const tiers = [
   {
     name: "DREAM",
     tier: "IV",
-    rarity: "Epic",
+    rarity: "Dream",
     color: "#AB47BC",
     colorClass: "text-purple-400 border-purple-400/20 bg-purple-400/5",
     uniqueMotifs: 64,
@@ -89,7 +89,7 @@ const tiers = [
   {
     name: "GOD",
     tier: "V",
-    rarity: "Legendary",
+    rarity: "God",
     color: "#FFA726",
     colorClass: "text-yellow-500 border-yellow-500/20 bg-yellow-500/5",
     uniqueMotifs: 64,
@@ -108,7 +108,7 @@ const tiers = [
   {
     name: "META",
     tier: "VI",
-    rarity: "Mythic",
+    rarity: "Meta",
     color: "#26C6DA",
     colorClass: "text-cyan-400 border-cyan-400/20 bg-cyan-400/5",
     uniqueMotifs: 64,
@@ -127,7 +127,7 @@ const tiers = [
   {
     name: "EGO",
     tier: "VII",
-    rarity: "God Complex",
+    rarity: "Ego",
     color: "#EF5350",
     colorClass: "text-red-500 border-red-500/20 bg-red-500/5",
     uniqueMotifs: 64,
@@ -146,7 +146,7 @@ const tiers = [
   {
     name: "SINGULARITY",
     tier: "VIII",
-    rarity: "The One",
+    rarity: "Singularity",
     color: "#FFFFFF",
     colorClass: "text-white border-white/40 bg-white/10",
     uniqueMotifs: 64,

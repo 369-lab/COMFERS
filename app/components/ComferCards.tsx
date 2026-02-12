@@ -4,14 +4,14 @@ import { useState, useEffect, useCallback } from "react";
 import { comfers, intensityPoints, superpowerEffects, getComferRarity, TIERS, type Comfer } from "@/app/data/comfers";
 
 const RARITY_COLORS: Record<string, { border: string; glow: string; label: string }> = {
-  COMMON:      { border: "#808080", glow: "rgba(128,128,128,0.15)", label: "#9CA3AF" },
-  UNCOMMON:    { border: "#2E7D32", glow: "rgba(46,125,50,0.15)",  label: "#4CAF50" },
-  RARE:        { border: "#1565C0", glow: "rgba(21,101,192,0.2)",  label: "#42A5F5" },
-  EPIC:        { border: "#7B1FA2", glow: "rgba(123,31,162,0.2)",  label: "#AB47BC" },
-  LEGENDARY:   { border: "#FF6F00", glow: "rgba(255,111,0,0.25)",  label: "#FFA726" },
-  MYTHIC:      { border: "#C62828", glow: "rgba(198,40,40,0.25)",  label: "#EF5350" },
-  GOD_COMPLEX: { border: "#FFD700", glow: "rgba(255,215,0,0.3)",   label: "#FFE082" },
-  AGI:         { border: "#00FFFF", glow: "rgba(0,255,255,0.35)",   label: "#00FFFF" },
+  SURVIVAL:    { border: "#808080", glow: "rgba(128,128,128,0.15)", label: "#9CA3AF" },
+  COMFORT:     { border: "#2E7D32", glow: "rgba(46,125,50,0.15)",  label: "#4CAF50" },
+  FLEX:        { border: "#1565C0", glow: "rgba(21,101,192,0.2)",  label: "#42A5F5" },
+  DREAM:       { border: "#7B1FA2", glow: "rgba(123,31,162,0.2)",  label: "#AB47BC" },
+  GOD:         { border: "#FF6F00", glow: "rgba(255,111,0,0.25)",  label: "#FFA726" },
+  META:        { border: "#C62828", glow: "rgba(198,40,40,0.25)",  label: "#EF5350" },
+  EGO:         { border: "#FFD700", glow: "rgba(255,215,0,0.3)",   label: "#FFE082" },
+  SINGULARITY: { border: "#00FFFF", glow: "rgba(0,255,255,0.35)",   label: "#00FFFF" },
 };
 
 const BG_COLORS: Record<string, { bg: string; accent: string }> = {
@@ -63,7 +63,6 @@ function IntensityBar({ intensity, color }: { intensity: string; color: string }
 }
 
 function tierDisplayName(tier: string): string {
-  if (tier === "GOD_COMPLEX") return "GOD COMPLEX";
   return tier;
 }
 
@@ -73,7 +72,7 @@ function CardPopup({ comfer, onClose }: { comfer: Comfer; onClose: () => void })
 
   const rarity = getComferRarity(comfer);
   const tier = rarity.tier;
-  const r = RARITY_COLORS[tier] || RARITY_COLORS.COMMON;
+  const r = RARITY_COLORS[tier] || RARITY_COLORS.SURVIVAL;
   const bgKey = MENTAL_STATE_BG[comfer.mentalState] || "Original";
   const bg = BG_COLORS[bgKey];
 
@@ -90,8 +89,8 @@ function CardPopup({ comfer, onClose }: { comfer: Comfer; onClose: () => void })
   const tiltX = (mouse.y - 0.5) * (hovered ? 6 : 0);
   const tiltY = (mouse.x - 0.5) * (hovered ? -6 : 0);
 
-  const isAGI = tier === "AGI";
-  const borderBg = isAGI
+  const isSingularity = tier === "SINGULARITY";
+  const borderBg = isSingularity
     ? `linear-gradient(135deg, #00FFFF 0%, #FF00FF 25%, #FFD700 50%, #00FF88 75%, #00FFFF 100%)`
     : `linear-gradient(135deg, ${r.border}66 0%, ${r.border} 50%, ${r.border}66 100%)`;
 
@@ -424,11 +423,11 @@ export default function ComferCards() {
           {filteredComfers.map((comfer) => {
             const rarity = getComferRarity(comfer);
             const tier = rarity.tier;
-            const r = RARITY_COLORS[tier] || RARITY_COLORS.COMMON;
+            const r = RARITY_COLORS[tier] || RARITY_COLORS.SURVIVAL;
             const bgKey = MENTAL_STATE_BG[comfer.mentalState] || "Original";
             const bg = BG_COLORS[bgKey];
-            const isAGI = tier === "AGI";
-            const gridBorderBg = isAGI
+            const isSingularity = tier === "SINGULARITY";
+            const gridBorderBg = isSingularity
               ? `linear-gradient(135deg, #00FFFF50 0%, #FF00FF90 25%, #FFD70090 50%, #00FF8890 75%, #00FFFF50 100%)`
               : `linear-gradient(135deg, ${r.border}50 0%, ${r.border}90 50%, ${r.border}50 100%)`;
             return (

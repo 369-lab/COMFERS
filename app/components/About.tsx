@@ -24,7 +24,7 @@ export default function About() {
           </div>
           <div>
             <p>
-              <span className="text-[#8b5cf6]">8 rarity tiers</span> from Common to The One.
+              <span className="text-[#8b5cf6]">8 rarity tiers</span> from Survival to Singularity.
               Your traits determine what you manifest in the Cosmos of Cream.
             </p>
           </div>
