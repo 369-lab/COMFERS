@@ -6,6 +6,7 @@ import ComferCards from "./components/ComferCards";
 import UncomferCards from "./components/UncomferCards";
 import TraitSystem from "./components/TraitSystem";
 import CosmosTiers from "./components/CosmosTiers";
+import CosmosGallery from "./components/CosmosGallery";
 import Mechanics from "./components/Mechanics";
 import Roadmap from "./components/Roadmap";
 import Footer from "./components/Footer";
@@ -22,6 +23,7 @@ export default function Home() {
       <UncomferCards />
       <TraitSystem />
       <CosmosTiers />
+      <CosmosGallery />
       <Mechanics />
       <Roadmap />
       <Footer />

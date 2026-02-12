@@ -8,6 +8,7 @@ const navLinks = [
   { href: "#uncomfers", label: "Uncomfers" },
   { href: "#traits", label: "Traits" },
   { href: "#cosmos", label: "Cosmos" },
+  { href: "#gallery", label: "Gallery" },
   { href: "#mechanics", label: "Mechanics" },
   { href: "#roadmap", label: "Roadmap" },
 ];
