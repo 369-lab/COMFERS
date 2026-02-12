@@ -15,16 +15,6 @@ export default function Hero() {
           <span className="text-[#8b5cf6] glow-purple">COSMOS OF CREAM</span>
         </h2>
 
-        {/* Tagline */}
-        <p className="text-xl md:text-2xl text-[#888] font-light italic mb-4">
-          &ldquo;Your Psychosis Determines Your Prosperity.&rdquo;
-        </p>
-
-        {/* Sub-tagline */}
-        <p className="text-sm md:text-base text-[#555] max-w-2xl mx-auto mb-16">
-          69 unique trading cards. Crypto-degenerate frogs. Varying mental states and intensities.
-        </p>
-
         {/* Formula */}
         <div className="inline-block border border-[#1a1a1a] rounded-lg px-8 py-4 bg-[#0a0a0a]/80">
           <p className="font-mono text-sm md:text-base">
