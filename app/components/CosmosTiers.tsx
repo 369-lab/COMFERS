@@ -81,14 +81,6 @@ export default function CosmosTiers() {
                         background: tier.name === "SINGULARITY" ? "rgba(255,255,255,0.08)" : `${tier.color}0F`,
                         border: tier.name === "SINGULARITY" ? "1px solid rgba(255,255,255,0.25)" : `1px solid ${tier.color}25`,
                       }}>{tier.rarity.toUpperCase()}</span>
-                      <span style={{
-                        fontFamily: F.sans, fontSize: "16px", fontWeight: 700,
-                        color: "rgba(255,255,255,0.88)",
-                      }}>{tier.name}</span>
-                      <span className="hidden md:inline" style={{
-                        fontFamily: F.sans, fontSize: "12px",
-                        color: "rgba(255,255,255,0.25)",
-                      }}>{tier.tagline}</span>
                     </div>
                     <motion.span
                       animate={{ rotate: isOpen ? 180 : 0 }}
