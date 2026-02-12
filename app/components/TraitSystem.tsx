@@ -1,149 +1,102 @@
 "use client";
 
 import { useState } from "react";
-import {
-  mentalStatePoints,
-  intensityPoints,
-  superpowerEffects,
-  TIERS,
-} from "@/app/data/comfers";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 
 const F = {
   mono: "'IBM Plex Mono', monospace",
   sans: "'DM Sans', sans-serif",
 };
 
-const RARITY_COLORS: Record<string, { border: string; label: string }> = {
-  COMMON:      { border: "#808080", label: "#9CA3AF" },
-  UNCOMMON:    { border: "#2E7D32", label: "#4CAF50" },
-  RARE:        { border: "#1565C0", label: "#42A5F5" },
-  EPIC:        { border: "#7B1FA2", label: "#AB47BC" },
-  LEGENDARY:   { border: "#FF6F00", label: "#FFA726" },
-  MYTHIC:      { border: "#C62828", label: "#EF5350" },
-  GOD_COMPLEX: { border: "#FFD700", label: "#FFE082" },
-  AGI:         { border: "#00FFFF", label: "#00FFFF" },
+const traitsData = [
+  {
+    id: "01",
+    title: "Mental State",
+    subtitle: "CORE TRAIT",
+    words: [
+      { text: "Trading FOMO", rarity: "Common" },
+      { text: "Degen Brain", rarity: "Common" },
+      { text: "Hopium Addiction", rarity: "Uncommon" },
+      { text: "HODL Psychosis", rarity: "Rare" },
+      { text: "Leverage Madness", rarity: "Epic" },
+      { text: "Fibonacci Obsession", rarity: "Legendary" },
+      { text: "Trading God Complex", rarity: "God Complex" },
+      { text: "Transcendent Chart Being", rarity: "The One" },
+    ],
+  },
+  {
+    id: "02",
+    title: "Intensity",
+    subtitle: "POWER LEVEL",
+    words: [
+      { text: "Barely There", rarity: "Common" },
+      { text: "Noticeable", rarity: "Common" },
+      { text: "Strong", rarity: "Uncommon" },
+      { text: "Overwhelming", rarity: "Rare" },
+      { text: "Consuming", rarity: "Epic" },
+      { text: "Reality-Breaking", rarity: "Legendary" },
+      { text: "Beyond Mortal", rarity: "God Complex" },
+      { text: "From Beyond", rarity: "The One" },
+    ],
+  },
+  {
+    id: "03",
+    title: "Duration",
+    subtitle: "TIME SPAN",
+    words: [
+      { text: "Fleeting", rarity: "Common" },
+      { text: "Brief", rarity: "Uncommon" },
+      { text: "Sustained", rarity: "Rare" },
+      { text: "Persistent", rarity: "Epic" },
+      { text: "Chronic", rarity: "Legendary" },
+      { text: "Permanent", rarity: "Mythic" },
+      { text: "Eternal", rarity: "The One" },
+    ],
+  },
+  {
+    id: "04",
+    title: "Trigger",
+    subtitle: "CATALYST",
+    words: [
+      { text: "Price Alert", rarity: "Common" },
+      { text: "Chart Pattern", rarity: "Uncommon" },
+      { text: "Whale Movement", rarity: "Rare" },
+      { text: "Market Crash", rarity: "Epic" },
+      { text: "Deep Trauma", rarity: "Legendary" },
+      { text: "Divine Spark", rarity: "God Complex" },
+      { text: "Cosmic Alignment", rarity: "The One" },
+    ],
+  },
+  {
+    id: "05",
+    title: "Superpower",
+    subtitle: "TIER BOOST",
+    words: [
+      { text: "None", rarity: "Common" },
+      { text: "PayPal Pay Later Bug", rarity: "Uncommon" },
+      { text: "Credit Card Glitch", rarity: "Rare" },
+      { text: "Endless Instant Bank Transfers", rarity: "Epic" },
+      { text: "Bought BTC 2008", rarity: "The One" },
+    ],
+  },
+];
+
+const rarityColors: Record<string, string> = {
+  Common: "text-gray-400 border-gray-400/20 bg-gray-400/5",
+  Uncommon: "text-green-400 border-green-400/20 bg-green-400/5",
+  Rare: "text-blue-400 border-blue-400/20 bg-blue-400/5",
+  Epic: "text-purple-400 border-purple-400/20 bg-purple-400/5",
+  Legendary: "text-yellow-500 border-yellow-500/20 bg-yellow-500/5",
+  Mythic: "text-cyan-400 border-cyan-400/20 bg-cyan-400/5",
+  "God Complex": "text-red-500 border-red-500/20 bg-red-500/5",
+  "The One": "text-white border-white/40 bg-white/10",
 };
 
-const PANEL_BORDER = "#555";
-const PANEL_BG = "#0A0A0C";
-
-function tierDisplayName(tier: string): string {
-  if (tier === "GOD_COMPLEX") return "GOD COMPLEX";
-  return tier;
-}
-
-/* --- Collapsible card panel --- */
-function TraitPanel({
-  num,
-  title,
-  subtitle,
-  defaultOpen = false,
-  children,
-}: {
-  num: string;
-  title: string;
-  subtitle: string;
-  defaultOpen?: boolean;
-  children: React.ReactNode;
-}) {
-  const [open, setOpen] = useState(defaultOpen);
-
-  return (
-    <div className="mb-4">
-      <div style={{
-        borderRadius: "10px", padding: "1.5px",
-        background: `linear-gradient(135deg, ${PANEL_BORDER}33 0%, ${PANEL_BORDER}80 50%, ${PANEL_BORDER}33 100%)`,
-      }}>
-        <div style={{ borderRadius: "8.5px", background: PANEL_BG }}>
-          {/* Clickable header */}
-          <button
-            onClick={() => setOpen(!open)}
-            style={{
-              width: "100%", padding: "16px 20px",
-              display: "flex", justifyContent: "space-between", alignItems: "center",
-              background: "none", border: "none", cursor: "pointer",
-              borderRadius: open ? "8.5px 8.5px 0 0" : "8.5px",
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <span style={{
-                fontFamily: F.mono, fontSize: "9px", fontWeight: 600,
-                color: "rgba(255,255,255,0.35)", letterSpacing: "1.5px",
-                padding: "2px 8px", borderRadius: "2px",
-                background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)",
-              }}>{num}</span>
-              <span style={{
-                fontFamily: F.sans, fontSize: "16px", fontWeight: 700,
-                color: "rgba(255,255,255,0.88)",
-              }}>{title}</span>
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-              <span style={{
-                fontFamily: F.mono, fontSize: "8px", fontWeight: 500,
-                color: "rgba(255,255,255,0.2)", letterSpacing: "2px",
-              }}>{subtitle}</span>
-              <span style={{
-                fontFamily: F.mono, fontSize: "12px",
-                color: "rgba(255,255,255,0.25)",
-                transition: "transform 0.2s ease",
-                transform: open ? "rotate(180deg)" : "rotate(0deg)",
-                display: "inline-block",
-              }}>▾</span>
-            </div>
-          </button>
-
-          {/* Collapsible content */}
-          <div style={{
-            maxHeight: open ? "2000px" : "0",
-            overflow: "hidden",
-            transition: "max-height 0.3s ease",
-          }}>
-            <div style={{ padding: "0 20px 20px" }}>
-              {children}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* --- Stats row container --- */
-function StatsBox({ children }: { children: React.ReactNode }) {
-  return (
-    <div style={{
-      background: "rgba(255,255,255,0.02)", borderRadius: "4px",
-      border: "1px solid rgba(255,255,255,0.02)", padding: "2px 0",
-    }}>
-      {children}
-    </div>
-  );
-}
-
-function StatsRow({
-  children,
-  isLast = false,
-}: {
-  children: React.ReactNode;
-  isLast?: boolean;
-}) {
-  return (
-    <div style={{
-      padding: "8px 12px",
-      borderBottom: isLast ? "none" : "1px solid rgba(255,255,255,0.02)",
-      display: "flex", alignItems: "center", justifyContent: "space-between",
-    }}>
-      {children}
-    </div>
-  );
-}
+const RARITY_ORDER = ["Common", "Uncommon", "Rare", "Epic", "Legendary", "Mythic", "God Complex", "The One"];
 
 export default function TraitSystem() {
-  const mentalStatesArr = Object.entries(mentalStatePoints).sort((a, b) => a[1] - b[1]);
-  const intensitiesArr = Object.entries(intensityPoints).sort((a, b) => a[1] - b[1]);
-  const superpowersArr = Object.entries(superpowerEffects);
-
-  const maxIntensity = Math.max(...Object.values(intensityPoints));
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
     <section id="traits" className="py-32 px-6">
@@ -157,98 +110,115 @@ export default function TraitSystem() {
           Traits & Rarity
         </h2>
         <p className="text-[#555] mb-6 text-sm max-w-xl">
-          Every Comfer has a mental state, intensity, and optional superpower. Base score = mental state points + intensity points. Superpowers boost your tier.
+          Every Comfer has a mental state, intensity, and optional superpower. Each trait word maps to a rarity tier.
         </p>
 
-        {/* --- RARITY TIERS --- */}
+        {/* Rarity Legend */}
         <div style={{
           display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: "32px",
         }}>
-          {TIERS.slice().reverse().map((t) => {
-            const r = RARITY_COLORS[t.name];
+          {RARITY_ORDER.map((rarity) => (
+            <span key={rarity} className={rarityColors[rarity]} style={{
+              fontFamily: F.mono, fontSize: "8px", fontWeight: 600,
+              letterSpacing: "1.5px", padding: "3px 10px", borderRadius: "20px",
+              borderWidth: "1px", borderStyle: "solid",
+            }}>
+              {rarity.toUpperCase()}
+            </span>
+          ))}
+        </div>
+
+        {/* Trait Accordions */}
+        <div className="space-y-3">
+          {traitsData.map((trait, index) => {
+            const isOpen = openIndex === index;
+
             return (
-              <div key={t.name} style={{
-                display: "flex", alignItems: "center", gap: "6px",
-                padding: "4px 10px", borderRadius: "4px",
-                background: `${r.border}08`, border: `1px solid ${r.border}18`,
+              <div key={trait.id} style={{
+                borderRadius: "10px", padding: "1.5px",
+                background: "linear-gradient(135deg, #55555533 0%, #55555580 50%, #55555533 100%)",
               }}>
-                <span style={{
-                  fontFamily: F.mono, fontSize: "8px", fontWeight: 600,
-                  color: r.label, letterSpacing: "1.5px",
-                }}>{tierDisplayName(t.name)}</span>
-                <span style={{
-                  fontFamily: F.mono, fontSize: "7px",
-                  color: "rgba(255,255,255,0.15)",
-                }}>{t.count}x</span>
+                <div style={{ borderRadius: "8.5px", background: "#0A0A0C", overflow: "hidden" }}>
+                  {/* Clickable header */}
+                  <button
+                    onClick={() => setOpenIndex(isOpen ? null : index)}
+                    className="group"
+                    style={{
+                      width: "100%", padding: "16px 20px",
+                      display: "flex", justifyContent: "space-between", alignItems: "center",
+                      background: "none", border: "none", cursor: "pointer",
+                    }}
+                  >
+                    <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                      <span style={{
+                        fontFamily: F.mono, fontSize: "9px", fontWeight: 600,
+                        color: "rgba(255,255,255,0.35)", letterSpacing: "1.5px",
+                        padding: "2px 8px", borderRadius: "2px",
+                        background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)",
+                      }}>{trait.id}</span>
+                      <span style={{
+                        fontFamily: F.sans, fontSize: "16px", fontWeight: 700,
+                        color: "rgba(255,255,255,0.88)",
+                      }}>{trait.title}</span>
+                      <span className="hidden sm:inline" style={{
+                        fontFamily: F.mono, fontSize: "8px", fontWeight: 500,
+                        color: "rgba(255,255,255,0.2)", letterSpacing: "2px",
+                      }}>{trait.subtitle}</span>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                      <span style={{
+                        fontFamily: F.mono, fontSize: "9px",
+                        color: "rgba(255,255,255,0.15)", letterSpacing: "1px",
+                      }}>{trait.words.length} TRAITS</span>
+                      <motion.div
+                        animate={{ rotate: isOpen ? 180 : 0 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                      >
+                        <ChevronDown style={{ width: "16px", height: "16px", color: "rgba(255,255,255,0.25)" }} />
+                      </motion.div>
+                    </div>
+                  </button>
+
+                  {/* Collapsible content */}
+                  <AnimatePresence>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.4, ease: [0.04, 0.62, 0.23, 0.98] }}
+                      >
+                        <div style={{ padding: "0 20px 20px" }}>
+                          <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                            {trait.words.map((word, i) => (
+                              <div
+                                key={i}
+                                className={rarityColors[word.rarity] || "text-white border-white/20"}
+                                style={{
+                                  fontFamily: F.sans, fontSize: "12px",
+                                  padding: "5px 14px", borderRadius: "20px",
+                                  borderWidth: "1px", borderStyle: "solid",
+                                  transition: "all 0.3s ease",
+                                }}
+                              >
+                                {word.text}
+                                <span style={{
+                                  fontFamily: F.mono, fontSize: "8px",
+                                  marginLeft: "6px", opacity: 0.5,
+                                  letterSpacing: "0.5px",
+                                }}>({word.rarity})</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
               </div>
             );
           })}
         </div>
-
-        {/* --- TRAIT 01: Mental State --- */}
-        <TraitPanel num="01" title="Mental State" subtitle="1-8 POINTS">
-          <StatsBox>
-            {mentalStatesArr.map(([name, pts], i) => (
-              <StatsRow key={name} isLast={i === mentalStatesArr.length - 1}>
-                <span style={{
-                  fontFamily: F.sans, fontSize: "12px", fontWeight: 500,
-                  color: "rgba(255,255,255,0.6)",
-                }}>{name}</span>
-                <span style={{
-                  fontFamily: F.mono, fontSize: "9px", fontWeight: 600,
-                  color: "rgba(255,255,255,0.25)", letterSpacing: "1px",
-                }}>{pts}PT</span>
-              </StatsRow>
-            ))}
-          </StatsBox>
-        </TraitPanel>
-
-        {/* --- TRAIT 02: Intensity --- */}
-        <TraitPanel num="02" title="Intensity" subtitle="1-8 POINTS">
-          <StatsBox>
-            {intensitiesArr.map(([name, pts], i) => (
-              <StatsRow key={name} isLast={i === intensitiesArr.length - 1}>
-                <div style={{ display: "flex", alignItems: "center", gap: "12px", flex: 1 }}>
-                  <div style={{ display: "flex", gap: "2px", alignItems: "center", flexShrink: 0 }}>
-                    {Array.from({ length: maxIntensity }).map((_, j) => (
-                      <div key={j} style={{
-                        width: "14px", height: "4px", borderRadius: "1px",
-                        background: j < pts ? "#9CA3AF" : "rgba(255,255,255,0.04)",
-                        opacity: j < pts ? 0.7 : 0.4,
-                      }} />
-                    ))}
-                  </div>
-                  <span style={{
-                    fontFamily: F.sans, fontSize: "12px", fontWeight: 500,
-                    color: "rgba(255,255,255,0.5)", flex: 1,
-                  }}>{name}</span>
-                </div>
-                <span style={{
-                  fontFamily: F.mono, fontSize: "9px", fontWeight: 600,
-                  color: "rgba(255,255,255,0.25)", letterSpacing: "1px",
-                }}>{pts}PT</span>
-              </StatsRow>
-            ))}
-          </StatsBox>
-        </TraitPanel>
-
-        {/* --- TRAIT 03: Superpower --- */}
-        <TraitPanel num="03" title="Superpower" subtitle="TIER BOOST">
-          <StatsBox>
-            {superpowersArr.map(([name, effect], i) => (
-              <StatsRow key={name} isLast={i === superpowersArr.length - 1}>
-                <span style={{
-                  fontFamily: F.sans, fontSize: "12px", fontWeight: 600,
-                  color: "rgba(255,255,255,0.6)",
-                }}>{name}</span>
-                <span style={{
-                  fontFamily: F.mono, fontSize: "9px",
-                  color: "rgba(255,255,255,0.3)",
-                }}>{effect}</span>
-              </StatsRow>
-            ))}
-          </StatsBox>
-        </TraitPanel>
       </div>
     </section>
   );

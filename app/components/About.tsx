@@ -11,60 +11,22 @@ export default function About() {
         <h2 className="text-3xl md:text-5xl font-bold mb-12 tracking-tight">
           69 unique trading cards.
           <br />
-          <span className="text-[#8b5cf6]">Crypto-degenerate frogs.</span>
+          <span className="text-[#8b5cf6]">A universe of items to manifest.</span>
         </h2>
 
         <div className="grid md:grid-cols-2 gap-12 text-[#888] leading-relaxed">
           <div>
             <p>
-              Comfers are <span className="text-[#00ff88]">trading cards</span> featuring
-              crypto-degenerate frogs with varying mental states and intensities.
+              Comfers are <span className="text-[#00ff88]">trading cards</span> with
+              mental states, intensities, and superpowers.
               Each card is unique. Total supply: 69.
             </p>
           </div>
           <div>
             <p>
-              <span className="text-[#8b5cf6]">8 rarity tiers</span> from Common to AGI.
-              Mental state + intensity = base score. Superpowers boost your tier even higher.
+              <span className="text-[#8b5cf6]">8 rarity tiers</span> from Common to The One.
+              Your traits determine what you manifest in the Cosmos of Cream.
             </p>
-          </div>
-        </div>
-
-        {/* What they are / aren't */}
-        <div className="grid md:grid-cols-2 gap-8 mt-20">
-          <div className="border border-[#1a2a1a] rounded-lg p-8 bg-[#0a0f0a]/50">
-            <h3 className="text-[#00ff88] font-mono text-sm tracking-wider mb-6">WHAT COMFERS IS</h3>
-            <ul className="space-y-3 text-sm text-[#888]">
-              <li className="flex items-start gap-3">
-                <span className="text-[#00ff88] mt-0.5">+</span>
-                69 unique crypto-frog trading cards
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-[#00ff88] mt-0.5">+</span>
-                8 rarity tiers with deterministic scoring
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-[#00ff88] mt-0.5">+</span>
-                Superpowers that boost tier placement
-              </li>
-            </ul>
-          </div>
-          <div className="border border-[#2a1a1a] rounded-lg p-8 bg-[#0f0a0a]/50">
-            <h3 className="text-[#ef4444] font-mono text-sm tracking-wider mb-6">WHAT COMFERS IS NOT</h3>
-            <ul className="space-y-3 text-sm text-[#888]">
-              <li className="flex items-start gap-3">
-                <span className="text-[#ef4444] mt-0.5">&minus;</span>
-                Random or luck-based
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-[#ef4444] mt-0.5">&minus;</span>
-                A derivative without its own identity
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-[#ef4444] mt-0.5">&minus;</span>
-                One-time hype
-              </li>
-            </ul>
           </div>
         </div>
       </div>
