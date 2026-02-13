@@ -3,7 +3,7 @@ export default function Roadmap() {
     {
       phase: "Phase 1",
       title: "Comfers Mint",
-      description: "69 generators hit the chain. Foundation set.",
+      description: "69 trading cards hit the chain. Foundation set.",
       status: "upcoming",
     },
     {
@@ -15,19 +15,19 @@ export default function Roadmap() {
     {
       phase: "Phase 3",
       title: "Continuous Manifestation",
-      description: "New drops every ~3 months. Nonstop.",
+      description: "New drops every cycle. Nonstop.",
       status: "upcoming",
     },
     {
       phase: "Phase 4",
       title: "Secondary Market",
-      description: "Cosmos Items become tradeable. Real value.",
+      description: "Cards and items become tradeable. Real value.",
       status: "upcoming",
     },
     {
       phase: "Phase 5",
       title: "Combine & Upgrade",
-      description: "Combine and upgrade Cosmos Items. Evolve.",
+      description: "Combine and upgrade items. Evolve.",
       status: "upcoming",
     },
   ];

@@ -3,8 +3,10 @@ import CursorFlashlight from "./components/CursorFlashlight";
 import Hero from "./components/Hero";
 import About from "./components/About";
 import ComferCards from "./components/ComferCards";
+import UncomferCards from "./components/UncomferCards";
 import TraitSystem from "./components/TraitSystem";
 import CosmosTiers from "./components/CosmosTiers";
+import CosmosGallery from "./components/CosmosGallery";
 import Mechanics from "./components/Mechanics";
 import Roadmap from "./components/Roadmap";
 import Footer from "./components/Footer";
@@ -18,8 +20,10 @@ export default function Home() {
       <Hero />
       <About />
       <ComferCards />
+      <UncomferCards />
       <TraitSystem />
       <CosmosTiers />
+      <CosmosGallery />
       <Mechanics />
       <Roadmap />
       <Footer />

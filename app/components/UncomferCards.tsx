@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { comfers, intensityPoints, superpowerEffects, getComferRarity, TIERS, type Comfer } from "@/app/data/comfers";
+import { uncomfers, VIBES, ENERGIES, GLITCHES, type Uncomfer } from "@/app/data/uncomfers";
+import { TIERS } from "@/app/data/comfers";
 
 const RARITY_COLORS: Record<string, { border: string; glow: string; label: string }> = {
   SURVIVAL:    { border: "#808080", glow: "rgba(128,128,128,0.15)", label: "#9CA3AF" },
@@ -14,67 +15,61 @@ const RARITY_COLORS: Record<string, { border: string; glow: string; label: strin
   SINGULARITY: { border: "#00FFFF", glow: "rgba(0,255,255,0.35)",   label: "#00FFFF" },
 };
 
-const BG_COLORS: Record<string, { bg: string; accent: string }> = {
-  Midnight:   { bg: "#08090F", accent: "#111320" },
-  Neon:       { bg: "#0A0E14", accent: "#0F1A20" },
-  Vintage:    { bg: "#141008", accent: "#1E1810" },
-  Frost:      { bg: "#0A0E14", accent: "#101824" },
-  Inferno:    { bg: "#140808", accent: "#1E0E0E" },
-  Gold:       { bg: "#100E08", accent: "#1A1610" },
-  Cosmic:     { bg: "#0C0810", accent: "#14101E" },
-  Original:   { bg: "#0C0C14", accent: "#1A1A28" },
-};
-
-const MENTAL_STATE_BG: Record<string, string> = {
-  "Trading FOMO": "Midnight",
-  "Degen Brain": "Frost",
-  "Hopium Addiction": "Neon",
-  "HODL Psychosis": "Cosmic",
-  "Leverage Madness": "Inferno",
-  "Fibonacci Obsession": "Vintage",
-  "Trading God Complex": "Gold",
-  "Transcendent Chart Being": "Inferno",
-};
-
-const INTENSITY_MAX = 8;
-
-function getIntensityLevel(intensity: string): number {
-  return intensityPoints[intensity] || 1;
-}
-
 const F = {
   mono: "'IBM Plex Mono', monospace",
   sans: "'DM Sans', sans-serif",
 };
 
-function IntensityBar({ intensity, color }: { intensity: string; color: string }) {
-  const lvl = getIntensityLevel(intensity);
+function PlaceholderArt({ id, tier, size = 200 }: { id: number; tier: string; size?: number }) {
+  const r = RARITY_COLORS[tier] || RARITY_COLORS.SURVIVAL;
+  // Deterministic pattern from id
+  const hue1 = (id * 37) % 360;
+  const hue2 = (hue1 + 120) % 360;
+  const patternSize = 8 + (id % 12);
+  const rotation = (id * 13) % 360;
+
   return (
-    <div style={{ display: "flex", gap: "2px", alignItems: "center" }}>
-      {Array.from({ length: INTENSITY_MAX }).map((_, i) => (
-        <div key={i} style={{
-          width: "18px", height: "5px", borderRadius: "1px",
-          background: i < lvl ? color : "rgba(255,255,255,0.05)",
-          opacity: i < lvl ? 1 : 0.4,
-        }} />
-      ))}
+    <div style={{
+      width: "100%", aspectRatio: "1", position: "relative",
+      background: `linear-gradient(${rotation}deg, hsl(${hue1}, 15%, 8%) 0%, hsl(${hue2}, 10%, 5%) 100%)`,
+      display: "flex", alignItems: "center", justifyContent: "center",
+      overflow: "hidden",
+    }}>
+      {/* Grid pattern */}
+      <div style={{
+        position: "absolute", inset: 0, opacity: 0.06,
+        backgroundImage: `
+          linear-gradient(${r.border}40 1px, transparent 1px),
+          linear-gradient(90deg, ${r.border}40 1px, transparent 1px)
+        `,
+        backgroundSize: `${patternSize}px ${patternSize}px`,
+      }} />
+      {/* Center glyph */}
+      <div style={{
+        fontFamily: F.mono, fontSize: `${size * 0.2}px`, fontWeight: 700,
+        color: `${r.border}15`, letterSpacing: "-2px",
+        transform: `rotate(${(id * 7) % 30 - 15}deg)`,
+      }}>
+        ?
+      </div>
+      {/* ID badge */}
+      <div style={{
+        position: "absolute", bottom: "6px", right: "6px",
+        fontFamily: F.mono, fontSize: "7px", fontWeight: 600,
+        color: `${r.border}30`, letterSpacing: "1px",
+      }}>
+        U-{String(id).padStart(3, "0")}
+      </div>
     </div>
   );
 }
 
-function tierDisplayName(tier: string): string {
-  return tier;
-}
-
-function CardPopup({ comfer, onClose }: { comfer: Comfer; onClose: () => void }) {
+function CardPopup({ uncomfer, onClose }: { uncomfer: Uncomfer; onClose: () => void }) {
   const [mouse, setMouse] = useState({ x: 0.5, y: 0.5 });
   const [hovered, setHovered] = useState(false);
 
-  const rarity = getComferRarity(comfer);
-  const tier = rarity.tier;
+  const tier = uncomfer.tier;
   const r = RARITY_COLORS[tier] || RARITY_COLORS.SURVIVAL;
-  const bgKey = MENTAL_STATE_BG[comfer.mentalState] || "Original";
-  const bg = BG_COLORS[bgKey];
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
@@ -118,59 +113,51 @@ function CardPopup({ comfer, onClose }: { comfer: Comfer; onClose: () => void })
 
         <div style={{
           borderRadius: "10px", display: "flex", flexDirection: "column",
-          background: bg.bg, overflow: "hidden", position: "relative",
+          background: "#0A0A0C", overflow: "hidden", position: "relative",
         }}>
-
           {/* Header */}
           <div style={{
             display: "flex", justifyContent: "space-between", alignItems: "center",
             padding: "12px 14px 8px",
           }}>
             <span style={{ fontFamily: F.mono, fontSize: "9px", fontWeight: 500, color: "rgba(255,255,255,0.25)", letterSpacing: "1.5px" }}>
-              #{String(comfer.id).padStart(3, "0")} / 069
+              U-{String(uncomfer.id).padStart(3, "0")} / 420
             </span>
             <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-              <span style={{
-                fontFamily: F.mono, fontSize: "8px", fontWeight: 600, letterSpacing: "1px",
-                color: "rgba(255,255,255,0.25)",
-              }}>
-                {rarity.points}PT
-              </span>
               <span style={{
                 fontFamily: F.mono, fontSize: "8px", fontWeight: 600, letterSpacing: "2px",
                 color: r.label, padding: "2px 8px", borderRadius: "2px",
                 background: `${r.border}10`, border: `1px solid ${r.border}25`,
               }}>
-                {tierDisplayName(tier)}
+                {tier}
               </span>
             </div>
           </div>
 
-          {/* Square Art */}
+          {/* Placeholder Art */}
           <div style={{
-            margin: "0 12px", aspectRatio: "1", borderRadius: "4px",
-            overflow: "hidden", border: `1px solid rgba(255,255,255,0.04)`,
+            margin: "0 12px", borderRadius: "4px",
+            overflow: "hidden", border: "1px solid rgba(255,255,255,0.04)",
           }}>
-            <img src={comfer.image} alt={comfer.name}
-              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            <PlaceholderArt id={uncomfer.id} tier={tier} size={300} />
           </div>
 
-          {/* Name + Superpower */}
+          {/* Name + Glitch */}
           <div style={{ padding: "10px 14px 4px" }}>
             <h3 style={{
               fontFamily: F.sans, fontSize: "15px", fontWeight: 700, margin: 0, lineHeight: 1.2,
               color: "rgba(255,255,255,0.88)", letterSpacing: "-0.2px",
             }}>
-              {comfer.name}
+              {uncomfer.name}
             </h3>
-            {comfer.superpower && comfer.superpower !== "None" && (
+            {uncomfer.glitch !== "None" && (
               <span style={{
                 display: "inline-block", marginTop: "5px",
                 fontFamily: F.mono, fontSize: "7px", fontWeight: 600, letterSpacing: "1.5px",
                 padding: "2px 6px", borderRadius: "2px",
-                background: "rgba(0,255,255,0.06)", border: "1px solid rgba(0,255,255,0.15)", color: "#00FFFF",
+                background: "rgba(236,72,153,0.08)", border: "1px solid rgba(236,72,153,0.2)", color: "#ec4899",
               }}>
-                {comfer.superpower.toUpperCase()}
+                {uncomfer.glitch.toUpperCase()}
               </span>
             )}
           </div>
@@ -181,58 +168,25 @@ function CardPopup({ comfer, onClose }: { comfer: Comfer; onClose: () => void })
             background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.02)",
           }}>
             {[
-              { label: "MENTAL STATE", value: comfer.mentalState, sub: `${comfer.msPoints}PT` },
-              { label: "INTENSITY", value: null, sub: `${comfer.intPoints}PT` },
-              { label: "RANK", value: `#${comfer.rarityRank} / 69`, sub: null },
+              { label: "VIBE", value: uncomfer.vibe },
+              { label: "ENERGY", value: uncomfer.energy },
+              { label: "GLITCH", value: uncomfer.glitch },
             ].map((stat, i) => (
               <div key={i} style={{
                 marginBottom: i < 2 ? "6px" : 0, paddingBottom: i < 2 ? "6px" : 0,
                 borderBottom: i < 2 ? "1px solid rgba(255,255,255,0.02)" : "none",
               }}>
                 <div style={{
-                  display: "flex", justifyContent: "space-between", alignItems: "center",
-                }}>
-                  <div style={{
-                    fontFamily: F.mono, fontSize: "7px", fontWeight: 600,
-                    letterSpacing: "2px", color: "rgba(255,255,255,0.2)", marginBottom: "2px",
-                  }}>{stat.label}</div>
-                  {stat.sub && (
-                    <span style={{
-                      fontFamily: F.mono, fontSize: "7px", fontWeight: 600,
-                      color: "rgba(255,255,255,0.15)", letterSpacing: "1px",
-                    }}>{stat.sub}</span>
-                  )}
-                </div>
-                {stat.label === "INTENSITY" ? (
-                  <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                    <IntensityBar intensity={comfer.intensity} color={r.label} />
-                    <span style={{
-                      fontFamily: F.mono, fontSize: "8px", fontWeight: 600,
-                      color: r.label, letterSpacing: "0.3px",
-                    }}>{comfer.intensity}</span>
-                  </div>
-                ) : (
-                  <div style={{
-                    fontFamily: F.sans, fontSize: "10px",
-                    color: i === 0 ? "rgba(255,255,255,0.65)" : "rgba(255,255,255,0.4)",
-                    fontWeight: i === 0 ? 600 : 400,
-                  }}>{stat.value}</div>
-                )}
+                  fontFamily: F.mono, fontSize: "7px", fontWeight: 600,
+                  letterSpacing: "2px", color: "rgba(255,255,255,0.2)", marginBottom: "2px",
+                }}>{stat.label}</div>
+                <div style={{
+                  fontFamily: F.sans, fontSize: "10px",
+                  color: "rgba(255,255,255,0.55)", fontWeight: 500,
+                }}>{stat.value}</div>
               </div>
             ))}
           </div>
-
-          {/* Superpower effect */}
-          {comfer.superpower && comfer.superpower !== "None" && (
-            <div style={{ padding: "0 14px 6px" }}>
-              <p style={{
-                fontFamily: F.sans, fontSize: "8px", lineHeight: 1.5,
-                color: "rgba(255,255,255,0.18)", margin: 0, fontStyle: "italic",
-              }}>
-                {superpowerEffects[comfer.superpower]}
-              </p>
-            </div>
-          )}
 
           {/* Footer */}
           <div style={{
@@ -240,7 +194,7 @@ function CardPopup({ comfer, onClose }: { comfer: Comfer; onClose: () => void })
             padding: "8px 14px 12px",
           }}>
             <span style={{ fontFamily: F.mono, fontSize: "6px", color: "rgba(255,255,255,0.08)", letterSpacing: "2px" }}>
-              COMFERS
+              UNCOMFERS
             </span>
             <div style={{
               width: "6px", height: "6px", borderRadius: "50%",
@@ -256,44 +210,47 @@ function CardPopup({ comfer, onClose }: { comfer: Comfer; onClose: () => void })
   );
 }
 
-type FilterType = "all" | "superpower" | { trait: string; value: string };
+type FilterType = "all" | "glitch" | { trait: string; value: string };
 
-export default function ComferCards() {
+export default function UncomferCards() {
   const [selected, setSelected] = useState<number | null>(null);
   const [filter, setFilter] = useState<FilterType>("all");
   const [filterMenu, setFilterMenu] = useState<string | null>(null);
+  const [visibleCount, setVisibleCount] = useState(60);
 
-  const selectedComfer = selected !== null ? comfers.find((c) => c.id === selected) || null : null;
+  const selectedUncomfer = selected !== null ? uncomfers.find((u) => u.id === selected) || null : null;
 
   const onClose = useCallback(() => setSelected(null), []);
 
-  const filteredComfers = (() => {
-    if (filter === "all") return comfers;
-    if (filter === "superpower") return comfers.filter((c) => c.superpower !== "None");
+  const filteredUncomfers = (() => {
+    if (filter === "all") return uncomfers;
+    if (filter === "glitch") return uncomfers.filter((u) => u.glitch !== "None");
     const { trait, value } = filter;
-    if (trait === "rarity") return comfers.filter((c) => c.tier === value);
-    if (trait === "mentalState") return comfers.filter((c) => c.mentalState === value);
-    if (trait === "intensity") return comfers.filter((c) => c.intensity === value);
-    return comfers;
+    if (trait === "rarity") return uncomfers.filter((u) => u.tier === value);
+    if (trait === "vibe") return uncomfers.filter((u) => u.vibe === value);
+    if (trait === "energy") return uncomfers.filter((u) => u.energy === value);
+    return uncomfers;
   })();
 
+  const visibleUncomfers = filteredUncomfers.slice(0, visibleCount);
+  const hasMore = visibleCount < filteredUncomfers.length;
+
   const tierOrder = TIERS.map((t) => t.name);
-  const uniqueValues = (key: keyof Comfer) => [...new Set(comfers.map((c) => c[key] as string))];
 
   const filterGroups: { label: string; id: string; options: { label: string; value: string; color?: string }[] }[] = [
     {
       label: "RARITY", id: "rarity",
       options: tierOrder
-        .filter((t) => comfers.some((c) => c.tier === t))
-        .map((t) => ({ label: tierDisplayName(t), value: t, color: RARITY_COLORS[t]?.label })),
+        .filter((t) => uncomfers.some((u) => u.tier === t))
+        .map((t) => ({ label: t, value: t, color: RARITY_COLORS[t]?.label })),
     },
     {
-      label: "MENTAL STATE", id: "mentalState",
-      options: uniqueValues("mentalState").map((v) => ({ label: v, value: v })),
+      label: "VIBE", id: "vibe",
+      options: VIBES.filter((v) => uncomfers.some((u) => u.vibe === v)).map((v) => ({ label: v, value: v })),
     },
     {
-      label: "INTENSITY", id: "intensity",
-      options: uniqueValues("intensity").map((v) => ({ label: v, value: v })),
+      label: "ENERGY", id: "energy",
+      options: ENERGIES.filter((e) => uncomfers.some((u) => u.energy === e)).map((e) => ({ label: e, value: e })),
     },
   ];
 
@@ -301,50 +258,49 @@ export default function ComferCards() {
     typeof filter === "object" && filter.trait === trait && filter.value === value;
 
   return (
-    <section id="comfers" className="py-32 px-6">
+    <section id="uncomfers" className="py-32 px-6">
       <div className="max-w-7xl mx-auto">
         <div className="section-divider mb-20" />
 
-        <p style={{ fontFamily: F.mono }} className="text-xs tracking-[0.3em] uppercase text-[#00ff88] mb-4">
-          Collection
+        <p style={{ fontFamily: F.mono }} className="text-xs tracking-[0.3em] uppercase text-[#ec4899] mb-4">
+          Collection II
         </p>
         <h2 className="text-3xl md:text-5xl font-bold mb-4 tracking-tight">
-          The 69 OG Comfers
+          The 420 Uncomfers
         </h2>
         <p className="text-[#555] mb-10 text-sm">
-          Click to inspect.
+          Coming soon. Click to preview.
         </p>
 
         {/* Filter Bar */}
         <div style={{ display: "flex", flexWrap: "wrap", gap: "4px", marginBottom: "24px", alignItems: "center" }}>
           <button
-            onClick={() => { setFilter("all"); setFilterMenu(null); }}
+            onClick={() => { setFilter("all"); setFilterMenu(null); setVisibleCount(60); }}
             style={{
               fontFamily: F.mono, fontSize: "9px", fontWeight: filter === "all" ? 600 : 400,
               letterSpacing: "1px", padding: "4px 10px", borderRadius: "3px",
-              border: `1px solid ${filter === "all" ? "#00ff88" : "rgba(255,255,255,0.06)"}`,
-              background: filter === "all" ? "rgba(0,255,136,0.08)" : "transparent",
-              color: filter === "all" ? "#00ff88" : "rgba(255,255,255,0.2)",
+              border: `1px solid ${filter === "all" ? "#ec4899" : "rgba(255,255,255,0.06)"}`,
+              background: filter === "all" ? "rgba(236,72,153,0.08)" : "transparent",
+              color: filter === "all" ? "#ec4899" : "rgba(255,255,255,0.2)",
               cursor: "pointer", transition: "all 0.15s",
             }}
           >
-            ALL ({comfers.length})
+            ALL ({uncomfers.length})
           </button>
           <button
-            onClick={() => { setFilter("superpower"); setFilterMenu(null); }}
+            onClick={() => { setFilter("glitch"); setFilterMenu(null); setVisibleCount(60); }}
             style={{
-              fontFamily: F.mono, fontSize: "9px", fontWeight: filter === "superpower" ? 600 : 400,
+              fontFamily: F.mono, fontSize: "9px", fontWeight: filter === "glitch" ? 600 : 400,
               letterSpacing: "1px", padding: "4px 10px", borderRadius: "3px",
-              border: `1px solid ${filter === "superpower" ? "#00FFFF" : "rgba(255,255,255,0.06)"}`,
-              background: filter === "superpower" ? "rgba(0,255,255,0.08)" : "transparent",
-              color: filter === "superpower" ? "#00FFFF" : "rgba(255,255,255,0.2)",
+              border: `1px solid ${filter === "glitch" ? "#00FFFF" : "rgba(255,255,255,0.06)"}`,
+              background: filter === "glitch" ? "rgba(0,255,255,0.08)" : "transparent",
+              color: filter === "glitch" ? "#00FFFF" : "rgba(255,255,255,0.2)",
               cursor: "pointer", transition: "all 0.15s",
             }}
           >
-            SUPERPOWER ({comfers.filter((c) => c.superpower !== "None").length})
+            GLITCHED ({uncomfers.filter((u) => u.glitch !== "None").length})
           </button>
 
-          {/* Trait filter dropdowns */}
           {filterGroups.map((group) => (
             <div key={group.id} style={{ position: "relative" }}>
               <button
@@ -380,6 +336,7 @@ export default function ComferCards() {
                       onClick={() => {
                         setFilter({ trait: group.id, value: opt.value });
                         setFilterMenu(null);
+                        setVisibleCount(60);
                       }}
                       style={{
                         display: "block", width: "100%", textAlign: "left",
@@ -394,9 +351,9 @@ export default function ComferCards() {
                     >
                       {opt.label}
                       <span style={{ float: "right", color: "rgba(255,255,255,0.15)" }}>
-                        {comfers.filter((c) => {
-                          if (group.id === "rarity") return c.tier === opt.value;
-                          return c[group.id as keyof Comfer] === opt.value;
+                        {uncomfers.filter((u) => {
+                          if (group.id === "rarity") return u.tier === opt.value;
+                          return u[group.id as keyof Uncomfer] === opt.value;
                         }).length}
                       </span>
                     </button>
@@ -410,7 +367,7 @@ export default function ComferCards() {
         {/* Result count */}
         {filter !== "all" && (
           <p style={{ fontFamily: F.mono, fontSize: "9px", color: "rgba(255,255,255,0.15)", marginBottom: "16px", letterSpacing: "1px" }}>
-            {filteredComfers.length} RESULT{filteredComfers.length !== 1 ? "S" : ""}
+            {filteredUncomfers.length} RESULT{filteredUncomfers.length !== 1 ? "S" : ""}
           </p>
         )}
 
@@ -420,20 +377,17 @@ export default function ComferCards() {
           gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
           gap: "12px",
         }}>
-          {filteredComfers.map((comfer) => {
-            const rarity = getComferRarity(comfer);
-            const tier = rarity.tier;
+          {visibleUncomfers.map((uncomfer) => {
+            const tier = uncomfer.tier;
             const r = RARITY_COLORS[tier] || RARITY_COLORS.SURVIVAL;
-            const bgKey = MENTAL_STATE_BG[comfer.mentalState] || "Original";
-            const bg = BG_COLORS[bgKey];
             const isSingularity = tier === "SINGULARITY";
             const gridBorderBg = isSingularity
               ? `linear-gradient(135deg, #00FFFF50 0%, #FF00FF90 25%, #FFD70090 50%, #00FF8890 75%, #00FFFF50 100%)`
               : `linear-gradient(135deg, ${r.border}50 0%, ${r.border}90 50%, ${r.border}50 100%)`;
             return (
               <button
-                key={comfer.id}
-                onClick={() => setSelected(comfer.id)}
+                key={uncomfer.id}
+                onClick={() => setSelected(uncomfer.id)}
                 className="group"
                 style={{
                   borderRadius: "8px", overflow: "hidden",
@@ -451,10 +405,10 @@ export default function ComferCards() {
                   e.currentTarget.style.transform = "scale(1) translateY(0)";
                   e.currentTarget.style.boxShadow = "none";
                 }}
-                title={`#${comfer.id} ${comfer.name}`}
+                title={`U-${uncomfer.id} ${uncomfer.name}`}
               >
                 <div style={{
-                  borderRadius: "6.5px", background: bg.bg,
+                  borderRadius: "6.5px", background: "#0A0A0C",
                   overflow: "hidden", display: "flex", flexDirection: "column",
                 }}>
                   {/* Mini header */}
@@ -466,27 +420,23 @@ export default function ComferCards() {
                       fontFamily: F.mono, fontSize: "7px", fontWeight: 500,
                       color: "rgba(255,255,255,0.2)", letterSpacing: "1px",
                     }}>
-                      #{String(comfer.id).padStart(3, "0")}
+                      U-{String(uncomfer.id).padStart(3, "0")}
                     </span>
                     <span style={{
                       fontFamily: F.mono, fontSize: "6px", fontWeight: 600, letterSpacing: "1.5px",
                       color: r.label, padding: "1px 5px", borderRadius: "2px",
                       background: `${r.border}10`, border: `1px solid ${r.border}20`,
                     }}>
-                      {tierDisplayName(tier)}
+                      {tier}
                     </span>
                   </div>
 
-                  {/* Square art */}
+                  {/* Placeholder art */}
                   <div style={{
-                    margin: "0 6px", aspectRatio: "1", borderRadius: "3px",
+                    margin: "0 6px", borderRadius: "3px",
                     overflow: "hidden", border: "1px solid rgba(255,255,255,0.03)",
                   }}>
-                    <img
-                      src={comfer.image} alt={comfer.name}
-                      style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-                      loading="lazy"
-                    />
+                    <PlaceholderArt id={uncomfer.id} tier={tier} />
                   </div>
 
                   {/* Name + footer */}
@@ -496,7 +446,7 @@ export default function ComferCards() {
                       color: "rgba(255,255,255,0.75)", margin: 0,
                       lineHeight: 1.2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
                     }}>
-                      {comfer.name}
+                      {uncomfer.name}
                     </p>
                     <div style={{
                       display: "flex", justifyContent: "space-between", alignItems: "center",
@@ -506,14 +456,14 @@ export default function ComferCards() {
                         fontFamily: F.mono, fontSize: "7px",
                         color: "rgba(255,255,255,0.15)", letterSpacing: "0.5px",
                       }}>
-                        {comfer.mentalState.length > 18
-                          ? comfer.mentalState.substring(0, 18) + "..."
-                          : comfer.mentalState}
+                        {uncomfer.vibe.length > 18
+                          ? uncomfer.vibe.substring(0, 18) + "..."
+                          : uncomfer.vibe}
                       </span>
-                      {comfer.superpower !== "None" && (
+                      {uncomfer.glitch !== "None" && (
                         <div style={{
                           width: "5px", height: "5px", borderRadius: "50%",
-                          background: "#00FFFF", opacity: 0.7,
+                          background: "#ec4899", opacity: 0.7,
                         }} />
                       )}
                     </div>
@@ -523,10 +473,37 @@ export default function ComferCards() {
             );
           })}
         </div>
+
+        {/* Load More */}
+        {hasMore && (
+          <div style={{ textAlign: "center", marginTop: "32px" }}>
+            <button
+              onClick={() => setVisibleCount((prev) => prev + 60)}
+              style={{
+                fontFamily: F.mono, fontSize: "10px", fontWeight: 600,
+                letterSpacing: "1.5px", padding: "8px 24px", borderRadius: "4px",
+                border: "1px solid rgba(236,72,153,0.2)",
+                background: "rgba(236,72,153,0.05)",
+                color: "#ec4899", cursor: "pointer",
+                transition: "all 0.2s",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "rgba(236,72,153,0.1)";
+                e.currentTarget.style.borderColor = "rgba(236,72,153,0.4)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "rgba(236,72,153,0.05)";
+                e.currentTarget.style.borderColor = "rgba(236,72,153,0.2)";
+              }}
+            >
+              LOAD MORE ({filteredUncomfers.length - visibleCount} REMAINING)
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Card Popup */}
-      {selectedComfer && <CardPopup comfer={selectedComfer} onClose={onClose} />}
+      {selectedUncomfer && <CardPopup uncomfer={selectedUncomfer} onClose={onClose} />}
     </section>
   );
 }

@@ -3,27 +3,27 @@ export default function Footer() {
     <footer className="py-16 px-6 border-t border-[#1a1a1a]">
       <div className="max-w-4xl mx-auto text-center">
         <p className="text-base text-[#888] font-light italic mb-1">
-          &ldquo;Madness in.&rdquo;
+          &ldquo;Mental state in.&rdquo;
         </p>
         <p className="text-base text-[#888] font-light italic mb-1">
-          &ldquo;Dreams out.&rdquo;
+          &ldquo;Intensity up.&rdquo;
         </p>
         <p className="text-base text-[#888] font-light italic mb-10">
-          &ldquo;System connects.&rdquo;
+          &ldquo;Rarity determined.&rdquo;
         </p>
 
         <div className="grid sm:grid-cols-3 gap-4 mb-12 text-sm">
           <div className="border border-[#1a1a1a] rounded-lg p-4 bg-[#0a0a0a]">
             <p className="text-[#444] text-xs font-mono mb-1">FOR DEGENS</p>
-            <p className="text-[#888]">&ldquo;Your illness is an asset&rdquo;</p>
+            <p className="text-[#888]">&ldquo;Your illness is your rarity&rdquo;</p>
           </div>
           <div className="border border-[#1a1a1a] rounded-lg p-4 bg-[#0a0a0a]">
             <p className="text-[#444] text-xs font-mono mb-1">FOR COLLECTORS</p>
-            <p className="text-[#888]">&ldquo;Generator NFTs, permanent utility&rdquo;</p>
+            <p className="text-[#888]">&ldquo;69 unique cards, 8 tiers&rdquo;</p>
           </div>
           <div className="border border-[#1a1a1a] rounded-lg p-4 bg-[#0a0a0a]">
-            <p className="text-[#444] text-xs font-mono mb-1">FOR PHILOSOPHY NERDS</p>
-            <p className="text-[#888]">&ldquo;Desire materialized through digital psychosis&rdquo;</p>
+            <p className="text-[#444] text-xs font-mono mb-1">FOR BELIEVERS</p>
+            <p className="text-[#888]">&ldquo;Crypto-degenerate frogs with superpowers&rdquo;</p>
           </div>
         </div>
 
@@ -36,7 +36,7 @@ export default function Footer() {
         </div>
 
         <p className="text-xs text-[#333] font-mono">
-          Psychosis determines prosperity.
+          Your psychosis determines your prosperity.
         </p>
       </div>
     </footer>

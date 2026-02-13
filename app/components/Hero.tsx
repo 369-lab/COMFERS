@@ -15,24 +15,16 @@ export default function Hero() {
           <span className="text-[#8b5cf6] glow-purple">COSMOS OF CREAM</span>
         </h2>
 
-        {/* Tagline */}
-        <p className="text-xl md:text-2xl text-[#888] font-light italic mb-4">
-          &ldquo;Your Psychosis Determines Your Prosperity.&rdquo;
-        </p>
-
-        {/* Sub-tagline */}
-        <p className="text-sm md:text-base text-[#555] max-w-2xl mx-auto mb-16">
-          69 genesis degenerates. 10,000+ dreams. One system.
-        </p>
-
         {/* Formula */}
         <div className="inline-block border border-[#1a1a1a] rounded-lg px-8 py-4 bg-[#0a0a0a]/80">
           <p className="font-mono text-sm md:text-base">
-            <span className="text-[#00ff88]">Psychosis</span>
-            <span className="text-[#555] mx-3">&times;</span>
-            <span className="text-[#888]">Time</span>
+            <span className="text-[#00ff88]">Mental State</span>
+            <span className="text-[#555] mx-3">+</span>
+            <span className="text-[#888]">Intensity</span>
+            <span className="text-[#555] mx-3">+</span>
+            <span className="text-[#8b5cf6]">Superpower</span>
             <span className="text-[#555] mx-3">=</span>
-            <span className="text-[#8b5cf6]">Prosperity</span>
+            <span className="text-[#FFD700]">Rarity</span>
           </p>
         </div>
 

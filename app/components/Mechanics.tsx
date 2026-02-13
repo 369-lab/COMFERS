@@ -17,9 +17,9 @@ export default function Mechanics() {
         {/* Drop Logic Flow */}
         <div className="grid md:grid-cols-4 gap-4 mb-20">
           {[
-            { step: "01", title: "Mental State", desc: "Selects category", color: "#00ff88" },
-            { step: "02", title: "Intensity", desc: "Sets tier", color: "#8b5cf6" },
-            { step: "03", title: "Superpower", desc: "Special rules", color: "#06b6d4" },
+            { step: "01", title: "Mental State", desc: "1-8 points, selects category", color: "#00ff88" },
+            { step: "02", title: "Intensity", desc: "1-8 points, sets power", color: "#8b5cf6" },
+            { step: "03", title: "Superpower", desc: "Boosts tier level", color: "#8b5cf6" },
             { step: "04", title: "Manifestation", desc: "Item drops", color: "#ec4899" },
           ].map((s, i) => (
             <div key={s.step} className="relative">
@@ -41,29 +41,29 @@ export default function Mechanics() {
 
         {/* Example */}
         <div className="border border-[#00ff88]/20 rounded-lg p-8 bg-[#0a0f0a]/50 mb-20">
-          <h3 className="text-sm font-mono text-[#00ff88] tracking-wider mb-6">EXAMPLE: COMFER #42</h3>
+          <h3 className="text-sm font-mono text-[#00ff88] tracking-wider mb-6">EXAMPLE: COMFER #1</h3>
           <div className="grid sm:grid-cols-3 gap-6 mb-6">
             <div>
               <p className="text-xs text-[#555] mb-1">Mental State</p>
-              <p className="font-semibold text-[#00ff88]">Ultimate Trading God Complex</p>
+              <p className="font-semibold text-[#00ff88]">Transcendent Chart Being (8PT)</p>
             </div>
             <div>
               <p className="text-xs text-[#555] mb-1">Intensity</p>
-              <p className="font-semibold text-[#ec4899]">Beyond Cosmic Comprehension</p>
+              <p className="font-semibold text-[#ec4899]">From Beyond (8PT)</p>
             </div>
             <div>
-              <p className="text-xs text-[#555] mb-1">Trigger</p>
-              <p className="font-semibold text-[#888]">Boss Eye Contact</p>
+              <p className="text-xs text-[#555] mb-1">Superpower</p>
+              <p className="font-semibold text-[#8b5cf6]">Bought BTC 2008</p>
             </div>
           </div>
           <div className="border-t border-[#1a1a1a] pt-6">
             <div className="flex flex-wrap gap-3 text-sm">
               <span className="text-[#555]">&rarr;</span>
-              <span className="text-[#888]">God Tier category</span>
+              <span className="text-[#888]">Base Score: 16</span>
               <span className="text-[#555]">&rarr;</span>
-              <span className="text-[#888]">Mythic+ multiplier</span>
+              <span className="text-[#888]">Superpower: Instant Singularity Tier</span>
               <span className="text-[#555]">&rarr;</span>
-              <span className="text-[#06b6d4] font-semibold">Rarest Comfer in existence</span>
+              <span className="text-[#8b5cf6] font-semibold">The only Singularity card in existence</span>
             </div>
           </div>
         </div>
@@ -71,10 +71,10 @@ export default function Mechanics() {
         {/* Quick Facts */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { label: "Comfers Supply", value: "69", sub: "fixed" },
-            { label: "Cosmos Supply", value: "10,000+", sub: "expandable" },
-            { label: "Drop Interval", value: "~3 Mo", sub: "base rate" },
-            { label: "System Traits", value: "3", sub: "core" },
+            { label: "Total Supply", value: "69", sub: "fixed" },
+            { label: "Rarity Tiers", value: "8", sub: "from Survival to Singularity" },
+            { label: "Mental States", value: "8", sub: "1-8 points" },
+            { label: "Superpowers", value: "4", sub: "tier boosters" },
           ].map((fact) => (
             <div key={fact.label} className="border border-[#1a1a1a] rounded-lg p-6 bg-[#0a0a0a] text-center">
               <p className="text-2xl md:text-3xl font-bold text-[#00ff88] mb-1">{fact.value}</p>

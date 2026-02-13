@@ -1,75 +1,40 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown } from "lucide-react";
+import { cosmosTiers } from "@/app/data/cosmos";
 
 const F = {
   mono: "'IBM Plex Mono', monospace",
   sans: "'DM Sans', sans-serif",
 };
 
-const tiers = [
-  {
-    name: "SURVIVAL",
-    tier: "Common",
-    color: "#9ca3af",
-    tagline: "What keeps you alive.",
-    items: ["Ramen Bowl", "Instant Coffee", "Water Bottle", "Basic Phone", "Cheap Laptop", "Bus Ticket", "Subway Card", "Bread Loaf", "Tap Water", "Flip Phone"],
-    mentalStates: ["Basic Trading FOMO", "Standard Portfolio Depression", "Normal Degen Brain"],
-    footer: "This is the foundation. The baseline. The reminder that we all start here.",
-  },
-  {
-    name: "COMFORT",
-    tier: "Uncommon",
-    color: "#22c55e",
-    tagline: "First upgrades. Life gets easier.",
-    items: ["Coffee Cup", "Proper Meal", "Pizza", "Phone", "Headphones", "Cab Ride", "Decent Apartment", "TV", "Comfortable Bed", "Air Conditioning"],
-    mentalStates: ["Advanced Hopium Addiction", "Enhanced HODL Psychosis", "Chronic Refresh Syndrome"],
-    footer: "You've made it past survival. You can breathe now.",
-  },
-  {
-    name: "FLEX",
-    tier: "Rare",
-    color: "#3b82f6",
-    tagline: "Status signals. People notice.",
-    items: ["Sneaker", "Hoodie", "Designer Bag", "Server Rack", "High-End Monitor", "Family Van", "Watch", "HiFi Equipment", "Standing Desk", "Gym Membership"],
-    mentalStates: ["Multi-Personality Order Book", "Leverage Madness", "Chronic Green Candle Fever"],
-    footer: "This is where you start signaling. This is where you start flexing.",
-  },
-  {
-    name: "DREAM",
-    tier: "Epic",
-    color: "#a855f7",
-    tagline: "Fantasy objects. What you check your portfolio for.",
-    items: ["Sports Car", "Penthouse", "Beach House", "Diamond Ring", "Diamonds", "Diamond Chain", "Gaming Room", "Home Theater", "Rooftop Pool", "Private Chef", "Emerging Art"],
-    mentalStates: ["Intense Fibonacci Obsession", "Enlightened Trading Monk"],
-    footer: "This is the goal. The vision. The 3 AM portfolio check motivation.",
-  },
-  {
-    name: "GOD",
-    tier: "Legendary",
-    color: "#06b6d4",
-    tagline: "Beyond money. Pure excess.",
-    items: ["Private Jet", "100ft Yacht", "Private Island", "Mountain Ownership", "Spaceship", "Satellite", "Mega Mansion", "Art Collection", "River", "Wine Cellar"],
-    mentalStates: ["Ultimate Trading God Complex"],
-    footer: "Money becomes irrelevant. Power becomes default.",
-  },
-  {
-    name: "META",
-    tier: "Mythic",
-    color: "#ef4444",
-    tagline: "Abstract concepts. Status transcended.",
-    items: ["Bitcoin (Full Coin)", "Ethereum Stack", "Blue Checkmark", "Verified Status", "Freedom", "Time", "Influence", "Reputation", "Network", "Legacy"],
-    mentalStates: ["Transcendent Chart Being"],
-    footer: "The things that money can't directly buy. But somehow, you have them.",
-  },
-];
-
 export default function CosmosTiers() {
   const [openTier, setOpenTier] = useState<string | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const [mouse, setMouse] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const onMove = (e: MouseEvent) => {
+      const rect = el.getBoundingClientRect();
+      setMouse({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+    };
+    el.addEventListener("mousemove", onMove);
+    return () => el.removeEventListener("mousemove", onMove);
+  }, []);
 
   return (
-    <section id="cosmos" className="py-32 px-6">
-      <div className="max-w-6xl mx-auto">
+    <section ref={sectionRef} id="cosmos" className="py-32 px-6" style={{ position: "relative", overflow: "hidden" }}>
+      {/* Section flashlight */}
+      <div style={{
+        position: "absolute", inset: 0, pointerEvents: "none", zIndex: 1,
+        background: `radial-gradient(600px circle at ${mouse.x}px ${mouse.y}px, rgba(255,255,255,0.03) 0%, transparent 100%)`,
+      }} />
+
+      <div className="max-w-6xl mx-auto" style={{ position: "relative", zIndex: 2 }}>
         <div className="section-divider mb-20" />
 
         <p style={{ fontFamily: F.mono }} className="text-xs tracking-[0.3em] uppercase text-[#00ff88] mb-4">
@@ -78,19 +43,22 @@ export default function CosmosTiers() {
         <h2 className="text-3xl md:text-5xl font-bold mb-4 tracking-tight">
           Cosmos of Cream
         </h2>
-        <p className="text-[#555] mb-10 text-sm max-w-xl">
-          10,000+ hand-drawn items across 6 tiers. 13 mental states, 13 points — your mind determines what you manifest.
+        <p className="text-[#555] mb-6 text-sm max-w-xl">
+          17,536 hand-drawn items across 8 tiers. From survival basics to singular transcendence.
         </p>
 
+        {/* Tier Accordions */}
         <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-          {tiers.map((tier) => {
+          {cosmosTiers.map((tier) => {
             const isOpen = openTier === tier.name;
+            const allMotifs = Object.values(tier.motifs).flat();
+
             return (
               <div key={tier.name} style={{
                 borderRadius: "10px", padding: "1.5px",
                 background: `linear-gradient(135deg, #55555533 0%, #55555580 50%, #55555533 100%)`,
               }}>
-                <div style={{ borderRadius: "8.5px", background: "#0A0A0C" }}>
+                <div style={{ borderRadius: "8.5px", background: "#0A0A0C", overflow: "hidden" }}>
                   {/* Clickable header */}
                   <button
                     onClick={() => setOpenTier(isOpen ? null : tier.name)}
@@ -98,80 +66,89 @@ export default function CosmosTiers() {
                       width: "100%", padding: "16px 20px",
                       display: "flex", justifyContent: "space-between", alignItems: "center",
                       background: "none", border: "none", cursor: "pointer",
-                      borderRadius: isOpen ? "8.5px 8.5px 0 0" : "8.5px",
                     }}
                   >
-                    <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
+                      <span style={{
+                        fontFamily: F.mono, fontSize: "10px", fontWeight: 600,
+                        color: tier.color, letterSpacing: "0.5px",
+                        minWidth: "48px",
+                      }}>{tier.rarityPct}</span>
                       <span style={{
                         fontFamily: F.mono, fontSize: "8px", fontWeight: 600,
                         color: tier.color, letterSpacing: "2px",
                         padding: "2px 8px", borderRadius: "2px",
-                        background: `${tier.color}0F`, border: `1px solid ${tier.color}25`,
-                      }}>{tier.tier.toUpperCase()}</span>
-                      <span style={{
-                        fontFamily: F.sans, fontSize: "16px", fontWeight: 700,
-                        color: "rgba(255,255,255,0.88)",
-                      }}>{tier.name} TIER</span>
-                      <span style={{
-                        fontFamily: F.sans, fontSize: "12px",
-                        color: "rgba(255,255,255,0.25)",
-                      }}>{tier.tagline}</span>
+                        background: tier.name === "SINGULARITY" ? "rgba(255,255,255,0.08)" : `${tier.color}0F`,
+                        border: tier.name === "SINGULARITY" ? "1px solid rgba(255,255,255,0.25)" : `1px solid ${tier.color}25`,
+                      }}>{tier.rarity.toUpperCase()}</span>
                     </div>
-                    <span style={{
-                      fontFamily: F.mono, fontSize: "12px",
-                      color: "rgba(255,255,255,0.25)",
-                      transition: "transform 0.2s ease",
-                      transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
-                      display: "inline-block",
-                    }}>▾</span>
+                    <motion.span
+                      animate={{ rotate: isOpen ? 180 : 0 }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                      style={{
+                        fontFamily: F.mono, fontSize: "12px",
+                        color: "rgba(255,255,255,0.25)",
+                        display: "inline-block", flexShrink: 0,
+                      }}
+                    >▾</motion.span>
                   </button>
 
                   {/* Collapsible content */}
-                  <div style={{
-                    maxHeight: isOpen ? "1000px" : "0",
-                    overflow: "hidden",
-                    transition: "max-height 0.3s ease",
-                  }}>
-                    <div style={{ padding: "0 20px 20px" }}>
-                      {/* Items */}
-                      <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: "16px" }}>
-                        {tier.items.map((item) => (
-                          <span key={item} style={{
-                            fontFamily: F.sans, fontSize: "11px",
-                            padding: "4px 10px", borderRadius: "4px",
-                            background: `${tier.color}08`, border: `1px solid ${tier.color}15`,
-                            color: `${tier.color}cc`,
-                          }}>{item}</span>
-                        ))}
-                      </div>
+                  <AnimatePresence>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.4, ease: [0.04, 0.62, 0.23, 0.98] }}
+                      >
+                        <div style={{ padding: "0 20px 20px" }}>
+                          {/* All motifs flat */}
+                          <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: "14px" }}>
+                            {allMotifs.map((item) => (
+                              <span key={item} className={tier.colorClass} style={{
+                                fontFamily: F.sans, fontSize: "11px",
+                                padding: "4px 10px", borderRadius: "20px",
+                                borderWidth: "1px", borderStyle: "solid",
+                              }}>{item}</span>
+                            ))}
+                          </div>
 
-                      {/* Mental states that trigger this tier */}
-                      <div style={{
-                        padding: "10px 12px", borderRadius: "4px",
-                        background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.02)",
-                        marginBottom: "12px",
-                      }}>
-                        <div style={{
-                          fontFamily: F.mono, fontSize: "7px", fontWeight: 600,
-                          letterSpacing: "2px", color: "rgba(255,255,255,0.15)", marginBottom: "6px",
-                        }}>MANIFESTED BY</div>
-                        <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-                          {tier.mentalStates.map((ms) => (
-                            <span key={ms} style={{
-                              fontFamily: F.sans, fontSize: "11px", fontWeight: 500,
-                              color: "rgba(255,255,255,0.5)",
-                            }}>{ms}</span>
-                          ))}
+                          {/* Stats row */}
+                          <div style={{
+                            display: "flex", gap: "16px", flexWrap: "wrap",
+                            padding: "10px 12px", borderRadius: "4px",
+                            background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.02)",
+                            marginBottom: "12px",
+                          }}>
+                            {[
+                              { label: "MOTIFS", val: String(tier.uniqueMotifs) },
+                              { label: "COPIES/MOTIF", val: String(tier.copiesPerMotif) },
+                              { label: "TOTAL CARDS", val: tier.totalCards.toLocaleString() },
+                              { label: "RARITY", val: tier.rarityPct },
+                            ].map((s) => (
+                              <div key={s.label}>
+                                <div style={{
+                                  fontFamily: F.mono, fontSize: "7px", fontWeight: 600,
+                                  letterSpacing: "2px", color: "rgba(255,255,255,0.12)", marginBottom: "2px",
+                                }}>{s.label}</div>
+                                <div style={{
+                                  fontFamily: F.mono, fontSize: "11px", fontWeight: 600,
+                                  color: tier.color,
+                                }}>{s.val}</div>
+                              </div>
+                            ))}
+                          </div>
+
+                          {/* Footer */}
+                          <p style={{
+                            fontFamily: F.mono, fontSize: "8px", color: "rgba(255,255,255,0.18)",
+                            letterSpacing: "0.5px", lineHeight: 1.6, margin: 0,
+                          }}>{tier.footer}</p>
                         </div>
-                      </div>
-
-                      {/* Footer */}
-                      <p style={{
-                        fontFamily: F.mono, fontSize: "8px", color: "rgba(255,255,255,0.18)",
-                        letterSpacing: "0.5px", lineHeight: 1.6, margin: 0,
-                      }}>{tier.footer}</p>
-                    </div>
-                  </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               </div>
             );
